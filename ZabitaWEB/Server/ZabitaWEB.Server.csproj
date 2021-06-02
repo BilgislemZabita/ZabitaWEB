@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <StartupObject>ZabitaWEB.Server.Program</StartupObject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="5.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Client\ZabitaWEB.Client.csproj" />
+    <ProjectReference Include="..\Shared\ZabitaWEB.Shared.csproj" />
+    <ProjectReference Include="..\Zabita.DataAccessLayer\Zabita.DataAccessLayer.csproj" />
+  </ItemGroup>
+
+
+</Project>

@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Zabita.Entities.Concrete.Amirlik" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="3" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQBAAAAQEEAAIIAIAAIAAAAAAAAAABAAEAAAAAAA=</HashCode>
+      <FileName>Concrete\Amirlik.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Zabita.Entities.Concrete.Demirbas" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="4.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgBAAEAAAAAAAAAAAABAAAAAAAAAAAAAEQCAA=</HashCode>
+      <FileName>Concrete\Demirbas.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Zabita.Entities.Concrete.Mudurluk" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="6.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAIAQAAAAIIAIAAIAAAAAAAAAAgAAEAAAAAAg=</HashCode>
+      <FileName>Concrete\Mudurluk.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Zabita.Entities.Concrete.Oda" BaseTypeListCollapsed="true">
+    <Position X="8.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAAAAAQAIIAMAAIAABAAAAAAAAAAEAAABAAA=</HashCode>
+      <FileName>Concrete\Oda.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Zabita.Entities.Concrete.Personel" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="3" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAAQBAAAAAAAAAMAAAgAAAAIABABAAAQBAQA=</HashCode>
+      <FileName>Concrete\Personel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Zabita.Entities.Concrete.Sarf" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="4.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgA=</HashCode>
+      <FileName>Concrete\Sarf.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Zabita.Entities.Concrete.Yerleske" BaseTypeListCollapsed="true">
+    <Position X="6.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAAQAACAIIAIAAIAIAAACAAAAAAAEAAAAAAA=</HashCode>
+      <FileName>Concrete\Yerleske.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Zabita.Entities.Concrete.YerleskeBakimOnarim" BaseTypeListCollapsed="true">
+    <Position X="10" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAICAAAAAAAQIAAAAEAEAAAAAAAAAACAwAAAAAA=</HashCode>
+      <FileName>Concrete\YerleskeBakimOnarim.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Zabita.Entities.Concrete.YerleskeIklimlendirme" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="3" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACCSAAgAAAAAAAAAAAAAAAAAAAAAAAAAgAACAAA=</HashCode>
+      <FileName>Concrete\YerleskeIklimlendirme.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Zabita.Entities.Concrete.YerleskeTeknikBilgiler" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="4.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AkAgBABAAAAAhAAAEIAgAEAQAAAAAAAgAAAABAMABAg=</HashCode>
+      <FileName>Concrete\YerleskeTeknikBilgiler.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Interface Name="Zabita.Entities.Abstract.IEntity" Collapsed="true">
+    <Position X="3" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Abstract\IEntity.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
