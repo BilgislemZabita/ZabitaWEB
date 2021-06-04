@@ -5,14 +5,15 @@
 
 <div class="row">
     <div class="col-md-12">
-        <RadzenCard >
-          
+        <RadzenCard>
+            <div class="card-header " style="max-height:2.3em;background-color:white;font-size:larger;text-align:justify"><h3> İş Seçimi</h3> </div>
+
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-6 mt-3">
                     <RadzenDropDown AllowClear="true" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" Data=@products @bind-Value=@myModel.MyValue
                                     TextProperty="ProductName" ValueProperty="ProductID" Change=@(args => ChangeBound(args, "DropDown with bound Value")) Style="width: 100%" />
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-6 mt-3">
 
                     <RadzenDropDown AllowClear="true" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" Data=@products @bind-Value=@myModel.MyValue
                                     TextProperty="ProductName" ValueProperty="ProductID" Change=@(args => ChangeBound(args, "DropDown with bound Value")) Style="width:100%" />
@@ -25,20 +26,8 @@
 </div>
 <div class="row">
     <div class="col-md-12 mt-3 ">
-        <RadzenCard>
-            <div class="row">
-                <div class="col-md-12">
-
-                    <RadzenDropDown AllowClear="true" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
-                                    @bind-Value=@multipleValues Multiple="true" Placeholder="Select..." Data=@products TextProperty="CompanyName" ValueProperty="CustomerID"
-                                    Change=@(args => OnChange(args, "DropDown with multiple selection")) Style="width:100%" />
-
-                </div>
-                
-
-            </div>
-        </RadzenCard>
-
+       
+        <DaireBakimOnarim></DaireBakimOnarim>
     </div>
     
     
@@ -49,13 +38,7 @@
 
 
 @code {
-    IEnumerable<Amirlik> multipleValues = new Amirlik[] {  };
-    void OnChange(object value, string name)
-    {
-        var str = value is IEnumerable<object> ? string.Join(", ", (IEnumerable<object>)value) : value;
 
-        Console.WriteLine($"{name} value changed to {str}");
-    }
     void ChangeBound(object value, string name)
     {
         Console.WriteLine($"{name} value changed to {myModel.MyValue}");
@@ -66,6 +49,7 @@
         public int? MyValue { get; set; } = 3;
     }
     IEnumerable<Amirlik> products;
+
     protected async override void OnInitialized()
     {
 

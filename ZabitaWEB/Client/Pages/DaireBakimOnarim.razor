@@ -1,0 +1,48 @@
+﻿@page "/daire"
+@using Zabita.Entities.Concrete
+
+<RadzenCard>
+    <div class="card-header " style="max-height:2.3em;background-color:white;font-size:larger;text-align:justify" ><h3> Talep Detayları</h3> </div>
+
+    <div class="row">
+        <div class="col-md-6 mt-1">
+
+            <RadzenDropDown AllowClear="true" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
+                            @bind-Value=@multipleValues Multiple="true" Placeholder="Talep Edilecek İş..." Data=@products TextProperty="CompanyName" ValueProperty="CustomerID"
+                            Change=@(args => OnChange(args, "DropDown with multiple selection")) Style="width:100%" />
+
+        </div>
+        <div class="col-md-6 mt-1">
+
+            <RadzenDropDown AllowClear="true" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
+                            @bind-Value=@multipleValues Multiple="true" Placeholder="İşin Yapılacağı Yerleşke" Data=@products TextProperty="CompanyName" ValueProperty="CustomerID"
+                            Change=@(args => OnChange(args, "DropDown with multiple selection")) Style="width:100%" />
+
+        </div>
+
+        
+
+
+    </div>
+    <div class="row">
+        <div class="col-md-6 mt-1">
+            <RadzenTextArea Change=@(args => OnChange(args, "TextArea")) Style="width:100%" Placeholder="İşle İlgili Diğer Açıklamalar..." />
+        </div>
+        <div class="col-md-6 mt-1">
+            <RadzenTextArea Change=@(args => OnChange(args, "TextArea")) Style="width:100%" Placeholder="Yerleşkenin Adres Bilgileri..." />
+        </div>
+    </div>
+    
+    
+</RadzenCard>
+@code {
+    IEnumerable<Amirlik> multipleValues = new Amirlik[] { };
+    IEnumerable<Amirlik> products;
+
+    void OnChange(object value, string name)
+    {
+        var str = value is IEnumerable<object> ? string.Join(", ", (IEnumerable<object>)value) : value;
+
+        Console.WriteLine($"{name} value changed to {str}");
+    }
+}
