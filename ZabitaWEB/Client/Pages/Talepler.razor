@@ -1,7 +1,8 @@
 ﻿@page "/talep"
 @using Zabita.Entities.Concrete
 @using ZabitaWEB.Client.Services.Abstract
-@inject IAmirliksService amirlikService
+@inject IAmirliksService amirliksService
+@inject IYerleskesService amirliksServicee
 
 <div class="row">
     <div class="col-md-12">
@@ -10,13 +11,15 @@
 
             <div class="row">
                 <div class="col-md-6 mt-3">
-                    <RadzenDropDown AllowClear="true" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" Data=@products @bind-Value=@myModel.MyValue
-                                    TextProperty="ProductName" ValueProperty="ProductID" Change=@(args => ChangeBound(args, "DropDown with bound Value")) Style="width: 100%" />
-                </div>
+                    
+                
+
+                                 <RadzenDropDown AllowClear="true" TValue="string" AllowVirtualization="true" Style="width:300px" 
+                                AllowFiltering="true" Data=@listyerleske TextProperty="AmirlikIsım" ValueProperty="AmirlikID"
+                                Change=@(args => OnChange(args, "DropDown with virtualization")) />
+                   </div>
                 <div class="col-md-6 mt-3">
 
-                    <RadzenDropDown AllowClear="true" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" Data=@products @bind-Value=@myModel.MyValue
-                                    TextProperty="ProductName" ValueProperty="ProductID" Change=@(args => ChangeBound(args, "DropDown with bound Value")) Style="width:100%" />
                 </div>
             </div>
         </RadzenCard>
@@ -27,7 +30,7 @@
 <div class="row">
     <div class="col-md-12 mt-3 ">
        
-        <DaireBakimOnarim></DaireBakimOnarim>
+        @*<DaireBakimOnarim Products=@listyerleske></DaireBakimOnarim>*@
     </div>
     
     
@@ -42,18 +45,28 @@
     void ChangeBound(object value, string name)
     {
         Console.WriteLine($"{name} value changed to {myModel.MyValue}");
+     
+       
     }
+    IEnumerable<string> multipleValues = new string[] { "ALFKI", "ANATR" };
+    
     MyObject myModel = new MyObject();
+        List<Amirlik> Options = new List<Amirlik>();
+
     class MyObject
     {
         public int? MyValue { get; set; } = 3;
     }
-    IEnumerable<Amirlik> products;
+    IEnumerable<Amirlik> listyerleske;
+    IEnumerable<Amirlik> productsd;
 
     protected async override void OnInitialized()
     {
 
-        products = await amirlikService.GetAmirliks();
+        listyerleske= await amirliksService.GetAmirliks();
+        
+        
+        @*listyerleske = await amirliksServicee.GetYerleskes();*@
 
     }
 
@@ -67,9 +80,18 @@
     {
         Console.WriteLine($"Change: {html}");
     }
+       void OnChange(object value, string name)
+    {
+        var str = value is IEnumerable<object> ? string.Join(", ", (IEnumerable<object>)value) : value;
+
+        Console.WriteLine($"{name} value changed to {str}");
+    }
 
     void OnExecute(HtmlEditorExecuteEventArgs args)
     {
         Console.WriteLine($"Execute: {args.CommandName}");
+
+
+       
     }
 }

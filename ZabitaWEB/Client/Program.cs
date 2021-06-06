@@ -22,6 +22,7 @@ namespace ZabitaWEB.Client
 
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
             builder.Services.AddScoped<IAmirliksService, AmirliksService>();
+            builder.Services.AddScoped<IYerleskesService, YerleskesService>();
             builder.Services.AddScoped<DialogService>();
             builder.Services.AddScoped<NotificationService>();
             builder.Services.AddScoped<TooltipService>();

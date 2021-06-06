@@ -1,5 +1,6 @@
-﻿@page "/daire"
-@using Zabita.Entities.Concrete
+﻿@using Zabita.Entities.Concrete
+@using ZabitaWEB.Client.Services.Abstract
+
 
 <RadzenCard>
     <div class="card-header " style="max-height:2.3em;background-color:white;font-size:larger;text-align:justify" ><h3> Talep Detayları</h3> </div>
@@ -8,14 +9,15 @@
         <div class="col-md-6 mt-1">
 
             <RadzenDropDown AllowClear="true" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
-                            @bind-Value=@multipleValues Multiple="true" Placeholder="Talep Edilecek İş..." Data=@products TextProperty="CompanyName" ValueProperty="CustomerID"
+                            @bind-Value=@multipleValues Multiple="true" Placeholder="Talep Edilecek İş..." Data=@Products TextProperty="AmirlikIsım" ValueProperty="AmirlikID"
                             Change=@(args => OnChange(args, "DropDown with multiple selection")) Style="width:100%" />
+           
 
         </div>
         <div class="col-md-6 mt-1">
 
             <RadzenDropDown AllowClear="true" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
-                            @bind-Value=@multipleValues Multiple="true" Placeholder="İşin Yapılacağı Yerleşke" Data=@products TextProperty="CompanyName" ValueProperty="CustomerID"
+                            @bind-Value=@multipleValues Multiple="true" Placeholder="İşin Yapılacağı Yerleşke" Data=@Products TextProperty="CompanyName" ValueProperty="CustomerID"
                             Change=@(args => OnChange(args, "DropDown with multiple selection")) Style="width:100%" />
 
         </div>
@@ -35,9 +37,13 @@
     
     
 </RadzenCard>
+
+
 @code {
     IEnumerable<Amirlik> multipleValues = new Amirlik[] { };
-    IEnumerable<Amirlik> products;
+
+    [Parameter]
+    public IEnumerable<Amirlik> Products {get;set;}
 
     void OnChange(object value, string name)
     {
@@ -45,4 +51,5 @@
 
         Console.WriteLine($"{name} value changed to {str}");
     }
+   
 }
