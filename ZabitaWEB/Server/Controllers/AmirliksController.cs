@@ -23,7 +23,7 @@ namespace ZabitaWEB.Server.Controllers
 
         // GET: api/Amirliks
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Amirlik>>> GetAmirliks()
+        public async Task<ActionResult<List<Amirlik>>> GetAmirliks()
         {
             return await _context.Amirliks.ToListAsync();
         }

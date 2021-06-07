@@ -13,19 +13,15 @@
                 <div class="col-md-6 mt-3">
                     
                 
-
-                                 <RadzenDropDown AllowClear="true" TValue="string" AllowVirtualization="true" Style="width:300px" 
-                                AllowFiltering="true" Data=@listyerleske TextProperty="AmirlikIsım" ValueProperty="AmirlikID"
-                                Change=@(args => OnChange(args, "DropDown with virtualization")) />
                    </div>
                 <div class="col-md-6 mt-3">
-
+                    <RadzenDropDown AllowClear="true" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" 
+                        @bind-Value=multipleValues Multiple="true" Placeholder="Select..." Data=@Options TextProperty="AmirlikIsım" ValueProperty="AmirlikID" 
+                                    Change=@(args => OnChange(args, "DropDown with multiple selection")) Style="width:300px" />
                 </div>
             </div>
         </RadzenCard>
-
     </div>
- 
 </div>
 <div class="row">
     <div class="col-md-12 mt-3 ">
@@ -41,17 +37,17 @@
 
 
 @code {
+    private IEnumerable<int> multipleValues = new int[] { };
 
     void ChangeBound(object value, string name)
     {
         Console.WriteLine($"{name} value changed to {myModel.MyValue}");
-     
-       
+
+
     }
-    IEnumerable<string> multipleValues = new string[] { "ALFKI", "ANATR" };
-    
+
     MyObject myModel = new MyObject();
-        List<Amirlik> Options = new List<Amirlik>();
+    List<Amirlik> Options = new List<Amirlik>();
 
     class MyObject
     {
@@ -64,8 +60,8 @@
     {
 
         listyerleske= await amirliksService.GetAmirliks();
-        
-        
+
+        Options.AddRange(listyerleske);
         @*listyerleske = await amirliksServicee.GetYerleskes();*@
 
     }
