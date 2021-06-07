@@ -40,10 +40,13 @@
 
 
 @code {
-    IEnumerable<Amirlik> multipleValues = new Amirlik[] { };
+    IEnumerable<int> multipleValues = new int[] { };
 
     [Parameter]
     public IEnumerable<Amirlik> Products {get;set;}
+
+    List<Amirlik> Options = new List<Amirlik>();
+
 
     void OnChange(object value, string name)
     {
@@ -51,5 +54,5 @@
 
         Console.WriteLine($"{name} value changed to {str}");
     }
-   
+
 }
