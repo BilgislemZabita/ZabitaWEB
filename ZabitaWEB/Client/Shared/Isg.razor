@@ -1,10 +1,10 @@
-﻿@page "/talep/daire"
+﻿@page "/isg"
 @using Zabita.Entities.Concrete
 @using ZabitaWEB.Client.Services.Abstract
 
 
 <RadzenCard>
-    <div class="card-header " style="max-height:2.3em;background-color:white;font-size:larger;text-align:justify" ><h3> Talep Detayları</h3> </div>
+    <div class="card-header " style="max-height:2.3em;background-color:white;font-size:larger;text-align:justify"><h3> İSG Detayları</h3> </div>
 
     <div class="row">
         <div class="col-md-6 mt-1">
@@ -12,7 +12,7 @@
             <RadzenDropDown AllowClear="true" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
                             @bind-Value=@multipleValues Multiple="true" Placeholder="Talep Edilecek İş..." Data=@Products TextProperty="AmirlikIsım" ValueProperty="AmirlikID"
                             Change=@(args => OnChange(args, "DropDown with multiple selection")) Style="width:100%" />
-           
+
 
         </div>
         <div class="col-md-6 mt-1">
@@ -23,7 +23,7 @@
 
         </div>
 
-        
+
 
 
     </div>
@@ -35,17 +35,17 @@
             <RadzenTextArea Change=@(args => OnChange(args, "TextArea")) Style="width:100%" Placeholder="Yerleşkenin Adres Bilgileri..." />
         </div>
     </div>
-    
-    
+
+
 </RadzenCard>
 
 
 @code {
-   
+
     IEnumerable<int> multipleValues = new int[] { };
 
     [Parameter]
-    public IEnumerable<Amirlik> Products {get;set;}
+    public IEnumerable<Amirlik> Products { get; set; }
 
     List<Amirlik> Options = new List<Amirlik>();
 

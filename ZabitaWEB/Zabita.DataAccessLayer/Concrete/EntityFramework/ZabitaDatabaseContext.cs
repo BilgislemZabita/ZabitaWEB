@@ -28,6 +28,7 @@ namespace Zabita.DataAccessLayer.Concrete.EntityFramework
         public DbSet<Modul> Moduls { get; set; }
         public DbSet<Takvim> Takvims { get; set; }
         public DbSet<UygulamaAyarlari> UygulamaAyarlaris { get; set; }
+        public DbSet<Talep> Taleps { get; set; }
        // public ZabitaDatabaseContext(DbContextOptions<ZabitaDatabaseContext> dbContextOptions) : base(dbContextOptions) { }
 
         //public ZabitaDatabaseContext():base()

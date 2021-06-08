@@ -3,6 +3,7 @@
 @using ZabitaWEB.Client.Services.Abstract
 @inject IAmirliksService amirliksService
 @inject IYerleskesService amirliksServicee
+@inject NavigationManager UriHelper
 
 <div class="row">
     <div class="col-md-12">
@@ -11,12 +12,13 @@
 
             <div class="row">
                 <div class="col-md-6 mt-3">
-                    
-                
-                   </div>
+
+                    <RadzenDropDown AllowClear="true" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" TValue="int" @bind-Value=@value Placeholder="Select..."
+                                    Data=@Options TextProperty="AmirlikIsım" ValueProperty="AmirlikID" Change=@(args => OnChange(args, "DropDown with placeholder")) Style="width:300px"/>
+                </div>
                 <div class="col-md-6 mt-3">
-                    <RadzenDropDown AllowClear="true" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" 
-                        @bind-Value=multipleValues Multiple="true" Placeholder="Select..." Data=@Options TextProperty="AmirlikIsım" ValueProperty="AmirlikID" 
+                    <RadzenDropDown AllowClear="true" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
+                                    @bind-Value=multipleValues Multiple="true" Placeholder="Select..." Data=@Options TextProperty="AmirlikIsım" ValueProperty="AmirlikID"
                                     Change=@(args => OnChange(args, "DropDown with multiple selection")) Style="width:300px" />
                 </div>
             </div>
@@ -25,11 +27,42 @@
 </div>
 <div class="row">
     <div class="col-md-12 mt-3 ">
-       
-        <DaireBakimOnarim Products=@Options></DaireBakimOnarim>
+        @if (Options == null)
+        {
+            <div class="spinner"></div>
+        }
+        else
+
+        {
+            @foreach (var widget in _components)
+            {
+                switch (widget.Key)
+                {
+                    case 1:
+                        @*<DaireBakimOnarim Products=Options />*@
+                        break;
+                    case 2:
+                        @*<Isg Products=Options />*@
+                        break;
+
+                }
+            }
+            @foreach (var widget in _components)
+            {
+                if (widget.Key == 2 && @value==2 )
+                {
+                    <DaireBakimOnarim Products=Options />
+
+                }
+                else if (widget.Key == 1 && @value == 1)
+                {
+                    <Isg Products=Options />
+                }
+
+            }
+        }
     </div>
-    
-    
+
 
 </div>
 <div>
@@ -37,13 +70,23 @@
 
 
 @code {
+
+    Dictionary<int, IComponent> _components = new Dictionary<int,IComponent>();
+    int value=0 ;
+
+
+
     private IEnumerable<int> multipleValues = new int[] { };
 
     void ChangeBound(object value, string name)
     {
         Console.WriteLine($"{name} value changed to {myModel.MyValue}");
-       
 
+
+    }
+    void NavigatetoNextComponent()
+    {
+        UriHelper.NavigateTo("daire");
     }
 
     MyObject myModel = new MyObject();
@@ -59,35 +102,36 @@
     protected async override void OnInitialized()
     {
 
-        listyerleske= await amirliksService.GetAmirliks();
+        listyerleske = await amirliksService.GetAmirliks();
 
         Options.AddRange(listyerleske);
         @*listyerleske = await amirliksServicee.GetYerleskes();*@
-
-    }
-
-
-    void OnPaste(HtmlEditorPasteEventArgs args)
-    {
-        Console.WriteLine($"Paste: {args.Html}");
-    }
-
-    void OnChange(string html)
-    {
-        Console.WriteLine($"Change: {html}");
-    }
-       void OnChange(object value, string name)
-    {
-        var str = value is IEnumerable<object> ? string.Join(", ", (IEnumerable<object>)value) : value;
-
-        Console.WriteLine($"{name} value changed to {str}");
-    }
-
-    void OnExecute(HtmlEditorExecuteEventArgs args)
-    {
-        Console.WriteLine($"Execute: {args.CommandName}");
+    _components.Add(1,new DaireBakimOnarim());
+    _components.Add(2,new Isg());
+}
 
 
-       
-    }
+void OnPaste(HtmlEditorPasteEventArgs args)
+{
+    Console.WriteLine($"Paste: {args.Html}");
+}
+
+void OnChange(string html)
+{
+    Console.WriteLine($"Change: {html}");
+}
+void OnChange(object value, string name)
+{
+    var str = value is IEnumerable<object> ? string.Join(", ", (IEnumerable<object>)value) : value;
+
+    Console.WriteLine($"{name} value changed to {str}");
+}
+
+void OnExecute(HtmlEditorExecuteEventArgs args)
+{
+    Console.WriteLine($"Execute: {args.CommandName}");
+
+
+
+}
 }
