@@ -9,7 +9,7 @@ namespace ZabitaWEB.Client.Services.Abstract
     {
         Task<IActionResult> DeleteTalep(int id);
         Task<ActionResult<Talep>> GetTalep(int id);
-        Task<ActionResult<IEnumerable<Talep>>> GetTaleps();
+        Task<List<Talep>> GetTaleps();
         Task<ActionResult<Talep>> PostTalep(Talep talep);
         Task<IActionResult> PutTalep(int id, Talep talep);
     }

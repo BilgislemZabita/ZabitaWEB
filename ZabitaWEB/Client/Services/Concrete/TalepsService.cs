@@ -28,7 +28,7 @@ namespace ZabitaWEB.Client.Services.Concrete
             throw new NotImplementedException();
         }
 
-        public async Task<ActionResult<IEnumerable<Talep>>> GetTaleps()
+        public async Task<List<Talep>> GetTaleps()
         {
             return await _httpClient.GetFromJsonAsync<List<Talep>>("/api/Taleps");
         }

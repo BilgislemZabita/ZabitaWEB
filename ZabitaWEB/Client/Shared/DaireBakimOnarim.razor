@@ -29,10 +29,11 @@
     </div>
     <div class="row">
         <div class="col-md-6 mt-1">
-            <RadzenTextArea Change=@(args => OnChange(args, "TextArea")) Style="width:100%" Placeholder="İşle İlgili Diğer Açıklamalar..." />
+            <RadzenTextArea Change=@(args => OnChange(args, "TextArea")) Style="width:100%" Placeholder="İşle İlgili Diğer Açıklamalar..." @bind-Value=@value />
+
         </div>
         <div class="col-md-6 mt-1">
-            <RadzenTextArea Change=@(args => OnChange(args, "TextArea")) Style="width:100%" Placeholder="Yerleşkenin Adres Bilgileri..." />
+            <RadzenTextArea Change=@(args => OnChange(args, "TextArea")) Style="width:100%" Placeholder="Yerleşkenin Adres Bilgileri..."  />
         </div>
     </div>
     
@@ -41,18 +42,19 @@
 
 
 @code {
-   
+
     IEnumerable<int> multipleValues = new int[] { };
 
     [Parameter]
     public IEnumerable<Amirlik> Products {get;set;}
 
     List<Amirlik> Options = new List<Amirlik>();
-
+    string value = "ergerg";
 
     void OnChange(object value, string name)
     {
         var str = value is IEnumerable<object> ? string.Join(", ", (IEnumerable<object>)value) : value;
+        value = name;
 
         Console.WriteLine($"{name} value changed to {str}");
     }

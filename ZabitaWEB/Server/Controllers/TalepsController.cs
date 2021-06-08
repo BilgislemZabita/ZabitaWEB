@@ -12,7 +12,7 @@ namespace ZabitaWEB.Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TalepsController : ControllerBase, ITalepsService
+    public class TalepsController : ControllerBase
     {
         private readonly ZabitaDatabaseContext _context;
 
@@ -23,7 +23,7 @@ namespace ZabitaWEB.Server.Controllers
 
         // GET: api/Taleps
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Talep>>> GetTaleps()
+        public async Task<ActionResult<List<Talep>>> GetTaleps()
         {
             return await _context.Taleps.ToListAsync();
         }

@@ -2,7 +2,7 @@
 @using Zabita.Entities.Concrete
 @using ZabitaWEB.Client.Services.Abstract
 @inject IAmirliksService amirliksService
-@inject IYerleskesService amirliksServicee
+@inject ITalepsService talepsService
 @inject NavigationManager UriHelper
 
 <div class="row">
@@ -19,7 +19,10 @@
                 <div class="col-md-6 mt-3">
                     <RadzenDropDown AllowClear="true" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
                                     @bind-Value=multipleValues Multiple="true" Placeholder="Select..." Data=@Options TextProperty="AmirlikIsım" ValueProperty="AmirlikID"
-                                    Change=@(args => OnChange(args, "DropDown with multiple selection")) Style="width:300px" />
+                                     Style="width:300px" />
+
+                    <RadzenDropDown TValue="int" @bind-Value=@talep Placeholder="Select order" Data="@(listtalep.Where(o => o.TalepId == value))" Change=@(args => OnChange(args, "DropDown with multiple selection")) TextProperty="TalepKonu" ValueProperty="TalepId" Style="margin-bottom: 20px"/>
+
                 </div>
             </div>
         </RadzenCard>
@@ -73,6 +76,7 @@
 
     Dictionary<int, IComponent> _components = new Dictionary<int,IComponent>();
     int value=0 ;
+    int talep=0 ;
 
 
 
@@ -80,7 +84,6 @@
 
     void ChangeBound(object value, string name)
     {
-        Console.WriteLine($"{name} value changed to {myModel.MyValue}");
 
 
     }
@@ -89,49 +92,46 @@
         UriHelper.NavigateTo("daire");
     }
 
-    MyObject myModel = new MyObject();
     List<Amirlik> Options = new List<Amirlik>();
+    List<Talep> Taleps = new List<Talep>();
 
-    class MyObject
-    {
-        public int? MyValue { get; set; } = 3;
-    }
+
     IEnumerable<Amirlik> listyerleske;
-    IEnumerable<Amirlik> productsd;
+    IEnumerable<Talep> listtalep;
 
     protected async override void OnInitialized()
     {
 
         listyerleske = await amirliksService.GetAmirliks();
+        listtalep = await talepsService.GetTaleps();
 
         Options.AddRange(listyerleske);
-        @*listyerleske = await amirliksServicee.GetYerleskes();*@
-    _components.Add(1,new DaireBakimOnarim());
-    _components.Add(2,new Isg());
-}
+
+        _components.Add(1,new DaireBakimOnarim());
+        _components.Add(2,new Isg());
+    }
 
 
-void OnPaste(HtmlEditorPasteEventArgs args)
-{
-    Console.WriteLine($"Paste: {args.Html}");
-}
+    void OnPaste(HtmlEditorPasteEventArgs args)
+    {
+        Console.WriteLine($"Paste: {args.Html}");
+    }
 
-void OnChange(string html)
-{
-    Console.WriteLine($"Change: {html}");
-}
-void OnChange(object value, string name)
-{
-    var str = value is IEnumerable<object> ? string.Join(", ", (IEnumerable<object>)value) : value;
+    void OnChange(string html)
+    {
+        Console.WriteLine($"Change: {html}");
+    }
+    void OnChange(object value, string name)
+    {
+        Taleps.AddRange(listtalep);
 
-    Console.WriteLine($"{name} value changed to {str}");
-}
+    }
 
-void OnExecute(HtmlEditorExecuteEventArgs args)
-{
-    Console.WriteLine($"Execute: {args.CommandName}");
-
+    void OnExecute(HtmlEditorExecuteEventArgs args)
+    {
+        Console.WriteLine($"Execute: {args.CommandName}");
 
 
-}
+
+    }
 }

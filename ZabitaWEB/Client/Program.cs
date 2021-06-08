@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Zabita.DataAccessLayer.Concrete.EntityFramework;
 using ZabitaWEB.Client.Services.Abstract;
 using ZabitaWEB.Client.Services.Concrete;
 
@@ -17,6 +18,7 @@ namespace ZabitaWEB.Client
     {
         public static async Task Main(string[] args)
         {
+            
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("#app");
 
@@ -29,6 +31,7 @@ namespace ZabitaWEB.Client
             builder.Services.AddScoped<TooltipService>();
             builder.Services.AddScoped<ContextMenuService>();
             await builder.Build().RunAsync();
+
         }
     }
 }
