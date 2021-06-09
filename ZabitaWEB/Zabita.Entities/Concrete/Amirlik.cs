@@ -20,6 +20,7 @@ namespace Zabita.Entities.Concrete
         public virtual List<AmirlikYerleskec> AmirlikYerleskecs { get; set; }
 
         public virtual ICollection<Oda> Odalar { get; set; }
+        public virtual ICollection<Taleptipleri> IsTipleri { get; set; }
         public virtual ICollection<Demirbas> Demirbaslar { get; set; }
         public virtual ICollection<Foto> Fotolar { get; set; }
 

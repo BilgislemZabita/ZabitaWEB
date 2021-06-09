@@ -17,6 +17,10 @@ namespace Zabita.DataAccessLayer.Concrete.EntityFramework.Mapping
             builder
                .HasMany(m => m.Fotolar)
                .WithOne(m => m.FotoAmirlik).OnDelete(DeleteBehavior.Cascade);
+            
+            //builder
+            //   .HasMany(m => m.IsTipleri)
+            //   .WithOne(m => m.IsTipiAmirlik).OnDelete(DeleteBehavior.Cascade);
 
             builder
                 .HasMany(m => m.Demirbaslar)

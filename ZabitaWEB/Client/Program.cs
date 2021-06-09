@@ -26,6 +26,7 @@ namespace ZabitaWEB.Client
             builder.Services.AddScoped<IAmirliksService, AmirliksService>();
             builder.Services.AddScoped<IYerleskesService, YerleskesService>();
             builder.Services.AddScoped<ITalepsService, TalepsService>();
+            builder.Services.AddScoped<IIsTiplerisService, IsTiplerisService>();
             builder.Services.AddScoped<DialogService>();
             builder.Services.AddScoped<NotificationService>();
             builder.Services.AddScoped<TooltipService>();
