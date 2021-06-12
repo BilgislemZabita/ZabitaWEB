@@ -15,11 +15,11 @@
                 <div class="col-md-6 mt-3">
 
                     <RadzenDropDown AllowClear="true" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" TValue="int" @bind-Value=@amirlikid Placeholder="Amirlik Seçiniz..."
-                                    Data=@AmirlikList TextProperty="AmirlikIsım" ValueProperty="AmirlikID" Change=@OnChange Style="width:300px"/>
+                                    Data=@AmirlikList TextProperty="AmirlikIsım" ValueProperty="AmirlikID"  Style="width:300px"/>
                 </div>
                 <div class="col-md-6 mt-3">
                    
-                    <RadzenDropDown TValue="int" @bind-Value=@istipiid Placeholder="İş Seçiniz..." Data="@IsTipleriList" Change=@(args => OnChange(args, "DropDown with multiple selection")) TextProperty="IsTipi" ValueProperty="IsId" Style="margin-bottom: 20px"/>
+                    <RadzenDropDown TValue="int" @bind-Value=@istipiid Placeholder="İş Seçiniz..." Data="@(IsTipleriList.Where(o => o.AmirlikId == amirlikid.ToString()))" Change=@(args => OnChange(args, "DropDown with multiple selection")) TextProperty="IsTipi" ValueProperty="IsId" Style="margin-bottom: 20px"/>
 
                 </div>
             </div>
@@ -104,7 +104,7 @@
         listyerleske = await amirliksService.GetAmirliks();
         //listtalep = await talepsService.GetTaleps();
         lististipleri = await istipleriService.GetIsTipleris();
-        //IsTipleriList.AddRange(lististipleri);
+        IsTipleriList.AddRange(lististipleri);
         AmirlikList.AddRange(listyerleske);
 
         _components.Add(1,new DaireBakimOnarim());
