@@ -2,28 +2,29 @@
 @using Zabita.Entities.Concrete
 @using ZabitaWEB.Client.Services.Abstract
 
+@inject ISnackbar Snackbar
 
 <RadzenCard>
-    <div class="card-header " style="max-height:2.3em;background-color:white;font-size:larger;text-align:justify" ><h3> Talep Detayları</h3> </div>
+    <div class="card-header " style="max-height:2.3em;background-color:white;font-size:larger;text-align:justify"><h3> Talep Detayları</h3> </div>
 
     <div class="row">
         <div class="col-md-6 mt-1">
 
             <RadzenDropDown AllowClear="true" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
-                            @bind-Value=@multipleValues Multiple="true" Placeholder="Talep Edilecek İş..." Data=@Products TextProperty="AmirlikIsım" ValueProperty="AmirlikID"
+                            @bind-Value=@multipleValues Multiple="true" Placeholder="Talep Edilecek İş..." Data=@Products TextProperty="IsTipi" ValueProperty="IsId"
                             Change=@(args => OnChange(args, "DropDown with multiple selection")) Style="width:100%" />
-           
+
 
         </div>
         <div class="col-md-6 mt-1">
 
-            @*<RadzenDropDown AllowClear="true" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
-                            @bind-Value=@multipleValues Multiple="true" Placeholder="İşin Yapılacağı Yerleşke" Data=@Products TextProperty="CompanyName" ValueProperty="CustomerID"
-                            Change=@(args => OnChange(args, "DropDown with multiple selection")) Style="width:100%" />*@
+            <RadzenDropDown AllowClear="true" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
+                @bind-Value=@multipleValues Multiple="true" Placeholder="İşin Yapılacağı Yerleşke" Data=@Products TextProperty="CompanyName" ValueProperty="CustomerID"
+                Change=@(args => OnChange(args, "DropDown with multiple selection")) Style="width:100%" />
 
         </div>
 
-        
+
 
 
     </div>
@@ -33,30 +34,105 @@
 
         </div>
         <div class="col-md-6 mt-1">
-            <RadzenTextArea Change=@(args => OnChange(args, "TextArea")) Style="width:100%" Placeholder="Yerleşkenin Adres Bilgileri..."  />
+            <RadzenTextArea Change=@(args => OnChange(args, "TextArea")) Style="width:100%" Placeholder="Yerleşkenin Adres Bilgileri..." />
         </div>
     </div>
-    
-    
+ 
+    <div class="row">
+
+        <div class="col-md-6">
+
+            <InputFile id="fileInput112" OnChange="UploadFiles" hidden multiple accept=".jpg, .jpeg, .png" />
+
+            <MudButton HtmlTag="label"
+                       Variant="Variant.Filled"
+                       Color="Color.Primary"
+                       StartIcon="@Icons.Filled.FileUpload"
+                       for="fileInput112" Style="width: 100% ">
+Fotoğraf Yükle
+            </MudButton>
+            @if (files != null)
+            {
+                <MudList>
+                    @foreach (var file in files)
+                    {
+                        <MudListItem Icon="@Icons.Filled.AttachFile">
+                            @file.Name <code>@file.Size bytes</code>
+                        </MudListItem>
+                    }
+                </MudList>
+            }
+        </div>
+        <div class="col-md-6">
+            @if (files.Count == 0)
+            {
+                <MudAlert Severity="Severity.Warning" Square="true" Class="my-2">Fotoğraf Seçilmeden Kayıt Yapılamaz!</MudAlert>
+
+            }
+            else
+            {
+                <RadzenButton style="margin: 0 1rem 1rem 0; width: 100%" Icon="save" BusyText="Kayıt Yapılıyor ..." IsBusy=@busy Click=@OnBusyClick Text="TALEBİ KAYDET" />
+
+            }
+
+
+        </div>
+    </div>
+
 </RadzenCard>
 
 
 @code {
+    bool busy;
 
     IEnumerable<int> multipleValues = new int[] { };
 
-    [Parameter]
-    public IEnumerable<Amirlik> Products {get;set;}
+    public IEnumerable<Taleptipleri> Products { get; set; }
+    public IEnumerable<Talep> Talepler { get; set; }
+    IList<Foto> fotos { get; set; }
 
-    List<Amirlik> Options = new List<Amirlik>();
+    async Task OnBusyClick()
+    {
+        Talep talep = new Talep();
+
+        busy = true;
+        await Task.Delay(2000);
+
+        busy = false;
+        Snackbar.Configuration.PositionClass = Defaults.Classes.Position.TopRight;
+        Snackbar.Add("Kayıt Başarılı!", Severity.Success);
+    }
+
+    List<Taleptipleri> Options = new List<Taleptipleri>();
     string value = "ergerg";
+    IList<IBrowserFile> files = new List<IBrowserFile>();
 
+    private void UploadFiles(InputFileChangeEventArgs e)
+    {
+        var entries = e.GetMultipleFiles();
+        //Do your validations here
+        Snackbar.Configuration.PositionClass = Defaults.Classes.Position.TopRight;
+        Snackbar.Add($"{entries.Count} Fotoğraf Eklendi!", Severity.Info );
+        foreach (var file in e.GetMultipleFiles())
+        {
+            files.Add(file);
+        }
+        //TODO upload the files to the server
+    }
     void OnChange(object value, string name)
     {
         var str = value is IEnumerable<object> ? string.Join(", ", (IEnumerable<object>)value) : value;
         value = name;
 
         Console.WriteLine($"{name} value changed to {str}");
+    }
+
+
+
+
+    void OnError(UploadErrorEventArgs args, string name)
+    {
+        Console.WriteLine($"{args.Message}");
     }
 
 }

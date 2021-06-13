@@ -20,5 +20,6 @@ namespace Zabita.Entities.Concrete
         public virtual Personel TalebiKarsilayanPersonel { get; set; }
         public virtual DateTime TalebinYapilmaTarihi { get; set; }
         public virtual DateTime TalebinKarsilanmaTarihi { get; set; }
+        public virtual ICollection<Foto> Fotolar { get; set; }
     }
 }

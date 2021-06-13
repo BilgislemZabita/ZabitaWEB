@@ -52,6 +52,10 @@ namespace Zabita.DataAccessLayer.Concrete.EntityFramework.Mapping
             builder
                 .HasOne(p => p.FotoYerleskeTeknikBilgiler)
                     .WithMany(c => c.Fotolar)
+                    .OnDelete(DeleteBehavior.Cascade); 
+            builder
+                .HasOne(p => p.FotoTalep)
+                    .WithMany(c => c.Fotolar)
                     .OnDelete(DeleteBehavior.Cascade);
         }
     }

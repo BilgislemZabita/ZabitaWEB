@@ -27,5 +27,6 @@ namespace Zabita.Entities.Concrete
         public virtual YerleskeIklimlendirme FotoYerleskeIklimlendirme { get; set; }
         public virtual YerleskeBakimOnarim FotoYerleskeBakimOnarim { get; set; }
         public virtual YerleskeTeknikBilgiler FotoYerleskeTeknikBilgiler { get; set; }
+        public virtual Talep FotoTalep { get; set; }
     }
 }
