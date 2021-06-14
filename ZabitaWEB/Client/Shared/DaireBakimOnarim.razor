@@ -1,6 +1,7 @@
 ﻿@page "/talep/daire"
 @using Zabita.Entities.Concrete
 @using ZabitaWEB.Client.Services.Abstract
+@inject ITalepsService talepsService
 
 @inject ISnackbar Snackbar
 
@@ -19,8 +20,8 @@
         <div class="col-md-6 mt-1">
 
             <RadzenDropDown AllowClear="true" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
-                @bind-Value=@multipleValues Multiple="true" Placeholder="İşin Yapılacağı Yerleşke" Data=@Products TextProperty="CompanyName" ValueProperty="CustomerID"
-                Change=@(args => OnChange(args, "DropDown with multiple selection")) Style="width:100%" />
+                            @bind-Value=@multipleValues Multiple="true" Placeholder="İşin Yapılacağı Yerleşke" Data=@Products TextProperty="CompanyName" ValueProperty="CustomerID"
+                            Change=@(args => OnChange(args, "DropDown with multiple selection")) Style="width:100%" />
 
         </div>
 
@@ -37,7 +38,7 @@
             <RadzenTextArea Change=@(args => OnChange(args, "TextArea")) Style="width:100%" Placeholder="Yerleşkenin Adres Bilgileri..." />
         </div>
     </div>
- 
+
     <div class="row">
 
         <div class="col-md-6">
@@ -49,7 +50,7 @@
                        Color="Color.Primary"
                        StartIcon="@Icons.Filled.FileUpload"
                        for="fileInput112" Style="width: 100% ">
-Fotoğraf Yükle
+                Fotoğraf Yükle
             </MudButton>
             @if (files != null)
             {
@@ -83,21 +84,27 @@ Fotoğraf Yükle
 
 
 @code {
+    List<Talep> TalepList = new List<Talep>();
+    IEnumerable<Talep> listtalep;
+
     bool busy;
 
     IEnumerable<int> multipleValues = new int[] { };
 
     public IEnumerable<Taleptipleri> Products { get; set; }
     public IEnumerable<Talep> Talepler { get; set; }
-    IList<Foto> fotos { get; set; }
+    IList<Foto> fotos = new List<Foto>();
 
     async Task OnBusyClick()
     {
         Talep talep = new Talep();
 
         busy = true;
-        await Task.Delay(2000);
-
+        //await Task.Delay(2000);
+        talep.Fotolar = fotos;
+        talep.TalepKonu = "rer";
+        talep.TalepBaslik = "refe";
+        var sd=await talepsService.PostTalep(talep);
         busy = false;
         Snackbar.Configuration.PositionClass = Defaults.Classes.Position.TopRight;
         Snackbar.Add("Kayıt Başarılı!", Severity.Success);
@@ -107,17 +114,42 @@ Fotoğraf Yükle
     string value = "ergerg";
     IList<IBrowserFile> files = new List<IBrowserFile>();
 
-    private void UploadFiles(InputFileChangeEventArgs e)
+    protected async override void OnInitialized()
     {
+
+        //listyerleske = await amirliksService.GetAmirliks();
+        listtalep = await talepsService.GetTaleps();
+        //lististipleri = await istipleriService.GetIsTipleris();
+        //IsTipleriList.AddRange(lististipleri);
+        //AmirlikList.AddRange(listyerleske);
+        TalepList.AddRange(listtalep);
+
+    }
+
+    private async void UploadFiles(InputFileChangeEventArgs e)
+    {
+        var format = "image/png";
+
         var entries = e.GetMultipleFiles();
-        //Do your validations here
         Snackbar.Configuration.PositionClass = Defaults.Classes.Position.TopRight;
-        Snackbar.Add($"{entries.Count} Fotoğraf Eklendi!", Severity.Info );
+        Snackbar.Add($"{entries.Count} Fotoğraf Eklendi!", Severity.Info);
         foreach (var file in e.GetMultipleFiles())
         {
             files.Add(file);
+            var resizedImageFile = await file.RequestImageFileAsync(format,
+                300, 300);
+            var buffer = new byte[resizedImageFile.Size];
+            await resizedImageFile.OpenReadStream().ReadAsync(buffer);
+            var imageDataUrl =
+                $"data:{format};base64,{Convert.ToBase64String(buffer)}";
+
+            fotos.Add(new Foto
+            {
+                FotoData = buffer,
+                FotoAdi = file.Name,
+                FotoEklenmeTarihi=DateTime.Now
+            });
         }
-        //TODO upload the files to the server
     }
     void OnChange(object value, string name)
     {

@@ -79,8 +79,23 @@ namespace ZabitaWEB.Server.Controllers
         public async Task<ActionResult<Talep>> PostTalep(Talep talep)
         {
             _context.Taleps.Add(talep);
-            await _context.SaveChangesAsync();
-
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException)
+            {
+                if (TalepExists(talep.TalepId))
+                {
+                    return Conflict();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            //https://www.tutorialsteacher.com/webapi/implement-post-method-in-web-api
+            //https://www.tutorialsteacher.com/webapi/consume-web-api-post-method-in-aspnet-mvc
             return CreatedAtAction("GetTalep", new { id = talep.TalepId }, talep);
         }
 

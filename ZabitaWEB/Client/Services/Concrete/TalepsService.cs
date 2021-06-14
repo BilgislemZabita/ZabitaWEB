@@ -33,9 +33,11 @@ namespace ZabitaWEB.Client.Services.Concrete
             return await _httpClient.GetFromJsonAsync<List<Talep>>("/api/Taleps");
         }
 
-        public Task<ActionResult<Talep>> PostTalep(Talep talep)
+        public async Task<Uri> PostTalep(Talep talep)
         {
-            throw new NotImplementedException();
+            var response = await _httpClient.PostAsJsonAsync<ActionResult<Talep>>("/api/Taleps", talep);
+            response.EnsureSuccessStatusCode();
+            return response.Headers.Location; 
         }
 
         public Task<IActionResult> PutTalep(int id, Talep talep)

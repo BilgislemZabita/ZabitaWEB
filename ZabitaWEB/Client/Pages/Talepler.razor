@@ -57,7 +57,7 @@
                 }
                 else if (widget.Key == 1 && istipiid == 1)
                 {
-                    <Isg Products=IsTipleriList />
+                    <Isg  />
                 }
 
             }
@@ -102,11 +102,11 @@
     {
 
         listyerleske = await amirliksService.GetAmirliks();
-        listtalep = await talepsService.GetTaleps();
+       // listtalep = await talepsService.GetTaleps();
         lististipleri = await istipleriService.GetIsTipleris();
         IsTipleriList.AddRange(lististipleri);
         AmirlikList.AddRange(listyerleske);
-        TalepList.AddRange(listtalep);
+        //TalepList.AddRange(listtalep);
 
         _components.Add(1,new DaireBakimOnarim());
         _components.Add(2,new Isg());
