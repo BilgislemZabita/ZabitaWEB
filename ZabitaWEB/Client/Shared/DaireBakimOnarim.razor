@@ -84,26 +84,29 @@
 
 
 @code {
-    List<Talep> TalepList = new List<Talep>();
-    IEnumerable<Talep> listtalep;
+        List<Talep> TalepList = new List<Talep>();
+        IEnumerable<Talep> listtalep;
 
-    bool busy;
+        bool busy;
 
-    IEnumerable<int> multipleValues = new int[] { };
+        IEnumerable<int> multipleValues = new int[] { };
 
-    public IEnumerable<Taleptipleri> Products { get; set; }
-    public IEnumerable<Talep> Talepler { get; set; }
-    IList<Foto> fotos = new List<Foto>();
+        public IEnumerable<Taleptipleri> Products { get; set; }
+        public IEnumerable<Talep> Talepler { get; set; }
+        IList<Foto> fotos = new List<Foto>();
 
-    async Task OnBusyClick()
-    {
-        Talep talep = new Talep();
+        async Task OnBusyClick()
+        {
+            Talep talep = new Talep {
+
+            TalepKonu = "rer",
+            TalepBaslik = "refe",
+            Fotolar=fotos,
+        };
 
         busy = true;
         //await Task.Delay(2000);
-        talep.Fotolar = fotos;
-        talep.TalepKonu = "rer";
-        talep.TalepBaslik = "refe";
+       
         var sd=await talepsService.PostTalep(talep);
         busy = false;
         Snackbar.Configuration.PositionClass = Defaults.Classes.Position.TopRight;
