@@ -76,7 +76,7 @@ namespace ZabitaWEB.Server.Controllers
         // POST: api/Taleps
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult> PostTalep([FromBody] Talep talep)
+        public async Task<IActionResult> PostTalep( Talep talep)
         {
             _context.Taleps.Add(talep);
             try

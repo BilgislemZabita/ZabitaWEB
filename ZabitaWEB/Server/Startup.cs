@@ -8,6 +8,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Linq;
 using Zabita.DataAccessLayer.Concrete.EntityFramework;
+using ZabitaWEB.Client.Services.Abstract;
+using ZabitaWEB.Client.Services.Concrete;
 
 namespace ZabitaWEB.Server
 {
@@ -32,7 +34,6 @@ namespace ZabitaWEB.Server
                 options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"));
             });
             services.AddSingleton<ZabitaDatabaseContext>();
-
             services.AddControllersWithViews();
             services.AddRazorPages();
         }
