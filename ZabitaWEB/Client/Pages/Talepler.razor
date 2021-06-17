@@ -4,6 +4,7 @@
 @inject IAmirliksService amirliksService
 @inject ITalepsService talepsService
 @inject IIsTiplerisService istipleriService
+@inject IMudurluksService mudurlukService
 @inject NavigationManager UriHelper
 
 <div class="row">
@@ -12,14 +13,20 @@
             <div class="card-header " style="max-height:2.3em;background-color:white;font-size:larger;text-align:justify"><h3> İş Seçimi</h3> </div>
 
             <div class="row">
-                <div class="col-md-6 mt-3">
+                <div class="col-md-3 mt-3">
 
                     <RadzenDropDown AllowClear="true" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" TValue="int" @bind-Value=@amirlikid Placeholder="Amirlik Seçiniz..."
                                     Data=@AmirlikList TextProperty="AmirlikIsım" ValueProperty="AmirlikID"  Style="width:100%"/>
                 </div>
-                <div class="col-md-6 mt-3">
+                <div class="col-md-3 mt-3">
+
+                    <RadzenDropDown AllowClear="true" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" TValue="int" @bind-Value=@amirlikid Placeholder="Amirlik Seçiniz..."
+                                    Data=@AmirlikList TextProperty="AmirlikIsım" ValueProperty="AmirlikID"  Style="width:100%"/>
+                </div>
+                <div class="col-md-3 mt-3">
                    
-                    <RadzenDropDown TValue="int" @bind-Value=@istipiid Placeholder="İş Seçiniz..." Data="@(IsTipleriList.Where(o => o.AmirlikId == amirlikid.ToString()))" Change=@(args => OnChange(args, "DropDown with multiple selection")) TextProperty="IsTipi" ValueProperty="IsId" Style="margin-bottom: 20px; width: 100%" />
+                    <RadzenDropDown TValue="int" @bind-Value=@istipiid Placeholder="İş Seçiniz..." Data="@(IsTipleriList.Where(o => o.AmirlikId == amirlikid.ToString()))" 
+                    Change=@(args => OnChange(args, "DropDown with multiple selection")) TextProperty="IsTipi" ValueProperty="IsId" Style="margin-bottom: 20px; width: 100%" />
 
                 </div>
             </div>
@@ -79,12 +86,12 @@
     List<Amirlik> AmirlikList = new List<Amirlik>();
     List<Talep> TalepList = new List<Talep>();
     List<Taleptipleri> IsTipleriList = new List<Taleptipleri>();
-
+    List<Mudurluk> MudurlukList=new List<Mudurluk>();
 
     IEnumerable<Amirlik> listyerleske;
     IEnumerable<Talep> listtalep;
     IEnumerable<Taleptipleri> lististipleri;
-
+    IEnumerable<Mudurluk> listmudurluk;
 
     void ChangeBound(object value, string name)
     {
@@ -104,8 +111,10 @@
         listyerleske = await amirliksService.GetAmirliks();
        // listtalep = await talepsService.GetTaleps();
         lististipleri = await istipleriService.GetIsTipleris();
+        listmudurluk= await mudurluksService.GetMudurluks();
         IsTipleriList.AddRange(lististipleri);
         AmirlikList.AddRange(listyerleske);
+        MudurlukList.AddRange(listmudurluk);
         //TalepList.AddRange(listtalep);
 
         _components.Add(1,new DaireBakimOnarim());
