@@ -15,13 +15,16 @@
                 <div class="col-md-6 mt-3">
 
                     <RadzenDropDown AllowClear="true" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" TValue="int" @bind-Value=@amirlikid Placeholder="Amirlik Seçiniz..."
-                                    Data=@AmirlikList TextProperty="AmirlikIsım" ValueProperty="AmirlikID"  Style="width:100%"/>
+                                    Data=@AmirlikList SelectedItem="@selectedamirlik" TextProperty="AmirlikIsım" ValueProperty="AmirlikID" Style="width:100%" />
+                    <MudText>Seçilen Amirlik :@selectedamirlik</MudText>
+
                 </div>
                 <div class="col-md-6 mt-3">
                    
                     <RadzenDropDown TValue="int" @bind-Value=@istipiid Placeholder="İş Seçiniz..." Data="@(IsTipleriList.Where(o => o.AmirlikId == amirlikid.ToString()))" Change=@(args => OnChange(args, "DropDown with multiple selection")) TextProperty="IsTipi" ValueProperty="IsId" Style="margin-bottom: 20px; width: 100%" />
 
                 </div>
+
             </div>
         </RadzenCard>
     </div>
@@ -30,7 +33,7 @@
     <div class="col-md-12 mt-3 ">
         @if (AmirlikList == null)
         {
-            <div class="spinner"></div>
+            <div class="spinner">Yükleniyor...</div>
         }
         else
 
@@ -57,7 +60,7 @@
                 }
                 else if (widget.Key == 1 && istipiid == 1)
                 {
-                    <Isg  />
+                    <Isg/>
                 }
 
             }
@@ -74,12 +77,12 @@
 
     Dictionary<int, IComponent> _components = new Dictionary<int,IComponent>();
     int amirlikid=0 ;
+    IEnumerable<string> selectedamirlik;
     int istipiid=0 ;
 
     List<Amirlik> AmirlikList = new List<Amirlik>();
     List<Talep> TalepList = new List<Talep>();
     List<Taleptipleri> IsTipleriList = new List<Taleptipleri>();
-
 
     IEnumerable<Amirlik> listyerleske;
     IEnumerable<Talep> listtalep;
@@ -102,7 +105,7 @@
     {
 
         listyerleske = await amirliksService.GetAmirliks();
-       // listtalep = await talepsService.GetTaleps();
+        // listtalep = await talepsService.GetTaleps();
         lististipleri = await istipleriService.GetIsTipleris();
         IsTipleriList.AddRange(lististipleri);
         AmirlikList.AddRange(listyerleske);
