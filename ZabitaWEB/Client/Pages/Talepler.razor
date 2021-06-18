@@ -15,8 +15,8 @@
                 <div class="col-md-6 mt-3">
 
                     <RadzenDropDown AllowClear="true" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" TValue="int" @bind-Value=@amirlikid Placeholder="Amirlik Seçiniz..."
-                                    Data=@AmirlikList SelectedItem="@selectedamirlik" TextProperty="AmirlikIsım" ValueProperty="AmirlikID" Style="width:100%" />
-                    <MudText>Seçilen Amirlik :@selectedamirlik</MudText>
+                                    Data=@AmirlikList SelectedItem="@selectedamirliks" TextProperty="AmirlikIsım" ValueProperty="AmirlikID" Style="width:100%" />
+                    <MudText>Seçilen Amirlik :@selectedamirliks</MudText>
 
                 </div>
                 <div class="col-md-6 mt-3">
@@ -77,7 +77,7 @@
 
     Dictionary<int, IComponent> _components = new Dictionary<int,IComponent>();
     int amirlikid=0 ;
-    IEnumerable<string> selectedamirlik;
+    IEnumerable<string> selectedamirliks;
     int istipiid=0 ;
 
     List<Amirlik> AmirlikList = new List<Amirlik>();
