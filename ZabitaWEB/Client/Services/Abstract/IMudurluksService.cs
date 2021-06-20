@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Zabita.Entities.Concrete;
@@ -11,7 +12,7 @@ namespace ZabitaWEB.Client.Services.Abstract
 
         Task<ActionResult<Mudurluk>> GetMudurluk(int id);
 
-        Task<ActionResult<IEnumerable<Mudurluk>>> GetMudurluks();
+        Task<List<Mudurluk>> GetMudurluks();
 
         Task<ActionResult<Mudurluk>> PostMudurluk(Mudurluk mudurluk);
 

@@ -3,13 +3,13 @@
 @using Zabita.Entities.Concrete
 @using ZabitaWEB.Client.Services.Abstract
 @inject HttpClient Http
-@inject IAmirliksService amirlikService
+@inject IMudurluksService mudurlukService
 
 <h1>Weather forecast</h1>
 
 <p>This component demonstrates fetching data from the server.</p>
 
-@if (listyerleske== null)
+@if (listmudurluk== null)
 {
     <p><em>Loading...</em></p>
 }
@@ -25,24 +25,25 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (var forecast in listyerleske)
+            @foreach (var forecast in listmudurluk)
             {
                 <tr>
-                    <td>@forecast.AmirlikIsım</td>
+                    <td>@forecast.MudurlukIsim</td>
             
                 </tr>
             }
+
         </tbody>
     </table>
 }
 
 @code {
-    IList<Amirlik> listyerleske;
-
+    IList<Mudurluk> listmudurluk;
+    
     protected override async Task OnInitializedAsync()
     {
         // listyerleske = await Http.GetFromJsonAsync<IList<Amirlik>>("/api/Amirliks");
-        listyerleske = await amirlikService.GetAmirliks();
+        listmudurluk = await mudurlukService.GetMudurluks();
         
         
     }

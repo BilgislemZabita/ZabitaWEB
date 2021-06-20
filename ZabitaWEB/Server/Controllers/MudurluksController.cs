@@ -23,7 +23,7 @@ namespace ZabitaWEB.Server.Controllers
 
         // GET: api/Mudurluks
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Mudurluk>>> GetMudurluks()
+        public async Task<ActionResult<List<Mudurluk>>> GetMudurluks()
         {
             return await _context.Mudurluks.ToListAsync();
         }
