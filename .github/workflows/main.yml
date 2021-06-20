@@ -23,11 +23,10 @@ jobs:
         # Generate the website
         - name: Publish
           run: |
-            dotnet publish ZabitaWEB/Server/ZabitaWEB.Server.csproj --configuration Release
-        
+            dotnet publish ZabitaWEB/ZabitaWEB/Server/ZabitaWEB.Server.csproj -c Release -o release --nologo        
         - name: Commit wwwroot to GitHub Pages
           uses: JamesIves/github-pages-deploy-action@3.7.1
           with:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
             BRANCH: gh-pages
-            FOLDER: debug/wwwroot
+            FOLDER: release/wwwroot
