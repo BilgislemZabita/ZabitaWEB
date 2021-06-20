@@ -42,7 +42,7 @@ jobs:
           # Optional package source for which to set up authentication. Will consult any existing NuGet.config in the root of the repo and provide a temporary NuGet.config using the NUGET_AUTH_TOKEN environment variable as a ClearTextPassword
      
       - name: Publish .NET Project
-        run: dotnet publish ZabitaWEB/ZabitaWEB/Server/ZabitaWEB.Server.csproj -c Release -o release --nologo
+        run: dotnet publish ZabitaWEB/Server/ZabitaWEB.Server.csproj -c Release -o release --nologo
       - name: Commit wwwroot to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@3.7.1
         with:
