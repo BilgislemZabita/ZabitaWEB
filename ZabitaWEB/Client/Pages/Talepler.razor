@@ -107,8 +107,9 @@
 
     protected async override void OnInitialized()
     {
-
         listyerleske = await amirliksService.GetAmirliks();
+
+      
         // listtalep = await talepsService.GetTaleps();
         lististipleri = await istipleriService.GetIsTipleris();
         IsTipleriList.AddRange(lististipleri);
