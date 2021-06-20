@@ -24,8 +24,7 @@ jobs:
         - name: Publish
           run: |
             dotnet publish ZabitaWEB/Server/ZabitaWEB.Server.csproj --configuration Release
-        - name: Add .nojekyll file
-          run: touch debug/wwwroot/.nojekyll
+        
         - name: Commit wwwroot to GitHub Pages
           uses: JamesIves/github-pages-deploy-action@3.7.1
           with:
