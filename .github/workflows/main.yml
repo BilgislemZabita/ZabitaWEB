@@ -1,62 +1,32 @@
+name: DeployToGitHubPages
+env:
+  PUBLISH_DIR: bin/Release/net5.0/publish/wwwroot
 
-
-name: Build and deploy .NET Core app to Windows WebApp ZabitaWEBServer20210618223121
+# Controls when the action will run
 on:
   push:
-    branches:
-    - master
-env:
-  AZURE_WEBAPP_NAME: deneme
-  AZURE_WEBAPP_PACKAGE_PATH: ZabitaWEB\Server/publish
-  AZURE_WEBAPP_PUBLISH_PROFILE: ${{ secrets.ZabitaWEBServer20210618223121_9c95 }}
-  CONFIGURATION: Release
-  DOTNET_CORE_VERSION: 5.0.x
-  WORKING_DIRECTORY: ZabitaWEB\Server
+    branches: [ master ]
+
 jobs:
-  build-and-deploy:
-    runs-on: windows-latest
+  build:
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
+
+    - name: Publish app
+      run: dotnet publish -c Release
+
+    - name: Rewrite base href
+      uses: SteveSandersonMS/ghaction-rewrite-base-href@v1
       with:
-        dotnet-version: ${{ env.DOTNET_CORE_VERSION }}
-    - name: Restore
-      run: dotnet restore "${{ env.WORKING_DIRECTORY }}"
-    - name: Build
-      run: dotnet build "${{ env.WORKING_DIRECTORY }}" --configuration ${{ env.CONFIGURATION }} --no-restore
-    - name: Test
-      run: dotnet test "${{ env.WORKING_DIRECTORY }}" --no-build
-    - name: Publish
-      run: dotnet publish "${{ env.WORKING_DIRECTORY }}" --configuration ${{ env.CONFIGURATION }} --no-build --output "${{ env.AZURE_WEBAPP_PACKAGE_PATH }}"
-    -
-        name: Gen dummy page
-        run: |
-          mkdir public
- 
+        html_path: ${{ env.PUBLISH_DIR }}/index.html
+        base_href: /ZabitaWEB/
+
     - name: GitHub Pages
-            # You may pin to the exact commit or the version.
-            # uses: crazy-max/ghaction-github-pages@db4476a01402e1a7ce05f41832040eef16d14925
-      uses: crazy-max/ghaction-github-pages@v2.5.0
+      if: success()
+      uses: crazy-max/ghaction-github-pages@v1.5.1
       with:
-              # Git domain (default github.com)
-        domain: github.com
-              # GitHub repository where assets will be deployed (default $GITHUB_REPOSITORY)
-        repo: ZabitaWEB
-              # Git branch where assets will be deployed
         target_branch: gh-pages
-              # Create incremental commit instead of doing push force
-
-              # Build directory to deploy
-        build_dir: public
-                # The committer name and email address
-
-        jekyll: false
-
-              # Enable verbose output
-        verbose: false
-    - name: Publish Artifacts
-      uses: actions/upload-artifact@v1.0.0
-      with:
-         name: webapp
-         path: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+        build_dir: ${{ env.PUBLISH_DIR }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
