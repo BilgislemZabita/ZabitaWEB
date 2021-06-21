@@ -1,6 +1,6 @@
 name: DeployToGitHubPages
 env:
-  PUBLISH_DIR: /bin/Release/net5.0/publish
+  PUBLISH_DIR: ZabitaWEB/Server/publish
 # Controls when the action will run
 on:
   push:
