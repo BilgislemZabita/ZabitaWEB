@@ -26,6 +26,7 @@
                 </div>
 
             </div>
+
         </RadzenCard>
     </div>
 </div>
@@ -81,6 +82,8 @@
     IEnumerable<string> selectedamirliks;
     int istipiid=0 ;
 
+
+
     List<Amirlik> AmirlikList = new List<Amirlik>();
     List<Talep> TalepList = new List<Talep>();
     List<Taleptipleri> IsTipleriList = new List<Taleptipleri>();
@@ -104,8 +107,9 @@
 
     protected async override void OnInitialized()
     {
-
         listyerleske = await amirliksService.GetAmirliks();
+
+      
         // listtalep = await talepsService.GetTaleps();
         lististipleri = await istipleriService.GetIsTipleris();
         IsTipleriList.AddRange(lististipleri);
