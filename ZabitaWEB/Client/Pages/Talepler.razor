@@ -15,17 +15,18 @@
             <div class="row">
                 <div class="col-md-3 mt-3">
 
-                    <RadzenDropDown AllowClear="true" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" TValue="int" Placeholder="Mudurluk Seçiniz..."
-                                    Data=@MudurlukList TextProperty="MudurlukIsim" ValueProperty="MudurlukId" Style="width:100%" />
+                    <RadzenDropDown AllowClear="true" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" TValue="int" 
+                    @bind-Value=@mudurlukid Placeholder="Mudurluk Seçiniz..." Data=@MudurlukList TextProperty="MudurlukIsim" ValueProperty="MudurlukId" Style="width:100%" />
                 </div>
                 <div class="col-md-3 mt-3">
 
-                    <RadzenDropDown AllowClear="true" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" TValue="int" @bind-Value=@amirlikid Placeholder="Amirlik Seçiniz..."
-                                    Data=@AmirlikList TextProperty="AmirlikIsım" ValueProperty="AmirlikID" Style="width:100%" />
+                    <RadzenDropDown AllowClear="true" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" TValue="int" 
+                    @bind-Value=@amirlikid Placeholder="Amirlik Seçiniz..." Data=@AmirlikList TextProperty="AmirlikIsım" ValueProperty="AmirlikID" Style="width:100%" />
                 </div>
                 <div class="col-md-3 mt-3">
 
-                    <RadzenDropDown TValue="int" @bind-Value=@istipiid Placeholder="İş Seçiniz..." Data="@(IsTipleriList.Where(o => o.AmirlikId == amirlikid.ToString()))" Change=@(args => OnChange(args, "DropDown with multiple selection")) TextProperty="IsTipi" ValueProperty="IsId" Style="margin-bottom: 20px; width: 100%" />
+                    <RadzenDropDown TValue="int" @bind-Value=@istipiid Placeholder="İş Seçiniz..." Data="@(IsTipleriList.Where(o => o.AmirlikId == amirlikid.ToString()))" 
+                    Change=@(args => OnChange(args, "DropDown with multiple selection")) TextProperty="IsTipi" ValueProperty="IsId" Style="margin-bottom: 20px; width: 100%" />
 
                 </div>
             </div>
@@ -80,6 +81,7 @@
 
     Dictionary<int, IComponent> _components = new Dictionary<int,IComponent>();
     int amirlikid=0 ;
+    int mudurlukid=0 ;
     int istipiid=0 ;
 
     List<Amirlik> AmirlikList = new List<Amirlik>();
