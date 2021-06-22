@@ -16,12 +16,25 @@ jobs:
       run: dotnet publish -c Release -o release
 
 
-
     - name: GitHub Pages
-      if: success()
-      uses: crazy-max/ghaction-github-pages@v1.5.1
+            # You may pin to the exact commit or the version.
+            # uses: crazy-max/ghaction-github-pages@db4476a01402e1a7ce05f41832040eef16d14925
+      uses: crazy-max/ghaction-github-pages@v2.5.0
       with:
+
+        repo: ZabitaWEB
+              # Git branch where assets will be deployed
         target_branch: gh-pages
-        build_dir: ${{ env.PUBLISH_DIR }}
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              # Create incremental commit instead of doing push force
+
+              # Build directory to deploy
+        build_dir: public
+                # The committer name and email address
+
+    env:
+       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+        
+        
+
+     
