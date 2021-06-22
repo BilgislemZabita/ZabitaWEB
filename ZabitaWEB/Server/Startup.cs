@@ -10,7 +10,7 @@ using System.Linq;
 using Zabita.DataAccessLayer.Concrete.EntityFramework;
 using ZabitaWEB.Client.Services.Abstract;
 using ZabitaWEB.Client.Services.Concrete;
-
+using Newtonsoft.Json;
 namespace ZabitaWEB.Server
 {
     public class Startup
@@ -33,6 +33,7 @@ namespace ZabitaWEB.Server
             {
                 options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"));
             });
+            services.AddMvc().AddNewtonsoftJson(options => {options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;});
             services.AddSingleton<ZabitaDatabaseContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();
