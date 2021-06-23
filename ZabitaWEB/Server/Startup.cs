@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -29,6 +30,8 @@ namespace ZabitaWEB.Server
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc(options => options.EnableEndpointRouting = false)
+        .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
             services.AddDbContext<DbContext>(options =>
             {
                 options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"));
@@ -58,11 +61,12 @@ namespace ZabitaWEB.Server
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseMvcWithDefaultRoute();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
-                endpoints.MapControllers();
+                //endpoints.MapControllers();
                 endpoints.MapFallbackToFile("index.html");
             });
         }
