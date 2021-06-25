@@ -21,7 +21,7 @@ namespace ZabitaWEB.Server
            //ZabitaDatabaseContext zabitaDatabaseContext = new ZabitaDatabaseContext();
           //  zabitaDatabaseContext.Database.EnsureDeleted();
           //  zabitaDatabaseContext.Database.EnsureCreated();
-            Configuration = configuration;
+            Configuration = configuration; 
         }
 
         public IConfiguration Configuration { get; }
