@@ -86,11 +86,11 @@
 
     List<Amirlik> AmirlikList = new List<Amirlik>();
     List<Talep> TalepList = new List<Talep>();
-    List<Taleptipleri> IsTipleriList = new List<Taleptipleri>();
+    List<IsTipleri> IsTipleriList = new List<IsTipleri>();
 
     IEnumerable<Amirlik> listyerleske;
     IEnumerable<Talep> listtalep;
-    IEnumerable<Taleptipleri> lististipleri;
+    IEnumerable<IsTipleri> lististipleri;
 
 
     void ChangeBound(object value, string name)
@@ -109,7 +109,7 @@
     {
         listyerleske = await amirliksService.GetAmirliks();
 
-      
+
         // listtalep = await talepsService.GetTaleps();
         lististipleri = await istipleriService.GetIsTipleris();
         IsTipleriList.AddRange(lististipleri);

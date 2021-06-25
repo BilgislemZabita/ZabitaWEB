@@ -23,22 +23,22 @@ namespace ZabitaWEB.Client.Services.Concrete
             throw new NotImplementedException();
         }
 
-        public Task<ActionResult<Taleptipleri>> GetIsTipleri(int id)
+        public Task<ActionResult<IsTipleri>> GetIsTipleri(int id)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<List<Taleptipleri>> GetIsTipleris()
+        public async Task<List<IsTipleri>> GetIsTipleris()
         {
-            return await _httpClient.GetFromJsonAsync<List<Taleptipleri>>("/api/IsTipleris");
+            return await _httpClient.GetFromJsonAsync<List<IsTipleri>>("/api/IsTipleris");
         }
 
-        public Task<ActionResult<Taleptipleri>> PostIsTipleri(Taleptipleri isTipleri)
+        public Task<ActionResult<IsTipleri>> PostIsTipleri(IsTipleri isTipleri)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IActionResult> PutIsTipleri(int id, Taleptipleri isTipleri)
+        public Task<IActionResult> PutIsTipleri(int id, IsTipleri isTipleri)
         {
             throw new NotImplementedException();
         }

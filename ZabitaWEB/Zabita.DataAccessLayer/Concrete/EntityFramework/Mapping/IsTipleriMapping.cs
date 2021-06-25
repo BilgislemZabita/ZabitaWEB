@@ -9,9 +9,9 @@ using Zabita.Entities.Concrete;
 
 namespace Zabita.DataAccessLayer.Concrete.EntityFramework.Mapping
 {
-    public class IsTipleriMapping : IEntityTypeConfiguration<Taleptipleri>
+    public class IsTipleriMapping : IEntityTypeConfiguration<IsTipleri>
     {
-        public void Configure(EntityTypeBuilder<Taleptipleri> builder)
+        public void Configure(EntityTypeBuilder<IsTipleri> builder)
         {
             builder.ToTable("IsTipleri")
             .HasKey(x => x.IsId );

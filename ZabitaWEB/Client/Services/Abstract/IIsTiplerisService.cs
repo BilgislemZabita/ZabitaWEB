@@ -8,9 +8,9 @@ namespace ZabitaWEB.Client.Services.Abstract
     public interface IIsTiplerisService
     {
         Task<IActionResult> DeleteIsTipleri(int id);
-        Task<ActionResult<Taleptipleri>> GetIsTipleri(int id);
-        Task<List<Taleptipleri>> GetIsTipleris();
-        Task<ActionResult<Taleptipleri>> PostIsTipleri(Taleptipleri isTipleri);
-        Task<IActionResult> PutIsTipleri(int id, Taleptipleri isTipleri);
+        Task<ActionResult<IsTipleri>> GetIsTipleri(int id);
+        Task<List<IsTipleri>> GetIsTipleris();
+        Task<ActionResult<IsTipleri>> PostIsTipleri(IsTipleri isTipleri);
+        Task<IActionResult> PutIsTipleri(int id, IsTipleri isTipleri);
     }
 }

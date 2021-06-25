@@ -8,15 +8,14 @@ using Zabita.Entities.Abstract;
 
 namespace Zabita.Entities.Concrete
 {
-    public class IsTipleri:IEntity
+    public class IsAltTipleri: IEntity
     {
-
         [Key]
-        public virtual int IsId { get; set; }
-        public virtual string IsTipi { get; set; }
+        public virtual int IsAltTipiId { get; set; }
+        public virtual string IsAltTipi { get; set; }
         //public virtual Amirlik IsTipiAmirlik { get; set; }
-        public virtual string AmirlikId { get; set; }
-        public virtual string AmirlikIsim { get; set; }
+        public virtual string IstipiId { get; set; }
+        public virtual string IsAltTipiAciklama { get; set; }
 
     }
 }

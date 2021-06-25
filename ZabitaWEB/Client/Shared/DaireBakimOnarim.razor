@@ -15,7 +15,8 @@
         <div class="col-md-6 mt-1">
 
             <RadzenDropDown AllowClear="true" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
-                            @bind-Value=@selectedtalepedilecekisler Multiple="true" Placeholder="Talep Edilecek İş..." Data=@Taleptipleri TextProperty="IsTipi" ValueProperty="AmirlikId"
+                            @bind-Value=@selectedtalepedilecekisler Multiple="true" Placeholder="Talep Edilecek İş..." Data=@Taleptipleri
+                            TextProperty="IsTipi" ValueProperty="AmirlikId"
                             Change=@(args => OnChange(args, "DropDown with multiple selection")) Style="width:100%" />
 
 
@@ -23,8 +24,9 @@
         <div class="col-md-6 mt-1">
 
 
-            <RadzenDropDown AllowClear="true" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" TValue="int" @bind-Value=@amirlikid Placeholder="İşin Yapılacağı Amirlik..."
-                            Data=@AmirlikList TextProperty="AmirlikIsım" ValueProperty="AmirlikID" Style="width:100%" />
+            <RadzenDropDown AllowClear="true" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" TValue="int"
+                            @bind-Value=@amirlikid Placeholder="İşin Yapılacağı Amirlik..."Data=@AmirlikList
+                            TextProperty="AmirlikIsım" ValueProperty="AmirlikID" Style="width:100%" />
 
         </div>
 
@@ -90,7 +92,7 @@
     IList<IBrowserFile> files = new List<IBrowserFile>();
 
     List<Talep> TalepList = new List<Talep>();
-    List<Taleptipleri> TalepTipleriList = new List<Taleptipleri>();
+    List<IsTipleri> TalepTipleriList = new List<IsTipleri>();
     List<Amirlik> AmirlikList = new List<Amirlik>();
 
     int amirlikid = 0;
@@ -98,12 +100,15 @@
     bool busy;
     string value = "fsd";
 
-    IEnumerable<int> selectedtalepedilecekisler = new int[] { };
+    //IEnumerable<Taleptipleri> selectedtalepedilecekisler = new Taleptipleri[] { };
+    //List<Taleptipleri> selectedtalepedilecekisler = new List<Taleptipleri>() { };
+    IEnumerable<string> selectedtalepedilecekisler = new string[] { };
+
 
     IList<Foto> fotos = new List<Foto>();
 
 
-    IEnumerable<Taleptipleri> Taleptipleri { get; set; }
+    IEnumerable<IsTipleri> Taleptipleri { get; set; }
     IEnumerable<Amirlik> Amirlikler { get; set; }
     IEnumerable<Talep> Talepler { get; set; }
 
@@ -117,9 +122,9 @@
             Fotolar = fotos,
         };
         busy = true;
-        await Task.Delay(2000);
+        //await Task.Delay(2000);
 
-        var sd = talepsService.PostTalep(talep);
+        var sd =await talepsService.PostTalep(talep);
         //await Http.PostAsJsonAsync<Talep>("/api/Taleps", talep);
         busy = false;
         Snackbar.Configuration.PositionClass = Defaults.Classes.Position.TopRight;
@@ -133,10 +138,10 @@
 
     protected async override void OnInitialized()
     {
+        Taleptipleri = await istipleriService.GetIsTipleris();
 
         Amirlikler = await amirliksService.GetAmirliks();
         //listtalep = await talepsService.GetTaleps();
-        Taleptipleri = await istipleriService.GetIsTipleris();
         //IsTipleriList.AddRange(lististipleri);
         //AmirlikList.AddRange(listyerleske);
         // TalepList.AddRange(listtalep);

@@ -23,16 +23,16 @@ namespace ZabitaWEB.Server.Controllers
 
         // GET: api/IsTipleris
         [HttpGet]
-        public async Task<ActionResult<List<Taleptipleri>>> GetIsTipleris()
+        public async Task<ActionResult<List<IsTipleri>>> GetIsTipleris()
         {
-            return await _context.Taleptipleris.ToListAsync();
+            return await _context.IsTipleris.ToListAsync();
         }
 
         // GET: api/IsTipleris/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Taleptipleri>> GetIsTipleri(int id)
+        public async Task<ActionResult<IsTipleri>> GetIsTipleri(int id)
         {
-            var isTipleri = await _context.Taleptipleris.FindAsync(id);
+            var isTipleri = await _context.IsTipleris.FindAsync(id);
 
             if (isTipleri == null)
             {
@@ -45,7 +45,7 @@ namespace ZabitaWEB.Server.Controllers
         // PUT: api/IsTipleris/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutIsTipleri(int id, Taleptipleri isTipleri)
+        public async Task<IActionResult> PutIsTipleri(int id, IsTipleri isTipleri)
         {
             if (id != isTipleri.IsId)
             {
@@ -76,9 +76,9 @@ namespace ZabitaWEB.Server.Controllers
         // POST: api/IsTipleris
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Taleptipleri>> PostIsTipleri(Taleptipleri isTipleri)
+        public async Task<ActionResult<IsTipleri>> PostIsTipleri(IsTipleri isTipleri)
         {
-            _context.Taleptipleris.Add(isTipleri);
+            _context.IsTipleris.Add(isTipleri);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetIsTipleri", new { id = isTipleri.IsId }, isTipleri);
@@ -88,13 +88,13 @@ namespace ZabitaWEB.Server.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteIsTipleri(int id)
         {
-            var isTipleri = await _context.Taleptipleris.FindAsync(id);
+            var isTipleri = await _context.IsTipleris.FindAsync(id);
             if (isTipleri == null)
             {
                 return NotFound();
             }
 
-            _context.Taleptipleris.Remove(isTipleri);
+            _context.IsTipleris.Remove(isTipleri);
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -102,7 +102,7 @@ namespace ZabitaWEB.Server.Controllers
 
         private bool IsTipleriExists(int id)
         {
-            return _context.Taleptipleris.Any(e => e.IsId == id);
+            return _context.IsTipleris.Any(e => e.IsId == id);
         }
     }
 }
