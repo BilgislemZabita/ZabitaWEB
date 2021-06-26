@@ -12,7 +12,7 @@
             <div class="card-header " style="max-height:2.3em;background-color:white;font-size:larger;text-align:justify"><h3> İş Seçimi</h3> </div>
 
             <div class="row">
-                <div class="col-md-6 mt-3">
+                <div class="col-md-4 mt-3">
 
                     <RadzenDropDown AllowClear="true" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" TValue="int" @bind-Value=@amirlikid Placeholder="Amirlik Seçiniz..."
                                     Data=@AmirlikList SelectedItem="@selectedamirliks" TextProperty="AmirlikIsım" ValueProperty="AmirlikID" Style="width:100%" />
@@ -20,7 +20,12 @@
 
                 </div>
                 <div class="col-md-6 mt-3">
-                   
+                    <RadzenButton Click="@DeletAmirlik" Text="Sil"  Style="margin-bottom: 20px; width: 50px"/>
+
+
+                </div>
+                <div class="col-md-6 mt-3">
+
                     <RadzenDropDown TValue="int" @bind-Value=@istipiid Placeholder="İş Seçiniz..." Data="@(IsTipleriList.Where(o => o.AmirlikId == amirlikid.ToString()))" Change=@(args => OnChange(args, "DropDown with multiple selection")) TextProperty="IsTipi" ValueProperty="IsId" Style="margin-bottom: 20px; width: 100%" />
 
                 </div>
@@ -55,14 +60,14 @@
             }
             @foreach (var widget in _components)
             {
-                if (widget.Key == 2 && istipiid==2 )
+                if (widget.Key == 2 && istipiid == 2)
                 {
                     <DaireBakimOnarim />
 
                 }
                 else if (widget.Key == 1 && istipiid == 1)
                 {
-                    <Isg/>
+                    <Isg />
                 }
 
             }
@@ -77,10 +82,10 @@
 
 @code {
 
-    Dictionary<int, IComponent> _components = new Dictionary<int,IComponent>();
-    int amirlikid=0 ;
+    Dictionary<int, IComponent> _components = new Dictionary<int, IComponent>();
+    int amirlikid = 5;
     IEnumerable<string> selectedamirliks;
-    int istipiid=0 ;
+    int istipiid = 0;
 
 
 
@@ -116,8 +121,8 @@
         AmirlikList.AddRange(listyerleske);
         //TalepList.AddRange(listtalep);
 
-        _components.Add(1,new DaireBakimOnarim());
-        _components.Add(2,new Isg());
+        _components.Add(1, new DaireBakimOnarim());
+        _components.Add(2, new Isg());
     }
 
 
@@ -139,6 +144,11 @@
     {
         //TalepList.AddRange(listtalep);
 
+    }
+
+    void DeletAmirlik()
+    {
+       amirliksService.DeleteAmirlik(amirlikid);
     }
 
     void OnExecute(HtmlEditorExecuteEventArgs args)
