@@ -19,8 +19,8 @@
                     <MudText>Seçilen Amirlik :@selectedamirliks</MudText>
 
                 </div>
-                <div class="col-md-6 mt-3">
-                    <RadzenButton Click="@DeletAmirlik" Text="Sil"  Style="margin-bottom: 20px; width: 50px"/>
+                <div class="col-md-2 mt-3">
+                    <RadzenButton Click="@DeletAmirlik" Text="Sil" Style="margin-bottom: 20px; width: 50px" />
 
 
                 </div>
@@ -30,6 +30,13 @@
 
                 </div>
 
+            </div>
+            <div class="row">
+                <div class="col-md-2 mt-3">
+                    <MudTextField @bind-Value="amirlikTestid" Variant="Variant.Text" Adornment="Adornment.Start" AdornmentText="Id :" />
+                    <MudTextField @bind-Value="amirlikTestIsim" Variant="Variant.Text" Adornment="Adornment.Start" AdornmentText="Isim :" />
+                    <RadzenButton Click="@PutAmirlik" Text="Put" Style="margin-bottom: 20px; width: 50px" />
+                </div>
             </div>
 
         </RadzenCard>
@@ -83,7 +90,10 @@
 @code {
 
     Dictionary<int, IComponent> _components = new Dictionary<int, IComponent>();
-    int amirlikid = 5;
+    int amirlikid = 0;
+    int amirlikTestid { get; set; }
+    string amirlikTestIsim { get; set; }
+    Amirlik amirlikTEST = new Amirlik();
     IEnumerable<string> selectedamirliks;
     int istipiid = 0;
 
@@ -113,13 +123,16 @@
     protected async override void OnInitialized()
     {
         listAmirlik = await amirliksService.GetAmirliks();
+        AmirlikList.AddRange(listAmirlik);
 
 
         // listtalep = await talepsService.GetTaleps();
+        //TalepList.AddRange(listtalep);
+
         lististipleri = await istipleriService.GetIsTipleris();
         IsTipleriList.AddRange(lististipleri);
-        AmirlikList.AddRange(listAmirlik);
-        //TalepList.AddRange(listtalep);
+
+
 
         _components.Add(1, new DaireBakimOnarim());
         _components.Add(2, new Isg());
@@ -146,10 +159,18 @@
 
     }
 
+    async void PutAmirlik()
+    {
+        
+        await amirliksService.PutAmirlik(amirlikTestid,new Amirlik());
+    }
+
     async void DeletAmirlik()
     {
         await amirliksService.DeleteAmirlik(amirlikid);
-        listAmirlik =await amirliksService.GetAmirliks();
+
+        //Amirlik Listesini Güncelleme
+        listAmirlik = await amirliksService.GetAmirliks();
         AmirlikList.Clear();
         AmirlikList.AddRange(listAmirlik);
     }

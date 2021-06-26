@@ -17,6 +17,6 @@ namespace ZabitaWEB.Client.Services.Abstract
 
         Task<Uri> PostAmirlik(Amirlik amirlik);
 
-        Task<IActionResult> PutAmirlik(int id, Amirlik amirlik);
+        Task<ActionResult<bool>> PutAmirlik(int id, Amirlik amirlik);
     }
 }

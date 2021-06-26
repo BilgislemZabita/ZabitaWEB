@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Zabita.Entities.Concrete;
 using System;
+
 namespace ZabitaWEB.Client.Services.Abstract
 {
     public interface IDemirbasService

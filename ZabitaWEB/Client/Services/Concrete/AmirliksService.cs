@@ -43,9 +43,10 @@ namespace ZabitaWEB.Client.Services.Concrete
             return response.Headers.Location;
         }
 
-        public Task<IActionResult> PutAmirlik(int id, Amirlik amirlik)
+        public async Task<ActionResult<bool>> PutAmirlik(int id, Amirlik amirlik)//id varsa günceller yoksa ekler 
         {
-            throw new NotImplementedException();
+            await _httpClient.PutAsJsonAsync<Amirlik>("/api/Amirliks/" + id.ToString(),amirlik);
+            return true;
         }
     }
 }
