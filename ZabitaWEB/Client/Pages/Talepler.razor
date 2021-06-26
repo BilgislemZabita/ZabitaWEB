@@ -93,7 +93,7 @@
     List<Talep> TalepList = new List<Talep>();
     List<IsTipleri> IsTipleriList = new List<IsTipleri>();
 
-    IEnumerable<Amirlik> listyerleske;
+    IEnumerable<Amirlik> listAmirlik;
     IEnumerable<Talep> listtalep;
     IEnumerable<IsTipleri> lististipleri;
 
@@ -112,13 +112,13 @@
 
     protected async override void OnInitialized()
     {
-        listyerleske = await amirliksService.GetAmirliks();
+        listAmirlik = await amirliksService.GetAmirliks();
 
 
         // listtalep = await talepsService.GetTaleps();
         lististipleri = await istipleriService.GetIsTipleris();
         IsTipleriList.AddRange(lististipleri);
-        AmirlikList.AddRange(listyerleske);
+        AmirlikList.AddRange(listAmirlik);
         //TalepList.AddRange(listtalep);
 
         _components.Add(1, new DaireBakimOnarim());
@@ -146,9 +146,12 @@
 
     }
 
-    void DeletAmirlik()
+    async void DeletAmirlik()
     {
-       amirliksService.DeleteAmirlik(amirlikid);
+        await amirliksService.DeleteAmirlik(amirlikid);
+        listAmirlik =await amirliksService.GetAmirliks();
+        AmirlikList.Clear();
+        AmirlikList.AddRange(listAmirlik);
     }
 
     void OnExecute(HtmlEditorExecuteEventArgs args)
