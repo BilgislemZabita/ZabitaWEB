@@ -20,7 +20,7 @@
 
                 </div>
                 <div class="col-md-2 mt-3">
-                    <RadzenButton Click="@DeletAmirlik" Text="Sil" Style="margin-bottom: 20px; width: 50px" />
+                    <RadzenButton Click="@DeleteAmirlik" Text="Sil" Style="margin-bottom: 20px; width: 50px" />
 
 
                 </div>
@@ -33,9 +33,9 @@
             </div>
             <div class="row">
                 <div class="col-md-2 mt-3">
-                    <MudTextField @bind-Value="amirlikTestid" Variant="Variant.Text" Adornment="Adornment.Start" AdornmentText="Id :" />
-                    <MudTextField @bind-Value="amirlikTestIsim" Variant="Variant.Text" Adornment="Adornment.Start" AdornmentText="Isim :" />
-                    <RadzenButton Click="@PutAmirlik" Text="Put" Style="margin-bottom: 20px; width: 50px" />
+                    @*<MudTextField @bind-Value="amirlikTestid" Variant="Variant.Text" Adornment="Adornment.Start" AdornmentText="Id :" />
+        <MudTextField @bind-Value="amirlikTestIsim" Variant="Variant.Text" Adornment="Adornment.Start" AdornmentText="Isim :" />*@
+                    <RadzenButton Click="@PutAmirlik" Text="PUT" Style="margin-bottom: 20px; width: 50px" />
                 </div>
             </div>
 
@@ -91,9 +91,6 @@
 
     Dictionary<int, IComponent> _components = new Dictionary<int, IComponent>();
     int amirlikid = 0;
-    int amirlikTestid { get; set; }
-    string amirlikTestIsim { get; set; }
-    Amirlik amirlikTEST = new Amirlik();
     IEnumerable<string> selectedamirliks;
     int istipiid = 0;
 
@@ -122,6 +119,8 @@
 
     protected async override void OnInitialized()
     {
+
+
         listAmirlik = await amirliksService.GetAmirliks();
         AmirlikList.AddRange(listAmirlik);
 
@@ -161,11 +160,10 @@
 
     async void PutAmirlik()
     {
-        
-        await amirliksService.PutAmirlik(amirlikTestid,new Amirlik());
+        await amirliksService.PutAmirlik(5, AmirlikList[0]); //manuel değer girince dahi çalışmıyor
     }
 
-    async void DeletAmirlik()
+    async void DeleteAmirlik()
     {
         await amirliksService.DeleteAmirlik(amirlikid);
 

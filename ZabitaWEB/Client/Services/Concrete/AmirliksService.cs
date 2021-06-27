@@ -26,9 +26,9 @@ namespace ZabitaWEB.Client.Services.Concrete
             return true;
         }
 
-        public Task<ActionResult<Amirlik>> GetAmirlik(int id)
+        public async Task<ActionResult<Amirlik>> GetAmirlik(int id) //Kontrol Edilmedi
         {
-            throw new NotImplementedException();
+            return await _httpClient.GetFromJsonAsync<Amirlik>("/api/Amirliks/" + id.ToString());
         }
 
         public async Task<List<Amirlik>> GetAmirliks()
@@ -43,7 +43,7 @@ namespace ZabitaWEB.Client.Services.Concrete
             return response.Headers.Location;
         }
 
-        public async Task<ActionResult<bool>> PutAmirlik(int id, Amirlik amirlik)//id varsa günceller yoksa ekler 
+        public async Task<ActionResult<bool>> PutAmirlik(int id, Amirlik amirlik) //Çalışmıyor 
         {
             await _httpClient.PutAsJsonAsync<Amirlik>("/api/Amirliks/" + id.ToString(),amirlik);
             return true;
