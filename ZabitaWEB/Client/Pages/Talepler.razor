@@ -14,14 +14,17 @@
             <div class="row">
                 <div class="col-md-6 mt-3">
 
-                    <RadzenDropDown AllowClear="true" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" TValue="int" @bind-Value=@amirlikid Placeholder="Amirlik Seçiniz..."
+                    <RadzenDropDown AllowClear="true" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
+                                    TValue="int" @bind-Value=@amirlikid Placeholder="Amirlik Seçiniz..."
                                     Data=@AmirlikList SelectedItem="@selectedamirliks" TextProperty="AmirlikIsım" ValueProperty="AmirlikID" Style="width:100%" />
                     <MudText>Seçilen Amirlik :@selectedamirliks</MudText>
 
                 </div>
                 <div class="col-md-6 mt-3">
                    
-                    <RadzenDropDown TValue="int" @bind-Value=@istipiid Placeholder="İş Seçiniz..." Data="@(IsTipleriList.Where(o => o.AmirlikId == amirlikid.ToString()))" Change=@(args => OnChange(args, "DropDown with multiple selection")) TextProperty="IsTipi" ValueProperty="IsId" Style="margin-bottom: 20px; width: 100%" />
+                    <RadzenDropDown TValue="int" @bind-Value=@istipiid Placeholder="İş Seçiniz..." Data="@(IsTipleriList.Where(o => o.AmirlikId == amirlikid.ToString()))" 
+                                    Change=@(args => OnChange(args, "DropDown with multiple selection")) TextProperty="IsTipi" ValueProperty="IsId"
+                                    Style="margin-bottom: 20px; width: 100%" />
 
                 </div>
 
@@ -57,7 +60,8 @@
             {
                 if (widget.Key == 2 && istipiid==2 )
                 {
-                    <DaireBakimOnarim />
+                    string zz = istipiid.ToString();
+                    <DaireBakimOnarim IsTipiId=@zz />
 
                 }
                 else if (widget.Key == 1 && istipiid == 1)
@@ -116,8 +120,8 @@
         AmirlikList.AddRange(listyerleske);
         //TalepList.AddRange(listtalep);
 
-        _components.Add(1,new DaireBakimOnarim());
-        _components.Add(2,new Isg());
+        _components.Add(2,new DaireBakimOnarim());
+        _components.Add(1,new Isg());
     }
 
 
