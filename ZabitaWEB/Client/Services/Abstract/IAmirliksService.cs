@@ -2,20 +2,21 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Zabita.Entities.Concrete;
+using System;
 
 namespace ZabitaWEB.Client.Services.Abstract
 
 {
     public interface IAmirliksService
     {
-        Task<IActionResult> DeleteAmirlik(int id);
+        Task<ActionResult<bool>> DeleteAmirlik(int id);
 
         Task<ActionResult<Amirlik>> GetAmirlik(int id);
 
         Task<List<Amirlik>> GetAmirliks();
 
-        Task<ActionResult<Amirlik>> PostAmirlik(Amirlik amirlik);
+        Task<Uri> PostAmirlik(Amirlik amirlik);
 
-        Task<IActionResult> PutAmirlik(int id, Amirlik amirlik);
+        Task<ActionResult<bool>> PutAmirlik(int id, Amirlik amirlik);
     }
 }
