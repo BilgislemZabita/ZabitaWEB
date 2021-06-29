@@ -58,13 +58,13 @@
             }
             @foreach (var widget in _components)
             {
-                if (widget.Key == 2 && istipiid==2 )
+                if (widget.Key == 1 && istipiid==1 )
                 {
                     string zz = istipiid.ToString();
                     <DaireBakimOnarim IsTipiId=@zz />
 
                 }
-                else if (widget.Key == 1 && istipiid == 1)
+                else if (widget.Key == 2 && istipiid == 2)
                 {
                     <Isg/>
                 }
@@ -120,8 +120,8 @@
         AmirlikList.AddRange(listyerleske);
         //TalepList.AddRange(listtalep);
 
-        _components.Add(2,new DaireBakimOnarim());
-        _components.Add(1,new Isg());
+        _components.Add(1,new DaireBakimOnarim());
+        _components.Add(2,new Isg());
     }
 
 
