@@ -19,14 +19,16 @@ namespace ZabitaWEB.Client.Services.Concrete
             _httpClient = httpClient;
         }
 
-        public Task<IActionResult> DeleteAmirlik(int id)
+        public async Task<ActionResult<bool>> DeleteAmirlik(int id)
         {
-            throw new NotImplementedException();
+            
+            await _httpClient.DeleteAsync("/api/Amirliks/" + id.ToString());
+            return true;
         }
 
-        public Task<ActionResult<Amirlik>> GetAmirlik(int id)
+        public async Task<ActionResult<Amirlik>> GetAmirlik(int id) //Kontrol Edilmedi
         {
-            throw new NotImplementedException();
+            return await _httpClient.GetFromJsonAsync<Amirlik>("/api/Amirliks/" + id.ToString());
         }
 
         public async Task<List<Amirlik>> GetAmirliks()
@@ -34,14 +36,17 @@ namespace ZabitaWEB.Client.Services.Concrete
             return await _httpClient.GetFromJsonAsync<List<Amirlik>>("/api/Amirliks");
         }
 
-        public Task<ActionResult<Amirlik>> PostAmirlik(Amirlik amirlik)
+        public async Task<Uri> PostAmirlik(Amirlik amirlik)
         {
-            throw new NotImplementedException();
+            var response = await _httpClient.PostAsJsonAsync<Amirlik>("/api/Amirliks", amirlik);
+            response.EnsureSuccessStatusCode();
+            return response.Headers.Location;
         }
 
-        public Task<IActionResult> PutAmirlik(int id, Amirlik amirlik)
+        public async Task<ActionResult<bool>> PutAmirlik(int id, Amirlik amirlik) //Çalışmıyor 
         {
-            throw new NotImplementedException();
+            await _httpClient.PutAsJsonAsync<Amirlik>("/api/Amirliks/" + id.ToString(),amirlik);
+            return true;
         }
     }
 }
