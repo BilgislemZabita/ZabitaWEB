@@ -15,12 +15,18 @@
     <div class="row">
         <div class="col-md-6 mt-1">
 
-            <RadzenDropDown AllowClear="true" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" 
+            <RadzenDropDown AllowClear="true" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
                             @bind-Value=@selectedtalepedilecekisler Multiple="true" Placeholder="Talep Edilecek İş..."
-                            Data=@IsAltTipleri.Where(s=>s.IstipiId == IsTipiId)
-                            TextProperty="IsAltTipi" ValueProperty="IstipiId"
+                            Data=@IsAltTipleriList.Where(s=>s.IstipiId == IsTipiId)
+                            TextProperty="IsAltTipi"
                             Change=@(args => OnChange(args, "DropDown with multiple selection")) Style="width:100%" />
-     
+            <MudSelect T="IsAltTipleri" Label="İş Seçiniz" HelperText="İşler" MultiSelection="true" @bind-Value="valuef" 
+                       @bind-SelectedValues="options" ToStringFunc="@converter">
+                @foreach (var state in IsAltTipleriList)
+                {
+                    <MudSelectItem ToStringFunc="@converter" T="IsAltTipleri" Value="@state">@state</MudSelectItem>
+                }
+            </MudSelect>
 
 
         </div>
@@ -30,7 +36,7 @@
             <RadzenDropDown AllowClear="true" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" TValue="int"
                             @bind-Value=@amirlikid Placeholder="İşin Yapılacağı Amirlik..." Data=@AmirlikList
                             TextProperty="AmirlikIsım" ValueProperty="AmirlikID" Style="width:100%" />
-            
+
 
         </div>
 
@@ -99,6 +105,7 @@
     List<IsTipleri> TalepTipleriList = new List<IsTipleri>();
     List<Amirlik> AmirlikList = new List<Amirlik>();
     List<IsAltTipleri> IsAltTipleriList = new List<IsAltTipleri>();
+    private string[] Istipi = { };
 
     int amirlikid = 0;
 
@@ -108,15 +115,18 @@
     //IEnumerable<Taleptipleri> selectedtalepedilecekisler = new Taleptipleri[] { };
     //List<Taleptipleri> selectedtalepedilecekisler = new List<Taleptipleri>() { };
     IEnumerable<string> selectedtalepedilecekisler = new string[] { };
+    private HashSet<IsAltTipleri> options { get; set; } = new HashSet<IsAltTipleri>() {  };
+    private IsAltTipleri valuef { get; set; } = new IsAltTipleri();
+    Func<IsAltTipleri, string> converter = p => p?.IsAltTipi;
 
 
-    IList<Foto> fotos = new List<Foto>();
+    IList<Foto>fotos = new List<Foto>();
 
 
-    IEnumerable<IsTipleri> Taleptipleri { get; set; }
+    IEnumerable<IsTipleri>  Taleptipleri { get; set; }
     IEnumerable<Amirlik> Amirlikler { get; set; }
-    IEnumerable<Talep> Talepler { get; set; }
-    IEnumerable<IsAltTipleri> IsAltTipleri;
+    IEnumerable<Talep>    Talepler { get; set; }
+    IEnumerable<IsAltTipleri>  IsAltTipleri;
 
     [Parameter]
     public string IsTipiId { get; set; }
@@ -135,7 +145,7 @@
         busy = true;
         //await Task.Delay(2000);
 
-        var sd =await talepsService.PostTalep(talep);
+        var sd = await talepsService.PostTalep(talep);
         //await Http.PostAsJsonAsync<Talep>("/api/Taleps", talep);
         busy = false;
         Snackbar.Configuration.PositionClass = Defaults.Classes.Position.TopRight;
@@ -151,7 +161,10 @@
     {
         Taleptipleri = await istipleriService.GetIsTipleris();
         IsAltTipleri = await isalttipleriService.GetIsAltTipleris();
-
+        foreach(var z in IsAltTipleri)
+        {
+            Istipi.Append(z.IsAltTipi);
+        }
         Amirlikler = await amirliksService.GetAmirliks();
         //listtalep = await talepsService.GetTaleps();
         //IsTipleriList.AddRange(lististipleri);
@@ -176,12 +189,12 @@
         foreach (var file in e.GetMultipleFiles())
         {
             var resizedImageFile = await file.RequestImageFileAsync(format,
-                1024, 1024);
+            1024, 1024);
             long max = 2000000;
             var buffer = new byte[resizedImageFile.Size];
             await resizedImageFile.OpenReadStream(max).ReadAsync(buffer);
             var imageDataUrl =
-                $"data:{format};base64,{Convert.ToBase64String(buffer)}";
+            $"data:{format};base64,{Convert.ToBase64String(buffer)}";
 
             fotos.Add(new Foto
             {
@@ -195,7 +208,9 @@
     }
     void OnChange(object value, string name)
     {
-        var str = value is IEnumerable<object> ? string.Join(", ", (IEnumerable<object>)value) : value;
+        var str = value is IEnumerable<object>
+            ? string.Join(", ", (IEnumerable<object>
+                )value) : value;
         value = name;
 
         Console.WriteLine($"{name} value changed to {str}");
