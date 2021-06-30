@@ -10,14 +10,14 @@
 @inject HttpClient Http
 
 <RadzenCard>
-    <div class="card-header " style="max-height:2.3em;background-color:white;font-size:larger;text-align:justify"><h3> Talep Detayları</h3> </div>
+    <div class="card-header m-2 " style="max-height:2.3em;background-color:white;font-size:larger;text-align:justify"><h3> Talep Detayları</h3> </div>
 
     <div class="row">
         <div class="col-md-6 mt-1">
 
             
-            <MudSelect T="IsAltTipleri" Label="İş Seçiniz" HelperText="İşler" MultiSelection="true" @bind-Value="@valuef"
-                       @bind-SelectedValues="options" ToStringFunc="@converter" Immediate="true">
+            <MudSelect T="IsAltTipleri" Label="Talep Etmek İstediğniz İşi Seçiniz..." HelperText="Çoklu Seçim Yapılabilir." MultiSelection="true" @bind-Value="@secilenalttip"
+                       @bind-SelectedValues="options" ToStringFunc="@converter" >
                 @foreach (var state in IsAltTipleriList)
                 {
                     <MudSelectItem T="IsAltTipleri" Value="@state">@state.IsAltTipi</MudSelectItem>
@@ -107,13 +107,13 @@
     int amirlikid = 0;
 
     bool busy;
-    string value = "fsd";
+    string value = "";
 
     //IEnumerable<Taleptipleri> selectedtalepedilecekisler = new Taleptipleri[] { };
     //List<Taleptipleri> selectedtalepedilecekisler = new List<Taleptipleri>() { };
     IEnumerable<string> selectedtalepedilecekisler = new string[] { };
     private HashSet<IsAltTipleri> options { get; set; } = new HashSet<IsAltTipleri>() {  };
-    private IsAltTipleri valuef { get; set; } = new IsAltTipleri();
+    private IsAltTipleri secilenalttip { get; set; } = new IsAltTipleri();
     Func<IsAltTipleri, string> converter = p => p?.IsAltTipi;
 
   
@@ -133,7 +133,6 @@
     {
         var talep = new Talep
         {
-
             TalepKonu = "rer",
             TalepBaslik = "refe",
             Fotolar = fotos,

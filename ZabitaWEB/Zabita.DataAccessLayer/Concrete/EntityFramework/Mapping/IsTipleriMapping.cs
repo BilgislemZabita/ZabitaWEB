@@ -13,7 +13,7 @@ namespace Zabita.DataAccessLayer.Concrete.EntityFramework.Mapping
     {
         public void Configure(EntityTypeBuilder<IsTipleri> builder)
         {
-            builder.ToTable("IsTipleri")
+            builder.ToTable("IsTipleris")
             .HasKey(x => x.IsId );
 
 
