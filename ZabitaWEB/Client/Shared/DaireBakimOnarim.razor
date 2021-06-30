@@ -17,7 +17,7 @@
 
             
             <MudSelect T="IsAltTipleri" Label="İş Seçiniz" HelperText="İşler" MultiSelection="true" @bind-Value="@valuef"
-                       @bind-SelectedValues="options" ToStringFunc="@converter">
+                       @bind-SelectedValues="options" ToStringFunc="@converter" Immediate="true">
                 @foreach (var state in IsAltTipleriList)
                 {
                     <MudSelectItem T="IsAltTipleri" Value="@state">@state.IsAltTipi</MudSelectItem>
