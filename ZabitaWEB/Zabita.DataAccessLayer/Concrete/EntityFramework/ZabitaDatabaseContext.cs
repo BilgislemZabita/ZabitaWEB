@@ -31,6 +31,8 @@ namespace Zabita.DataAccessLayer.Concrete.EntityFramework
         public DbSet<Talep> Taleps { get; set; }
         public DbSet<IsTipleri> IsTipleris { get; set; }
         public DbSet<IsAltTipleri> IsAltTipleris { get; set; }
+        public DbSet<TalepAltSonucu> TalepAltSonucus { get; set; }
+        public DbSet<TalepSonucu> TalepSonucus { get; set; }
        // public ZabitaDatabaseContext(DbContextOptions<ZabitaDatabaseContext> dbContextOptions) : base(dbContextOptions) { }
 
         //public ZabitaDatabaseContext():base()
