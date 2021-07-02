@@ -37,7 +37,7 @@ namespace ZabitaWEB.Server
             {
                 options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"));
             });
-            services.AddScoped<ZabitaDatabaseContext>();
+            services.AddSingleton<ZabitaDatabaseContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();
         }

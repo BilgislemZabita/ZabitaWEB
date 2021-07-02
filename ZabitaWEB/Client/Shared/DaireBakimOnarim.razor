@@ -17,7 +17,7 @@
 
             
             <MudSelect T="IsAltTipleri" Label="Talep Etmek İstediğniz İşi Seçiniz..." HelperText="Çoklu Seçim Yapılabilir." MultiSelection="true" @bind-Value="@secilenalttip"
-                       @bind-SelectedValues="options" ToStringFunc="@converter">
+                       @bind-SelectedValues="options" ToStringFunc="@converter" Immediate="true">
                 @foreach (var state in IsAltTipleriList)
                 {
                     if (state.IsTipiEslesmeId == this.IsTipiId)
@@ -36,7 +36,7 @@
 
             <RadzenDropDown AllowClear="true" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" TValue="int"
                             @bind-Value=@amirlikid Placeholder="İşin Yapılacağı Amirlik..." Data=@AmirlikList
-                            TextProperty="AmirlikIsım" ValueProperty="AmirlikID" Style="width:100%" />
+                            TextProperty="AmirlikIsım" ValueProperty="AmirlikID" Style="width:100%"  />
 
 
         </div>

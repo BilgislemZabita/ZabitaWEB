@@ -711,6 +711,7 @@ namespace Zabita.DataAccessLayer.Migrations
                     TalepTipi = table.Column<int>(type: "integer", nullable: false),
                     TalepBaslik = table.Column<string>(type: "text", nullable: true),
                     TalepKonu = table.Column<string>(type: "text", nullable: true),
+                    deneme = table.Column<string>(type: "text", nullable: true),
                     TalepAciklama = table.Column<string>(type: "text", nullable: true),
                     YerleskeAciklamasi = table.Column<string>(type: "text", nullable: true),
                     AmirlikId = table.Column<string>(type: "text", nullable: true),

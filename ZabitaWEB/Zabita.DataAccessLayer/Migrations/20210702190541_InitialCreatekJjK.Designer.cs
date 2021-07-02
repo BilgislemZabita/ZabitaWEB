@@ -10,8 +10,8 @@ using Zabita.DataAccessLayer.Concrete.EntityFramework;
 namespace Zabita.DataAccessLayer.Migrations
 {
     [DbContext(typeof(ZabitaDatabaseContext))]
-    [Migration("20210702132256_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20210702190541_InitialCreatekJjK")]
+    partial class InitialCreatekJjK
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

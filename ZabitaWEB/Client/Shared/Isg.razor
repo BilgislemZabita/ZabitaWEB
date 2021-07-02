@@ -1,6 +1,7 @@
 ﻿@page "/talep/isg"
 @using Zabita.Entities.Concrete
 @using ZabitaWEB.Client.Services.Abstract
+@inject IIsAltTiplerisService isalttipleriService
 
 
 <RadzenCard>
@@ -9,25 +10,29 @@
     <div class="row">
         <div class="col-md-6 mt-1">
 
-            <RadzenDropDown AllowClear="true" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
-                            @bind-Value=@multipleValues Multiple="true" Placeholder="Talep Edilecek İş..." Data=@Products TextProperty="IsTipi" ValueProperty="IsId"
-                            Change=@(args => OnChange(args, "DropDown with multiple selection")) Style="width:100%" />
+
+
+            <MudSelect T="IsAltTipleri" Label="Talep Etmek İstediğniz İşi Seçiniz..." HelperText="Çoklu Seçim Yapılabilir." MultiSelection="true" @bind-Value="@secilenalttip"
+                       @bind-SelectedValues="options" ToStringFunc="@converter" Immediate="true">
+                @foreach (var state in IsAltTipleriList)
+                {
+                    if (state.IsTipiEslesmeId == this.IsTipiId)
+                    {
+                        <MudSelectItem T="IsAltTipleri" Value="@state">@state.IsAltTipi</MudSelectItem>
+
+                    }
+                }
+            </MudSelect>
 
 
         </div>
-        <div class="col-md-6 mt-1">
 
-            <RadzenDropDown AllowClear="true" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
-                            @bind-Value=@multipleValues Multiple="true" Placeholder="İşin Yapılacağı Yerleşke" Data=@Products TextProperty="CompanyName" ValueProperty="CustomerID"
-                            Change=@(args => OnChange(args, "DropDown with multiple selection")) Style="width:100%" />
-
-        </div>
 
 
 
 
     </div>
-  
+
 
 
 </RadzenCard>
@@ -35,18 +40,30 @@
 
 @code {
 
-    IEnumerable<int> multipleValues = new int[] { };
+    [Parameter]
+    public string IsTipiId { get; set; }
 
-    public IEnumerable<IsTipleri> Products { get; set; }
+    private IsAltTipleri secilenalttip { get; set; } = new IsAltTipleri();
+    Func<IsAltTipleri, string> converter = p => p?.IsAltTipi;
+    private HashSet<IsAltTipleri> options { get; set; } = new HashSet<IsAltTipleri>() { };
 
-    List<IsTipleri> Options = new List<IsTipleri>();
+    IEnumerable<IsAltTipleri> IsAltTipleri;
+    List<IsAltTipleri> IsAltTipleriList = new List<IsAltTipleri>();
 
 
-    void OnChange(object value, string name)
+    protected async override void OnParametersSet()
     {
-        var str = value is IEnumerable<object> ? string.Join(", ", (IEnumerable<object>)value) : value;
+        //Taleptipleri = await istipleriService.GetIsTipleris();
+        IsAltTipleri = await isalttipleriService.GetIsAltTipleris();
 
-        Console.WriteLine($"{name} value changed to {str}");
+        //Amirlikler = await amirliksService.GetAmirliks();
+        //listtalep = await talepsService.GetTaleps();
+        //IsTipleriList.AddRange(lististipleri);
+        //AmirlikList.AddRange(listyerleske);
+        // TalepList.AddRange(listtalep);
+        IsAltTipleriList.AddRange(IsAltTipleri);
+        //TalepTipleriList.AddRange(Taleptipleri);
+        //AmirlikList.AddRange(Amirlikler);
+
     }
-
 }

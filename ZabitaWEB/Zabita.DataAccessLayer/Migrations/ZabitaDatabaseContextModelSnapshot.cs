@@ -579,9 +579,6 @@ namespace Zabita.DataAccessLayer.Migrations
                     b.Property<string>("YerleskeAciklamasi")
                         .HasColumnType("text");
 
-                    b.Property<string>("deneme")
-                        .HasColumnType("text");
-
                     b.HasKey("TalepId");
 
                     b.HasIndex("TalebiIsteyenPersonelPersonelId");

@@ -23,7 +23,7 @@
                 <div class="col-md-6 mt-3">
                    
                     <RadzenDropDown TValue="int" @bind-Value=@istipiid Placeholder="İş Seçiniz..." Data="@(IsTipleriList.Where(o => o.AmirlikId == amirlikid.ToString()))" 
-                                    Change=@(args => OnChange(args, "DropDown with multiple selection")) TextProperty="IsTipi" ValueProperty="IsId"
+                                    Change=@(args => OnChange(args, "DropDown with multiple selection")) TextProperty="IsTipi" ValueProperty="IstipiID"
                                     Style="margin-bottom: 20px; width: 100%" />
 
                 </div>
@@ -66,7 +66,9 @@
                 }
                 else if (widget.Key == 2 && istipiid == 2)
                 {
-                    <Isg/>
+                    string zz = istipiid.ToString();
+
+                    <Isg IsTipiId="@zz"/>
                 }
 
             }
