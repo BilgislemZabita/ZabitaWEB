@@ -15,7 +15,7 @@ namespace Zabita.Entities.Concrete
 
         public virtual string TalepBaslik { get; set; }
         public virtual string TalepKonu { get; set; }
-        //public virtual string deneme { get; set; }
+        public virtual string deneme { get; set; }
         public virtual string TalepAciklama { get; set; }
         public virtual string YerleskeAciklamasi { get; set; }
         public virtual string AmirlikId { get; set; }
