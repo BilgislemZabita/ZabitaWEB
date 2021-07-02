@@ -12,14 +12,14 @@ namespace Zabita.DataAccessLayer.Validation.Conrete.Validation.MobilValidation
         public PersonelValidator()
         {
             RuleFor(x => x.KullaniciAdi).NotEmpty().WithMessage("Kullanıcı adını boş bırakma!");
-            RuleFor(x => x.KullaniciAdi).Must(IsUnique).WithMessage("Kullanıcı adı veritabanında mevcut!!!").WithSeverity(Severity.Warning);
+            //RuleFor(x => x.KullaniciAdi).Must(IsUnique).WithMessage("Kullanıcı adı veritabanında mevcut!!!").WithSeverity(Severity.Warning);
         }
 
-        private bool IsUnique(string str)
-        {
-            KontrolUnique kontrolUnique = new KontrolUnique();
-            var result = kontrolUnique.KontrolPersonelKullaniciAdi(str);
-            return result;
-        }
+        //private bool IsUnique(string str)
+        //{
+        //    KontrolUnique kontrolUnique = new KontrolUnique();
+        //    var result = kontrolUnique.KontrolPersonelKullaniciAdi(str);
+        //    return result;
+        //}
     }
 }

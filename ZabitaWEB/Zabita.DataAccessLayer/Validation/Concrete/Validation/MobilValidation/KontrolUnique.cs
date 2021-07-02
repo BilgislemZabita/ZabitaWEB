@@ -7,19 +7,19 @@ namespace Zabita.DataAccessLayer.Validation.Conrete.Validation.MobilValidation
 {
     public class KontrolUnique
     {
-        public bool KontrolPersonelKullaniciAdi(string str)
-        {
-            using (ZabitaDatabaseContext cont = new ZabitaDatabaseContext())
-            {
-                var resultf = (from oda in cont.Set<Personel>().Select(s => s.KullaniciAdi)
-                               where oda == str
-                               select oda).Count();
+        //public bool KontrolPersonelKullaniciAdi(string str)
+        //{
+        //    using (ZabitaDatabaseContext cont = new ZabitaDatabaseContext())
+        //    {
+        //        var resultf = (from oda in cont.Set<Personel>().Select(s => s.KullaniciAdi)
+        //                       where oda == str
+        //                       select oda).Count();
 
-                bool result = resultf == 0;
+        //        bool result = resultf == 0;
 
-                return result;
-            }
-        }
+        //        return result;
+        //    }
+        //}
 
         //public bool KontrolYerleskeIsim(string str)
         //{

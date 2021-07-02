@@ -34,7 +34,7 @@ namespace Zabita.DataAccessLayer.Concrete.EntityFramework
         public DbSet<TalepAltSonucu> TalepAltSonucus { get; set; }
         public DbSet<TalepSonucu> TalepSonucus { get; set; }
 
-       //public ZabitaDatabaseContext(DbContextOptions<ZabitaDatabaseContext> dbContextOptions) : base(dbContextOptions) { }
+        //public ZabitaDatabaseContext(DbContextOptions<ZabitaDatabaseContext> dbContextOptions) : base(dbContextOptions) { }
 
         //public ZabitaDatabaseContext():base()
         //{
@@ -43,11 +43,11 @@ namespace Zabita.DataAccessLayer.Concrete.EntityFramework
         /*      public DbSet<MudurlukYerleskec> MudurlukYerleskecs { get; set; }
               public DbSet<AmirlikYerleskec> AmirlikYerleskecs { get; set; }
               public DbSet<OdaYerleskec> OdaYerleskecs { get; set; }*/
-      //  public ZabitaDatabaseContext(
-      //DbContextOptions options,
-      //IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options, operationalStoreOptions)
-      //  {
-      //  }
+        //  public ZabitaDatabaseContext(
+        //DbContextOptions options,
+        //IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options, operationalStoreOptions)
+        //  {
+        //  }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
            // optionsBuilder.UseNpgsql("Host=rogue.db.elephantsql.com;Database=kjnzrnst;Username=kjnzrnst;Password=c1eikpfygm6lmEiqLZIx8CRA4kFqQOiG");
