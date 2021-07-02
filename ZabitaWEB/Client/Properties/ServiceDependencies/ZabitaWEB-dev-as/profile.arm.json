@@ -1,6 +1,7 @@
 {
   "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
+
   "metadata": {
     "_dependencyType": "appService.windows"
   },
@@ -33,10 +34,6 @@
         "description": "Location of the resource. By default use resource group's location, unless the resource provider is not supported there."
       }
     }
-  },
-  "variables": {
-    "appServicePlan_name": "[concat('Plan', uniqueString(concat(parameters('resourceName'), subscription().subscriptionId)))]",
-    "appServicePlan_ResourceId": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', parameters('resourceGroupName'), '/providers/Microsoft.Web/serverFarms/', variables('appServicePlan_name'))]"
   },
   "resources": [
     {
@@ -109,5 +106,9 @@
         }
       }
     }
-  ]
+  ],
+  "variables": {
+    "appServicePlan_name": "[concat('Plan', uniqueString(concat(parameters('resourceName'), subscription().subscriptionId)))]",
+    "appServicePlan_ResourceId": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', parameters('resourceGroupName'), '/providers/Microsoft.Web/serverFarms/', variables('appServicePlan_name'))]"
+  }
 }

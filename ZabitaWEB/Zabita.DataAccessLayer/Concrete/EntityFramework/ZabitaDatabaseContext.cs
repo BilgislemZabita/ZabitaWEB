@@ -33,7 +33,8 @@ namespace Zabita.DataAccessLayer.Concrete.EntityFramework
         public DbSet<IsAltTipleri> IsAltTipleris { get; set; }
         public DbSet<TalepAltSonucu> TalepAltSonucus { get; set; }
         public DbSet<TalepSonucu> TalepSonucus { get; set; }
-       // public ZabitaDatabaseContext(DbContextOptions<ZabitaDatabaseContext> dbContextOptions) : base(dbContextOptions) { }
+
+       //public ZabitaDatabaseContext(DbContextOptions<ZabitaDatabaseContext> dbContextOptions) : base(dbContextOptions) { }
 
         //public ZabitaDatabaseContext():base()
         //{
@@ -201,7 +202,11 @@ namespace Zabita.DataAccessLayer.Concrete.EntityFramework
 
             #endregion Modul
 
-            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
+            #region talep
+           
+            #endregion talep
+                          modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
             base.OnModelCreating(modelBuilder);
         }
     }

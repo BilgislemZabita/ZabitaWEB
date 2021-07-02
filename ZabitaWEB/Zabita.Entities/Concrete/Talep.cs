@@ -15,10 +15,12 @@ namespace Zabita.Entities.Concrete
 
         public virtual string TalepBaslik { get; set; }
         public virtual string TalepKonu { get; set; }
+        //public virtual string deneme { get; set; }
         public virtual string TalepAciklama { get; set; }
         public virtual string YerleskeAciklamasi { get; set; }
+        public virtual string AmirlikId { get; set; }
         public virtual Amirlik TalepAmirlik { get; set; }
-        public virtual IsTipleri IsTiplerid { get; set; }
+        public virtual IsTipleri TalepIstipleri { get; set; }
         public virtual Personel TalebiIsteyenPersonel { get; set; }
         public virtual Personel TalebiKarsilayanPersonel { get; set; }
         public virtual DateTime TalebinYapilmaTarihi { get; set; }

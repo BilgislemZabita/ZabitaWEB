@@ -47,7 +47,7 @@ namespace ZabitaWEB.Server.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutIsTipleri(int id, IsTipleri isTipleri)
         {
-            if (id != isTipleri.IsId)
+            if (id != isTipleri.IstipiID)
             {
                 return BadRequest();
             }
@@ -81,7 +81,7 @@ namespace ZabitaWEB.Server.Controllers
             _context.IsTipleris.Add(isTipleri);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetIsTipleri", new { id = isTipleri.IsId }, isTipleri);
+            return CreatedAtAction("GetIsTipleri", new { id = isTipleri.IstipiID }, isTipleri);
         }
 
         // DELETE: api/IsTipleris/5
@@ -102,7 +102,7 @@ namespace ZabitaWEB.Server.Controllers
 
         private bool IsTipleriExists(int id)
         {
-            return _context.IsTipleris.Any(e => e.IsId == id);
+            return _context.IsTipleris.Any(e => e.IstipiID == id);
         }
     }
 }

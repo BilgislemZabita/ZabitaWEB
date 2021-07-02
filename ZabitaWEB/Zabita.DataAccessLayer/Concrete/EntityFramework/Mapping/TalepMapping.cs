@@ -16,7 +16,7 @@ namespace Zabita.DataAccessLayer.Concrete.EntityFramework.Mapping
 
             builder
                .HasOne(m => m.TalebiIsteyenPersonel)
-               .WithMany(m => m.Taleps); 
+               .WithMany(m => m.Taleps);
             builder
                .HasMany(m => m.Fotolar)
                .WithOne(m => m.FotoTalep).OnDelete(DeleteBehavior.Cascade);

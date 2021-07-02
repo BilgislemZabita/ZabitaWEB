@@ -18,5 +18,8 @@ namespace Zabita.Entities.Concrete
 
         public virtual string TalepSonucuAciklama { get; set; }
         public virtual string TalepSonucuKapanisBilgisi { get; set; }
+        public virtual string TalepId { get; set; }
+        public virtual ICollection<IsAltTipleri> IsAltTiplerisList { get; set; }
+
     }
 }

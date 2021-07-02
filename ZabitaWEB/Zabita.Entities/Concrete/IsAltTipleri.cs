@@ -13,9 +13,9 @@ namespace Zabita.Entities.Concrete
         [Key]
         public virtual int IsAltTipiId { get; set; }
         public virtual string IsAltTipi { get; set; }
-        //public virtual Amirlik IsTipiAmirlik { get; set; }
-        public virtual string IstipiId { get; set; }
+        public virtual string IsTipiEslesmeId { get; set; }
         public virtual string IsAltTipiAciklama { get; set; }
+        public virtual Talep IstipiTalep { get; set; }
 
     }
 }
