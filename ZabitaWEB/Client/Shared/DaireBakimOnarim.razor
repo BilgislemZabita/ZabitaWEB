@@ -88,7 +88,7 @@
             }
             else
             {
-                <RadzenButton style="margin: 0 1rem 1rem 0; width: 100%" Icon="save" BusyText="Kayıt Yapılıyor ..." IsBusy=@busy Click=@OnBusyClick Text="TALEBİ KAYDET" />
+                <RadzenButton style="margin: 0 1rem 1rem 0; width: 100%" Icon="save" BusyText="Kayıt Yapılıyor ..." IsBusy=@busy Click=@OnBusyClick Text="TALEBİ KAYDET" Disabled=@disabled />
 
             }
 
@@ -100,6 +100,8 @@
 
 
 @code {
+    bool disabled = false;
+
     IList<IBrowserFile> files = new List<IBrowserFile>();
 
     List<Talep> TalepList = new List<Talep>();
@@ -124,6 +126,7 @@
 
 
     IList<Foto>fotos = new List<Foto>();
+    IList<TalepAltSonucu>talepAltSonucus = new List<TalepAltSonucu>();
 
 
     IEnumerable<IsTipleri>  Taleptipleri { get; set; }
@@ -136,6 +139,17 @@
 
     async Task OnBusyClick()
     {
+        foreach (var ist in options)
+        {
+            talepAltSonucus.Add(new TalepAltSonucu()
+            {
+                TalepAltSonucuAciklama = ist.IsAltTipiAciklama,
+                TalepAltSonucuTipi = ist.IsAltTipi
+            }
+
+            );
+
+        }
         var talep = new Talep
         {
             TalepKonu = amirlikid.ToString(),
@@ -143,6 +157,10 @@
             TalepAciklama=isbilgileri,
             Fotolar = fotos,
             YerleskeAciklamasi=yerleskebilgileri,
+            AmirlikId=amirlikid.ToString(),
+            TalebinYapilmaTarihi=DateTime.Now,
+            TalepAltSonucus=talepAltSonucus,
+            TalepIstipleriID=IsTipiId
 
         };
 
@@ -154,6 +172,8 @@
         busy = false;
         Snackbar.Configuration.PositionClass = Defaults.Classes.Position.TopRight;
         Snackbar.Add("Kayıt Başarılı!", Severity.Success);
+        disabled = true;
+
     }
 
 

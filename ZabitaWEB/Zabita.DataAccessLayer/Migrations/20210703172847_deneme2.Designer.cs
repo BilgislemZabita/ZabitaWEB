@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Zabita.DataAccessLayer.Concrete.EntityFramework;
@@ -9,9 +10,10 @@ using Zabita.DataAccessLayer.Concrete.EntityFramework;
 namespace Zabita.DataAccessLayer.Migrations
 {
     [DbContext(typeof(ZabitaDatabaseContext))]
-    partial class ZabitaDatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20210703172847_deneme2")]
+    partial class deneme2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -567,14 +569,8 @@ namespace Zabita.DataAccessLayer.Migrations
                     b.Property<string>("TalepBaslik")
                         .HasColumnType("text");
 
-                    b.Property<string>("TalepIstipleriID")
-                        .HasColumnType("text");
-
                     b.Property<int?>("TalepIstipleriIstipiID")
                         .HasColumnType("integer");
-
-                    b.Property<string>("TalepKapanisBilgisi")
-                        .HasColumnType("text");
 
                     b.Property<string>("TalepKonu")
                         .HasColumnType("text");
@@ -614,8 +610,8 @@ namespace Zabita.DataAccessLayer.Migrations
                     b.Property<string>("TalepAltSonucuKapanisBilgisi")
                         .HasColumnType("text");
 
-                    b.Property<string>("TalepAltSonucuTipi")
-                        .HasColumnType("text");
+                    b.Property<int>("TalepAltSonucuTipi")
+                        .HasColumnType("integer");
 
                     b.Property<string>("TalepId")
                         .HasColumnType("text");

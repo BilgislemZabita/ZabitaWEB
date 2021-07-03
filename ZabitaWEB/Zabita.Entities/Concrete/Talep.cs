@@ -21,11 +21,13 @@ namespace Zabita.Entities.Concrete
         public virtual string AmirlikId { get; set; }
         public virtual Amirlik TalepAmirlik { get; set; }
         public virtual IsTipleri TalepIstipleri { get; set; }
+        public virtual string TalepIstipleriID { get; set; }
         public virtual Personel TalebiIsteyenPersonel { get; set; }
         public virtual Personel TalebiKarsilayanPersonel { get; set; }
         public virtual DateTime TalebinYapilmaTarihi { get; set; }
         public virtual DateTime TalebinKarsilanmaTarihi { get; set; }
         public virtual ICollection<Foto> Fotolar { get; set; }
-        public virtual ICollection<IsAltTipleri> IsAltTipleris { get; set; }
+        public virtual ICollection<TalepAltSonucu> TalepAltSonucus { get; set; }
+        public virtual string TalepKapanisBilgisi { get; set; }
     }
 }

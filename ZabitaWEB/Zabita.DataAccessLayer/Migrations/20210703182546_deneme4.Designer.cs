@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Zabita.DataAccessLayer.Concrete.EntityFramework;
@@ -9,9 +10,10 @@ using Zabita.DataAccessLayer.Concrete.EntityFramework;
 namespace Zabita.DataAccessLayer.Migrations
 {
     [DbContext(typeof(ZabitaDatabaseContext))]
-    partial class ZabitaDatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20210703182546_deneme4")]
+    partial class deneme4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -567,14 +569,11 @@ namespace Zabita.DataAccessLayer.Migrations
                     b.Property<string>("TalepBaslik")
                         .HasColumnType("text");
 
-                    b.Property<string>("TalepIstipleriID")
-                        .HasColumnType("text");
+                    b.Property<int?>("TalepIstipleriIDIstipiID")
+                        .HasColumnType("integer");
 
                     b.Property<int?>("TalepIstipleriIstipiID")
                         .HasColumnType("integer");
-
-                    b.Property<string>("TalepKapanisBilgisi")
-                        .HasColumnType("text");
 
                     b.Property<string>("TalepKonu")
                         .HasColumnType("text");
@@ -592,6 +591,8 @@ namespace Zabita.DataAccessLayer.Migrations
                     b.HasIndex("TalebiKarsilayanPersonelPersonelId");
 
                     b.HasIndex("TalepAmirlikAmirlikID");
+
+                    b.HasIndex("TalepIstipleriIDIstipiID");
 
                     b.HasIndex("TalepIstipleriIstipiID");
 
@@ -1264,6 +1265,10 @@ namespace Zabita.DataAccessLayer.Migrations
                         .WithMany()
                         .HasForeignKey("TalepAmirlikAmirlikID");
 
+                    b.HasOne("Zabita.Entities.Concrete.IsTipleri", "TalepIstipleriID")
+                        .WithMany()
+                        .HasForeignKey("TalepIstipleriIDIstipiID");
+
                     b.HasOne("Zabita.Entities.Concrete.IsTipleri", "TalepIstipleri")
                         .WithMany()
                         .HasForeignKey("TalepIstipleriIstipiID");
@@ -1275,6 +1280,8 @@ namespace Zabita.DataAccessLayer.Migrations
                     b.Navigation("TalepAmirlik");
 
                     b.Navigation("TalepIstipleri");
+
+                    b.Navigation("TalepIstipleriID");
                 });
 
             modelBuilder.Entity("Zabita.Entities.Concrete.TalepAltSonucu", b =>
