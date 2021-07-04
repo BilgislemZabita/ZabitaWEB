@@ -8,29 +8,49 @@
 
 <div class="row">
     <div class="col-md-12">
+
         <RadzenCard>
-            <div class="card-header " style="max-height:2.3em;background-color:white;font-size:larger;text-align:justify"><h3> İş Seçimi</h3> </div>
+          
 
-            <div class="row">
-                <div class="col-md-6 mt-3">
+           
 
-                    <RadzenDropDown AllowClear="true" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
-                                    TValue="int" @bind-Value=@amirlikid Placeholder="Amirlik Seçiniz..."
-                                    Data=@AmirlikList SelectedItem="@selectedamirliks" TextProperty="AmirlikIsım" ValueProperty="AmirlikID" Style="width:100%" />
-                    <MudText>Seçilen Amirlik :@selectedamirliks</MudText>
+            <div class="card-header " style="max-height:3em;background-color:white;font-size:larger;text-align:justify">
+                <div class="row">
+                    <div class="col-6">
 
+                        <h3> İş Seçimi </h3>
+                       
+                    </div>
+                    <div class="col-6">
+
+                        <div class="d-grid gap-0 d-flex justify-content-end"  >
+                            <button @onclick="@ReloadData" class="btn btn-sm" type="button">
+                                <RadzenIcon Icon="cached" />
+                            </button>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-md-6 mt-3">
-                   
-                    <RadzenDropDown TValue="int" @bind-Value=@istipiid Placeholder="İş Seçiniz..." Data="@(IsTipleriList.Where(o => o.AmirlikId == amirlikid.ToString()))" 
-                                    Change=@(args => OnChange(args, "DropDown with multiple selection")) TextProperty="IsTipi" ValueProperty="IstipiID"
-                                    Style="margin-bottom: 20px; width: 100%" />
+                    </div>
 
-                </div>
+                    <div class="row">
+                        <div class="col-md-6 mt-3">
 
-            </div>
+                            <RadzenDropDown AllowClear="true" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
+                                            TValue="int" @bind-Value=@amirlikid Placeholder="Amirlik Seçiniz..."
+                                            Data=@AmirlikList SelectedItem="@selectedamirliks" TextProperty="AmirlikIsım" ValueProperty="AmirlikID" Style="width:100%" />
 
-        </RadzenCard>
+                        </div>
+                        <div class="col-md-6 mt-3">
+
+                            <RadzenDropDown TValue="int" @bind-Value=@istipiid Placeholder="İş Seçiniz..." Data="@(IsTipleriList.Where(o => o.AmirlikId == amirlikid.ToString()))"
+                                            Change=@(args => OnChange(args, "DropDown with multiple selection")) TextProperty="IsTipi" ValueProperty="IstipiID"
+                                            Style="margin-bottom: 20px; width: 100%" />
+
+                        </div>
+
+                    </div>
+
+</RadzenCard>
     </div>
 </div>
 <div class="row">
@@ -43,22 +63,10 @@
         else
 
         {
-            @foreach (var widget in _components)
-            {
-                switch (widget.Key)
-                {
-                    case 1:
-                        @*<DaireBakimOnarim Products=Options />*@
-                        break;
-                    case 2:
-                        @*<Isg Products=Options />*@
-                        break;
 
-                }
-            }
             @foreach (var widget in _components)
             {
-                if (widget.Key == 1 && istipiid==1 )
+                if (widget.Key == 1 && istipiid == 1)
                 {
                     string zz = istipiid.ToString();
                     <DaireBakimOnarim IsTipiId=@zz />
@@ -68,7 +76,7 @@
                 {
                     string zz = istipiid.ToString();
 
-                    <Isg IsTipiId="@zz"/>
+                    <Isg IsTipiId="@zz" />
                 }
 
             }
@@ -83,10 +91,10 @@
 
 @code {
 
-    Dictionary<int, IComponent> _components = new Dictionary<int,IComponent>();
-    int amirlikid=0 ;
+    Dictionary<int, IComponent> _components = new Dictionary<int, IComponent>();
+    int amirlikid = 0;
     IEnumerable<string> selectedamirliks;
-    int istipiid=0 ;
+    int istipiid = 0;
 
 
 
@@ -94,7 +102,7 @@
     List<Talep> TalepList = new List<Talep>();
     List<IsTipleri> IsTipleriList = new List<IsTipleri>();
 
-    IEnumerable<Amirlik> listyerleske;
+    IEnumerable<Amirlik> listamirlik;
     IEnumerable<Talep> listtalep;
     IEnumerable<IsTipleri> lististipleri;
 
@@ -109,22 +117,48 @@
         UriHelper.NavigateTo("daire");
     }
 
-
-
-    protected async override void OnInitialized()
+    async void  ReloadData()
     {
-        listyerleske = await amirliksService.GetAmirliks();
+        IsTipleriList.Clear();
+        AmirlikList.Clear();
+        _components.Clear();
+        this.OnParametersSet();
+        //IsTipleriList.Clear();
+        //AmirlikList.Clear();
+        //lististipleri = await istipleriService.GetIsTipleris();
 
 
-        // listtalep = await talepsService.GetTaleps();
-        lististipleri = await istipleriService.GetIsTipleris();
-        IsTipleriList.AddRange(lististipleri);
-        AmirlikList.AddRange(listyerleske);
+        //listamirlik = await amirliksService.GetAmirliks();
+
+        //var amirlik = listamirlik.Where(s => s.TalepEdilebilir == true);
+        //// listtalep = await talepsService.GetTaleps();
+        //IsTipleriList.AddRange(lististipleri);
+
+        //AmirlikList.AddRange(amirlik);
+        //StateHasChanged();
+
         //TalepList.AddRange(listtalep);
-
-        _components.Add(1,new DaireBakimOnarim());
-        _components.Add(2,new Isg());
     }
+    protected async override void OnParametersSet()
+    {
+        lististipleri = await istipleriService.GetIsTipleris();
+
+
+        listamirlik = await amirliksService.GetAmirliks();
+
+        var amirlik = listamirlik.Where(s => s.TalepEdilebilir == true);
+        // listtalep = await talepsService.GetTaleps();
+        IsTipleriList.AddRange(lististipleri);
+
+        AmirlikList.AddRange(amirlik);
+        //TalepList.AddRange(listtalep);
+        
+        _components.Add(1, new DaireBakimOnarim());
+        _components.Add(2, new Isg());
+
+    }
+
+
 
 
     void OnPaste(HtmlEditorPasteEventArgs args)

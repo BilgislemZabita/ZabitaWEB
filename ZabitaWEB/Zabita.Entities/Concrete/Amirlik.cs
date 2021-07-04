@@ -12,6 +12,7 @@ namespace Zabita.Entities.Concrete
         public virtual string AmirlikIsım { get; set; }
 
         public virtual string AmirlikSeriNo { get; set; }
+        public virtual bool TalepEdilebilir { get; set; }
 
         public virtual Mudurluk AmirlikMudurluk { get; set; }
 

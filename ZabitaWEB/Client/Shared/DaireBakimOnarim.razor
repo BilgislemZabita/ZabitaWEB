@@ -8,6 +8,8 @@
 
 @inject ISnackbar Snackbar
 @inject HttpClient Http
+@inject NavigationManager NavigationManager
+
 
 <RadzenCard>
     <div class="card-header m-2 " style="max-height:2.3em;background-color:white;font-size:larger;text-align:justify"><h3> Talep Detayları</h3> </div>
@@ -15,7 +17,7 @@
     <div class="row">
         <div class="col-md-6 mt-1">
 
-            
+
             <MudSelect T="IsAltTipleri" Label="Talep Etmek İstediğniz İşi Seçiniz..." HelperText="Çoklu Seçim Yapılabilir." MultiSelection="true" @bind-Value="@secilenalttip"
                        @bind-SelectedValues="options" ToStringFunc="@converter" Immediate="true">
                 @foreach (var state in IsAltTipleriList)
@@ -27,7 +29,7 @@
                     }
                 }
             </MudSelect>
-       
+
 
 
         </div>
@@ -36,7 +38,7 @@
 
             <RadzenDropDown AllowClear="true" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" TValue="int"
                             @bind-Value=@amirlikid Placeholder="İşin Yapılacağı Amirlik..." Data=@AmirlikList
-                            TextProperty="AmirlikIsım" ValueProperty="AmirlikID" Style="width:100%"  />
+                            TextProperty="AmirlikIsım" ValueProperty="AmirlikID" Style="width:100%" />
 
 
         </div>
@@ -51,7 +53,7 @@
 
         </div>
         <div class="col-md-6 mt-1">
-            <RadzenTextArea Change=@(args => OnChange(args, "TextArea")) Style="width:100%" Placeholder="Yerleşkenin Adres Bilgileri... "@bind-Value="@yerleskebilgileri" />
+            <RadzenTextArea Change=@(args => OnChange(args, "TextArea")) Style="width:100%" Placeholder="Yerleşkenin Adres Bilgileri... " @bind-Value="@yerleskebilgileri" />
         </div>
     </div>
 
@@ -119,20 +121,20 @@
     //IEnumerable<Taleptipleri> selectedtalepedilecekisler = new Taleptipleri[] { };
     //List<Taleptipleri> selectedtalepedilecekisler = new List<Taleptipleri>() { };
     IEnumerable<string> selectedtalepedilecekisler = new string[] { };
-    private HashSet<IsAltTipleri> options { get; set; } = new HashSet<IsAltTipleri>() {  };
+    private HashSet<IsAltTipleri> options { get; set; } = new HashSet<IsAltTipleri>() { };
     private IsAltTipleri secilenalttip { get; set; } = new IsAltTipleri();
     Func<IsAltTipleri, string> converter = p => p?.IsAltTipi;
 
 
 
-    IList<Foto>fotos = new List<Foto>();
-    IList<TalepAltSonucu>talepAltSonucus = new List<TalepAltSonucu>();
+    IList<Foto> fotos = new List<Foto>();
+    IList<TalepAltSonucu> talepAltSonucus = new List<TalepAltSonucu>();
 
 
-    IEnumerable<IsTipleri>  Taleptipleri { get; set; }
+    IEnumerable<IsTipleri> Taleptipleri { get; set; }
     IEnumerable<Amirlik> Amirlikler { get; set; }
-    IEnumerable<Talep>    Talepler { get; set; }
-    IEnumerable<IsAltTipleri>  IsAltTipleri;
+    IEnumerable<Talep> Talepler { get; set; }
+    IEnumerable<IsAltTipleri> IsAltTipleri;
 
     [Parameter]
     public string IsTipiId { get; set; }
@@ -154,13 +156,13 @@
         {
             TalepKonu = amirlikid.ToString(),
             TalepBaslik = "deneme",
-            TalepAciklama=isbilgileri,
+            TalepAciklama = isbilgileri,
             Fotolar = fotos,
-            YerleskeAciklamasi=yerleskebilgileri,
-            AmirlikId=amirlikid.ToString(),
-            TalebinYapilmaTarihi=DateTime.Now,
-            TalepAltSonucus=talepAltSonucus,
-            TalepIstipleriID=IsTipiId
+            YerleskeAciklamasi = yerleskebilgileri,
+            AmirlikId = amirlikid.ToString(),
+            TalebinYapilmaTarihi = DateTime.Now,
+            TalepAltSonucus = talepAltSonucus,
+            TalepIstipleriID = IsTipiId
 
         };
 
@@ -173,6 +175,8 @@
         Snackbar.Configuration.PositionClass = Defaults.Classes.Position.TopRight;
         Snackbar.Add("Kayıt Başarılı!", Severity.Success);
         disabled = true;
+        NavigationManager.NavigateTo("talep", true);
+
 
     }
 
@@ -185,7 +189,7 @@
     {
         Taleptipleri = await istipleriService.GetIsTipleris();
         IsAltTipleri = await isalttipleriService.GetIsAltTipleris();
-        foreach(var z in IsAltTipleri)
+        foreach (var z in IsAltTipleri)
         {
             Istipi.Append(z.IsAltTipi);
         }
