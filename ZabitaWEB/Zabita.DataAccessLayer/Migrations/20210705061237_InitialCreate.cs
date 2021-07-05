@@ -95,23 +95,6 @@ namespace Zabita.DataAccessLayer.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TalepAltSonucus",
-                columns: table => new
-                {
-                    TalepAltSonucuId = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    TalepAltSonucuTipi = table.Column<int>(type: "integer", nullable: false),
-                    TalepAltSonucuIlgiliTalepTipi = table.Column<int>(type: "integer", nullable: false),
-                    TalepAltSonucuAciklama = table.Column<string>(type: "text", nullable: true),
-                    TalepAltSonucuKapanisBilgisi = table.Column<string>(type: "text", nullable: true),
-                    TalepId = table.Column<string>(type: "text", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TalepAltSonucus", x => x.TalepAltSonucuId);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "TalepSonucus",
                 columns: table => new
                 {
@@ -180,6 +163,7 @@ namespace Zabita.DataAccessLayer.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     AmirlikIsım = table.Column<string>(type: "text", nullable: true),
                     AmirlikSeriNo = table.Column<string>(type: "text", nullable: true),
+                    TalepEdilebilir = table.Column<bool>(type: "boolean", nullable: false),
                     AmirlikMudurlukMudurlukId = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
@@ -711,16 +695,17 @@ namespace Zabita.DataAccessLayer.Migrations
                     TalepTipi = table.Column<int>(type: "integer", nullable: false),
                     TalepBaslik = table.Column<string>(type: "text", nullable: true),
                     TalepKonu = table.Column<string>(type: "text", nullable: true),
-                    deneme = table.Column<string>(type: "text", nullable: true),
                     TalepAciklama = table.Column<string>(type: "text", nullable: true),
                     YerleskeAciklamasi = table.Column<string>(type: "text", nullable: true),
                     AmirlikId = table.Column<string>(type: "text", nullable: true),
                     TalepAmirlikAmirlikID = table.Column<int>(type: "integer", nullable: true),
                     TalepIstipleriIstipiID = table.Column<int>(type: "integer", nullable: true),
+                    TalepIstipleriID = table.Column<string>(type: "text", nullable: true),
                     TalebiIsteyenPersonelPersonelId = table.Column<int>(type: "integer", nullable: true),
                     TalebiKarsilayanPersonelPersonelId = table.Column<int>(type: "integer", nullable: true),
                     TalebinYapilmaTarihi = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    TalebinKarsilanmaTarihi = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
+                    TalebinKarsilanmaTarihi = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    TalepKapanisBilgisi = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -813,6 +798,30 @@ namespace Zabita.DataAccessLayer.Migrations
                         column: x => x.TalepSonucuId,
                         principalTable: "TalepSonucus",
                         principalColumn: "TalepSonucuId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TalepAltSonucus",
+                columns: table => new
+                {
+                    TalepAltSonucuId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    TalepAltSonucuTipi = table.Column<string>(type: "text", nullable: true),
+                    TalepAltSonucuIlgiliTalepTipi = table.Column<int>(type: "integer", nullable: false),
+                    TalepAltSonucuAciklama = table.Column<string>(type: "text", nullable: true),
+                    TalepAltSonucuKapanisBilgisi = table.Column<string>(type: "text", nullable: true),
+                    TalepId = table.Column<string>(type: "text", nullable: true),
+                    TaleptalepaltsonucuTalepId = table.Column<int>(type: "integer", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TalepAltSonucus", x => x.TalepAltSonucuId);
+                    table.ForeignKey(
+                        name: "FK_TalepAltSonucus_Talep_TaleptalepaltsonucuTalepId",
+                        column: x => x.TaleptalepaltsonucuTalepId,
+                        principalTable: "Talep",
+                        principalColumn: "TalepId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -1046,6 +1055,11 @@ namespace Zabita.DataAccessLayer.Migrations
                 column: "TalepIstipleriIstipiID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_TalepAltSonucus_TaleptalepaltsonucuTalepId",
+                table: "TalepAltSonucus",
+                column: "TaleptalepaltsonucuTalepId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_yerleskebakimonarims_YerleskeBakimOnarimAmirlikAmirlikID",
                 table: "yerleskebakimonarims",
                 column: "YerleskeBakimOnarimAmirlikAmirlikID");
@@ -1261,13 +1275,13 @@ namespace Zabita.DataAccessLayer.Migrations
                 name: "yerleskeTeknikBilgiler");
 
             migrationBuilder.DropTable(
-                name: "Talep");
-
-            migrationBuilder.DropTable(
                 name: "TalepSonucus");
 
             migrationBuilder.DropTable(
                 name: "Takvims");
+
+            migrationBuilder.DropTable(
+                name: "Talep");
 
             migrationBuilder.DropTable(
                 name: "IsTipleris");

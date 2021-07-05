@@ -2,144 +2,121 @@
 @using ZabitaWEB.Client.Services.Abstract
 @using Zabita.Entities.Concrete
 
-@inject ITalepsService islerService
+@inject ITalepsService talepService
 @inject IIsTiplerisService istipleriService
+@inject IAmirliksService amirlikService
 
 
-<div class="row">
-    <div class="col-md-6 col-xs-12">
-        <div class="row">
-            <div class="col-md-12">
-                <RadzenCard Style="width:100%; margin-bottom: 20px;height:fit-content();">
-                    <div class="card-header" style="max-height:2.5em;background-color:white"><h5 style="text-align:start">Personel Bilgisi</h5></div>
 
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div style="">Yerleşke Adı:</div>
-                            <b>Yerleşke_Adi</b>
+    <div class="row">
+        <div class="col-12 mb-4">
+            <RadzenDataGrid AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="4"
+                            AllowSorting="true" Data="@talepler" TItem="Talep" ColumnWidth="200px"
+                            SelectionMode="DataGridSelectionMode.Single" @bind-Value=@SeciliTalep>
+                <Columns>
+                    <RadzenDataGridColumn TItem="Talep" Property="TalepId" Title="Talep ID" />
+
+                    <RadzenDataGridColumn TItem="Talep" Property="TalepKonu" Title="Talep Konu" />
+                    <RadzenDataGridColumn TItem="Talep" Property="YerleskeAciklamasi" Title="Yerleşke Açıklaması" FormatString="{0:d}" />
+                    <RadzenDataGridColumn TItem="Talep" Property="TalepAciklama" Title="Talep Açıklama" />
+                </Columns>
+            </RadzenDataGrid>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12"></div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <RadzenCard Style="width:100%; margin-bottom: 20px;height:fit-content;">
+                <div class="card-header" style="max-height:2.5em;background-color:white"><h5 style="text-align:start">Personel Bilgisi</h5></div>
+
+                <div class="row">
+                    <div class="col-6">
+                        @foreach (var s in SeciliTalep)
+                        {
+                            <div style="">Amirlik Adı:</div>
+
+                            <b>@s.TalepAmirlik.AmirlikIsım</b>
                             <div style="margin-top:20px">Yerleşke Açıklaması:</div>
                             <b>Yerleşke_Aciklamasi</b>
                             <div style="margin-top:20px">İstenilen Tarih:</div>
                             <b>02.05.2021</b>
+                        }
 
-                        </div>
-                        <div class="col-md-6">
-                            <div style="">Talep Eden Personel:</div>
-                            <b>Talep_Eden_Personel</b>
-                            <div style="margin-top:20px">İletişim Bilgileri:</div>
-                            <b>05455454545 ---</b>
-                            <b>personel@ibb.gov.tr</b>
-                            <div style="margin-top:20px">Atanılan Tarih:</div>
-                            <b>18.05.2021</b>
-                        </div>
 
                     </div>
-                </RadzenCard>
-            </div>
-
-        </div>
-        <div class="row">
-            <div class="col-md-12"></div>
-        </div>
-        <div class="row">
-            <div class="col-md-12 mb-4">
-                <RadzenDataGrid AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="4"
-                                AllowSorting="true" Data="@isler" TItem="Talep" ColumnWidth="200px"
-                                SelectionMode="DataGridSelectionMode.Multiple" @bind-Value=@selectedEmployees>
-                    <Columns>
-                        <RadzenDataGridColumn TItem="Talep" Width="40px" Sortable="false" Filterable="false">
-                            <HeaderTemplate>
-                                <RadzenCheckBox TriState="false" TValue="bool" />
-                            </HeaderTemplate>
-                            <Template Context="data">
-                                <RadzenCheckBox TriState="false" Value="@(selectedEmployees != null && selectedEmployees.Contains(data))" />
-                            </Template>
-                        </RadzenDataGridColumn>
-                        <RadzenDataGridColumn TItem="Talep" Property="IsAdi" Title="Is Adı" />
-                        <RadzenDataGridColumn TItem="Talep" Property="Yapildi" Title="Yapildimi" />
-                        <RadzenDataGridColumn TItem="Talep" Property="Gonderildi" Title="Gonderildi" />
-                    </Columns>
-
-                </RadzenDataGrid>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xl-12 mb-3">
-                <div class="row">
-                    <div class="col-xl-5">
-
+                    <div class="col-6">
+                        <div style="">Talep Eden Personel:</div>
+                        <b>Talep_Eden_Personel</b>
+                        <div style="margin-top:20px">İletişim Bilgileri:</div>
+                        <b>05455454545 ---</b>
+                        <b>personel@ibb.gov.tr</b>
+                        <div style="margin-top:20px">Atanılan Tarih:</div>
+                        <b>18.05.2021</b>
                     </div>
-                    <div class="col-xl-7" style="margin:0 0 1rem 0">
-                        <RadzenButton style="width: 200px" Icon="error" Text="Yapılmadı" Click="@Yapilamadi" ButtonStyle="ButtonStyle.Danger" />
-                        <RadzenButton style="margin: 0 0 0 1.5rem; width: 200px" Icon="done" BusyText="Gönderiliyor ..." IsBusy=@busy Click=@OnBusyClick Text="Yapıldı" ButtonStyle="ButtonStyle.Success" />
-                    </div>
+
                 </div>
-                <div class="row">
-                    <RadzenTextBox Visible="@yapilamadi" style="margin: 0 1rem 2rem 0;width: 500px;height:100px" Placeholder="Yapılmama Sebebi Giriniz" />
-                    <RadzenButton Visible="@yapilamadi" style="margin: 2rem 0 2rem 0; width: 200px" Icon="send" Text="Gönder" Click="@Gonder" ButtonStyle="ButtonStyle.Danger" />
-                </div>
-            </div>
+            </RadzenCard>
         </div>
-        <div class="row">
-            <div class="col-md-12">
-                <RadzenCard Style="width:100%; margin-bottom: 20px; height:330px;">
-                    <div class="card-header" style="max-height:3em;background-color:white"><h5 style="text-align:start">Fotoğraflar</h5></div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="gallery">
-                                <a target="_blank" href="~/images/1.jpg">
-                                    <img src="images/1.jpg" alt="cck1" width="100" height="100">
-                                </a>
-                                <a target="_blank" href="~/images/2.jpg">
-                                    <img src="images/2.jpg" alt="cck2" width="100" height="100">
-                                </a>
-                                <a target="_blank" href="~/images/3.jpg">
-                                    <img src="images/3.jpg" alt="cck2" width="100" height="100">
-                                </a>
-                                <a target="_blank" href="~/images/4.jpg">
-                                    <img src="images/4.jpg" alt="cck2" width="100" height="100">
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <RadzenUpload Multiple="true" Accept="image/*" Url="upload/multiple" Style="margin-bottom: 20px;" />
-                        </div>
-                    </div>
-                </RadzenCard>
-            </div>
-        </div>
+
     </div>
-</div>
 
-@code{
-    IEnumerable<Talep> isler;
-    IEnumerable<IsTipleri> gecmis;
-    IList<Talep> selectedEmployees;
-    bool busy;
-    bool yapilamadi = false;
 
-    protected override async Task OnInitializedAsync()
-    {
-        isler = await Task.Run(() => islerService.GetTaleps());
-        gecmis = await Task.Run(() => istipleriService.GetIsTipleris());
+
+    @code{
+        //IEnumerable<Talep> talepler { get; set; }
+        IEnumerable<IsTipleri> gecmis { get; set; }
+        IEnumerable<Amirlik> amirlikler { get; set; }
+        IList<Talep> SeciliTalep = new List<Talep>();
+
+        List<Talep> TalepList = new List<Talep>();
+        List<Amirlik> AmirlikList = new List<Amirlik>();
+
+        private string searchString = "";
+        private Talep selectedItem = null;
+        private HashSet<Talep> selectedItems = new HashSet<Talep>();
+
+        private IEnumerable<Talep> talepler = new List<Talep>();
+
+        bool busy;
+        bool yapilamadi = false;
+
+        protected override async Task OnInitializedAsync()
+        {
+            talepler = await Task.Run(() => talepService.GetTaleps());
+            amirlikler = await Task.Run(() => amirlikService.GetAmirliks());
+            gecmis = await Task.Run(() => istipleriService.GetIsTipleris());
+            TalepList.AddRange(talepler);
+            AmirlikList.AddRange(amirlikler);
+            SeciliTalep = talepler.Take(1).ToList();
+
+        }
+        async Task OnBusyClick()
+        {
+            busy = true;
+            await Task.Delay(2000);
+            busy = false;
+        }
+        async Task Yapilamadi()
+        {
+            await Task.Delay(2000);
+            yapilamadi = true;
+        }
+        async Task Gonder()
+        {
+            await Task.Delay(2000);
+            yapilamadi = false;
+        }
+        private bool FilterFunc(Talep element)
+        {
+            if (string.IsNullOrWhiteSpace(searchString))
+                return true;
+            if (element.TalepAciklama.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+                return true;
+
+            return false;
+        }
     }
-    async Task OnBusyClick()
-    {
-        busy = true;
-        await Task.Delay(2000);
-        busy = false;
-    }
-    async Task Yapilamadi()
-    {
-        await Task.Delay(2000);
-        yapilamadi = true;
-    }
-    async Task Gonder()
-    {
-        await Task.Delay(2000);
-        yapilamadi = false;
-    }
-}
 
