@@ -102,7 +102,7 @@
 
 
 @code {
-    bool disabled = false;
+    bool disabled = true;
 
     IList<IBrowserFile> files = new List<IBrowserFile>();
 
@@ -174,10 +174,9 @@
         busy = false;
         Snackbar.Configuration.PositionClass = Defaults.Classes.Position.TopRight;
         Snackbar.Add("Kayıt Başarılı!", Severity.Success);
-        disabled = true;
         //NavigationManager.NavigateTo("talep", true);
 
-
+        disabled = true;
     }
 
 
@@ -231,8 +230,11 @@
                 FotoEklenmeTarihi = DateTime.Now
             });
         }
+        disabled = false;
+        StateHasChanged();
         Snackbar.Configuration.PositionClass = Defaults.Classes.Position.TopRight;
         Snackbar.Add($"{entries.Count} Fotoğraf Eklendi!", Severity.Info);
+
     }
     void OnChange(object value, string name)
     {

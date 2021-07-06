@@ -1,122 +1,199 @@
 ﻿@page "/panel"
-@using ZabitaWEB.Client.Services.Abstract
 @using Zabita.Entities.Concrete
-
-@inject ITalepsService talepService
+@using ZabitaWEB.Client.Services.Abstract
+@inject ITalepsService talepsService
+@inject IAmirliksService amirliksService
 @inject IIsTiplerisService istipleriService
-@inject IAmirliksService amirlikService
+@inject IIsAltTiplerisService isalttipleriService
 
-
+@inject ISnackbar Snackbar
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+<div class="container-fluid">
 
     <div class="row">
-        <div class="col-12 mb-4">
-            <RadzenDataGrid AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="4"
-                            AllowSorting="true" Data="@talepler" TItem="Talep" ColumnWidth="200px"
-                            SelectionMode="DataGridSelectionMode.Single" @bind-Value=@SeciliTalep>
-                <Columns>
-                    <RadzenDataGridColumn TItem="Talep" Property="TalepId" Title="Talep ID" />
 
-                    <RadzenDataGridColumn TItem="Talep" Property="TalepKonu" Title="Talep Konu" />
-                    <RadzenDataGridColumn TItem="Talep" Property="YerleskeAciklamasi" Title="Yerleşke Açıklaması" FormatString="{0:d}" />
-                    <RadzenDataGridColumn TItem="Talep" Property="TalepAciklama" Title="Talep Açıklama" />
-                </Columns>
-            </RadzenDataGrid>
+        <div class="col-12 mb-4 ">
+            <MudTabs Elevation="24" Rounded="true" Centered="true" Border="true" Position="Position.Top" Color="@Color.Info" PrevIcon="@Icons.Filled.SkipPrevious" NextIcon="@Icons.Filled.SkipNext">
+                <MudTabPanel Text="Daire Büro">
+
+                    <YoneticiEkrani/>
+
+
+                </MudTabPanel>
+                <MudTabPanel Text="İSG Büro">
+
+                    <PersonelEkrani/>
+                </MudTabPanel>
+                <MudTabPanel Text="Three" />
+                <MudTabPanel Text="Four" />
+                <MudTabPanel Text="Five" />
+
+            </MudTabs>
 
         </div>
-    </div>
-    <div class="row">
-        <div class="col-12"></div>
-    </div>
-    <div class="row">
-        <div class="col-12">
-            <RadzenCard Style="width:100%; margin-bottom: 20px;height:fit-content;">
-                <div class="card-header" style="max-height:2.5em;background-color:white"><h5 style="text-align:start">Personel Bilgisi</h5></div>
-
-                <div class="row">
-                    <div class="col-6">
-                        @foreach (var s in SeciliTalep)
-                        {
-                            <div style="">Amirlik Adı:</div>
-
-                            <b>@s.TalepAmirlik.AmirlikIsım</b>
-                            <div style="margin-top:20px">Yerleşke Açıklaması:</div>
-                            <b>Yerleşke_Aciklamasi</b>
-                            <div style="margin-top:20px">İstenilen Tarih:</div>
-                            <b>02.05.2021</b>
-                        }
-
-
-                    </div>
-                    <div class="col-6">
-                        <div style="">Talep Eden Personel:</div>
-                        <b>Talep_Eden_Personel</b>
-                        <div style="margin-top:20px">İletişim Bilgileri:</div>
-                        <b>05455454545 ---</b>
-                        <b>personel@ibb.gov.tr</b>
-                        <div style="margin-top:20px">Atanılan Tarih:</div>
-                        <b>18.05.2021</b>
-                    </div>
-
-                </div>
-            </RadzenCard>
         </div>
-
     </div>
+       
+@code {
+    bool disabled = true;
+
+    IList<IBrowserFile> files = new List<IBrowserFile>();
+
+    List<Talep> TalepList = new List<Talep>();
+    List<IsTipleri> TalepTipleriList = new List<IsTipleri>();
+    List<Amirlik> AmirlikList = new List<Amirlik>();
+    List<IsAltTipleri> IsAltTipleriList = new List<IsAltTipleri>();
+    private string[] Istipi = { };
+
+    int amirlikid = 0;
+
+    bool busy;
+    string isbilgileri = "";
+    string yerleskebilgileri = "";
+
+    //IEnumerable<Taleptipleri> selectedtalepedilecekisler = new Taleptipleri[] { };
+    //List<Taleptipleri> selectedtalepedilecekisler = new List<Taleptipleri>() { };
+    IEnumerable<string> selectedtalepedilecekisler = new string[] { };
+    private HashSet<IsAltTipleri> options { get; set; } = new HashSet<IsAltTipleri>() { };
+    private IsAltTipleri secilenalttip { get; set; } = new IsAltTipleri();
+    Func<IsAltTipleri, string> converter = p => p?.IsAltTipi;
 
 
 
-    @code{
-        //IEnumerable<Talep> talepler { get; set; }
-        IEnumerable<IsTipleri> gecmis { get; set; }
-        IEnumerable<Amirlik> amirlikler { get; set; }
-        IList<Talep> SeciliTalep = new List<Talep>();
+    IList<Foto> fotos = new List<Foto>();
+    IList<TalepAltSonucu> talepAltSonucus = new List<TalepAltSonucu>();
 
-        List<Talep> TalepList = new List<Talep>();
-        List<Amirlik> AmirlikList = new List<Amirlik>();
 
-        private string searchString = "";
-        private Talep selectedItem = null;
-        private HashSet<Talep> selectedItems = new HashSet<Talep>();
+    IEnumerable<IsTipleri> Taleptipleri { get; set; }
+    IEnumerable<Amirlik> Amirlikler { get; set; }
+    IEnumerable<Talep> Talepler { get; set; }
+    IEnumerable<IsAltTipleri> IsAltTipleri;
 
-        private IEnumerable<Talep> talepler = new List<Talep>();
+    [Parameter]
+    public string IsTipiId { get; set; }
 
-        bool busy;
-        bool yapilamadi = false;
-
-        protected override async Task OnInitializedAsync()
+    async Task OnBusyClick()
+    {
+        foreach (var ist in options)
         {
-            talepler = await Task.Run(() => talepService.GetTaleps());
-            amirlikler = await Task.Run(() => amirlikService.GetAmirliks());
-            gecmis = await Task.Run(() => istipleriService.GetIsTipleris());
-            TalepList.AddRange(talepler);
-            AmirlikList.AddRange(amirlikler);
-            SeciliTalep = talepler.Take(1).ToList();
+            talepAltSonucus.Add(new TalepAltSonucu()
+            {
+                TalepAltSonucuAciklama = ist.IsAltTipiAciklama,
+                TalepAltSonucuTipi = ist.IsAltTipi
+            }
+
+            );
 
         }
-        async Task OnBusyClick()
+        var talep = new Talep
         {
-            busy = true;
-            await Task.Delay(2000);
-            busy = false;
-        }
-        async Task Yapilamadi()
-        {
-            await Task.Delay(2000);
-            yapilamadi = true;
-        }
-        async Task Gonder()
-        {
-            await Task.Delay(2000);
-            yapilamadi = false;
-        }
-        private bool FilterFunc(Talep element)
-        {
-            if (string.IsNullOrWhiteSpace(searchString))
-                return true;
-            if (element.TalepAciklama.Contains(searchString, StringComparison.OrdinalIgnoreCase))
-                return true;
+            TalepKonu = amirlikid.ToString(),
+            TalepBaslik = "deneme",
+            TalepAciklama = isbilgileri,
+            Fotolar = fotos,
+            YerleskeAciklamasi = yerleskebilgileri,
+            AmirlikId = amirlikid.ToString(),
+            TalebinYapilmaTarihi = DateTime.Now,
+            TalepAltSonucus = talepAltSonucus,
+            TalepIstipleriID = IsTipiId
 
-            return false;
-        }
+        };
+
+        busy = true;
+        //await Task.Delay(2000);
+
+        var sd = await talepsService.PostTalep(talep);
+        //await Http.PostAsJsonAsync<Talep>("/api/Taleps", talep);
+        busy = false;
+        Snackbar.Configuration.PositionClass = Defaults.Classes.Position.TopRight;
+        Snackbar.Add("Kayıt Başarılı!", Severity.Success);
+        //NavigationManager.NavigateTo("talep", true);
+
+        disabled = true;
     }
+
+
+
+
+
+
+    protected async override void OnParametersSet()
+    {
+        try
+        {
+            Taleptipleri = await istipleriService.GetIsTipleris();
+            IsAltTipleri = await isalttipleriService.GetIsAltTipleris();
+
+            Amirlikler = await amirliksService.GetAmirliks();
+            //listtalep = await talepsService.GetTaleps();
+            //IsTipleriList.AddRange(lististipleri);
+            //AmirlikList.AddRange(listyerleske);
+            // TalepList.AddRange(listtalep);
+            IsAltTipleriList.AddRange(IsAltTipleri);
+            TalepTipleriList.AddRange(Taleptipleri);
+            AmirlikList.AddRange(Amirlikler);
+        }
+        catch(Exception e)
+        {
+            Console.WriteLine(e.Message.ToString());
+            }
+
+
+    }
+
+    private async void UploadFiles(InputFileChangeEventArgs e)
+    {
+        var format = "image/png";
+        foreach (var file in e.GetMultipleFiles())
+        {
+            files.Add(file);
+
+        }
+        var entries = e.GetMultipleFiles();
+
+        foreach (var file in e.GetMultipleFiles())
+        {
+            var resizedImageFile = await file.RequestImageFileAsync(format,
+            1024, 1024);
+            long max = 2000000;
+            var buffer = new byte[resizedImageFile.Size];
+            await resizedImageFile.OpenReadStream(max).ReadAsync(buffer);
+            var imageDataUrl =
+            $"data:{format};base64,{Convert.ToBase64String(buffer)}";
+
+            fotos.Add(new Foto
+            {
+                FotoData = buffer,
+                FotoAdi = file.Name,
+                FotoEklenmeTarihi = DateTime.Now
+            });
+        }
+        disabled = false;
+        StateHasChanged();
+        Snackbar.Configuration.PositionClass = Defaults.Classes.Position.TopRight;
+        Snackbar.Add($"{entries.Count} Fotoğraf Eklendi!", Severity.Info);
+
+    }
+    void OnChange(object value, string name)
+    {
+        var str = value is IEnumerable<object>
+            ? string.Join(", ", (IEnumerable<object>
+                )value) : value;
+        value = name;
+
+        Console.WriteLine($"{name} value changed to {str}");
+    }
+
+
+
+
+    void OnError(UploadErrorEventArgs args, string name)
+    {
+        Console.WriteLine($"{args.Message}");
+    }
+
+}
+
+
 

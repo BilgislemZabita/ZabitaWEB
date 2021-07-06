@@ -141,20 +141,28 @@
     }
     protected async override void OnParametersSet()
     {
-        lististipleri = await istipleriService.GetIsTipleris();
+        try
+        {
+            lististipleri = await istipleriService.GetIsTipleris();
 
 
-        listamirlik = await amirliksService.GetAmirliks();
+            listamirlik = await amirliksService.GetAmirliks();
 
-        var amirlik = listamirlik.Where(s => s.TalepEdilebilir == true);
-        // listtalep = await talepsService.GetTaleps();
-        IsTipleriList.AddRange(lististipleri);
+            var amirlik = listamirlik.Where(s => s.TalepEdilebilir == true);
+            // listtalep = await talepsService.GetTaleps();
+            IsTipleriList.AddRange(lististipleri);
 
-        AmirlikList.AddRange(amirlik);
-        //TalepList.AddRange(listtalep);
-        
-        _components.Add(1, new DaireBakimOnarim());
-        _components.Add(2, new Isg());
+            AmirlikList.AddRange(amirlik);
+            //TalepList.AddRange(listtalep);
+
+            _components.Add(1, new DaireBakimOnarim());
+            _components.Add(2, new Isg());
+        }
+        catch(Exception e)
+        {
+            Console.WriteLine(e.Message.ToString());
+        }
+
 
     }
 
