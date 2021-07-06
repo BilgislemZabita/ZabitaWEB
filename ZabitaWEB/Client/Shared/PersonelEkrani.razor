@@ -8,7 +8,11 @@
 
 
 
-<div class="row">
+
+
+
+
+<div class="row mt-4">
     <div class="col-12 mb-4">
         <RadzenDataGrid AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="4"
                         AllowSorting="true" Data="@talepler" TItem="Talep" ColumnWidth="200px"
@@ -85,20 +89,12 @@
 
     protected async override void OnParametersSet()
     {
-        try
-        {
-            talepler = await Task.Run(() => talepService.GetTaleps());
-            amirlikler = await Task.Run(() => amirlikService.GetAmirliks());
-            gecmis = await Task.Run(() => istipleriService.GetIsTipleris());
-            TalepList.AddRange(talepler);
-            AmirlikList.AddRange(amirlikler);
-            SeciliTalep = talepler.Take(1).ToList();
-        }
-        catch(Exception e)
-        {
-            Console.WriteLine(e.Message.ToString());
-        }
-
+        talepler = await Task.Run(() => talepService.GetTaleps());
+        amirlikler = await Task.Run(() => amirlikService.GetAmirliks());
+        gecmis = await Task.Run(() => istipleriService.GetIsTipleris());
+        TalepList.AddRange(talepler);
+        AmirlikList.AddRange(amirlikler);
+        SeciliTalep = talepler.Take(1).ToList();
 
     }
     async Task OnBusyClick()
@@ -127,4 +123,3 @@
         return false;
     }
 }
-

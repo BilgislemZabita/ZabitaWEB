@@ -1,4 +1,4 @@
-﻿@*@page "/panel/buroekrani"
+﻿@page "/panel/buroekrani"
 @using Zabita.Entities.Concrete
 @using ZabitaWEB.Client.Services.Abstract
 @inject ITalepsService talepsService
@@ -36,20 +36,20 @@
         <div class="row">
             <div class="col-md-12 mb-4">
                 <RadzenDataGrid AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="4"
-                                AllowSorting="true" Data="@isler" TItem="Isler" ColumnWidth="200px"
-                                SelectionMode="DataGridSelectionMode.Multiple" @bind-Value=@selectedEmployees>
+                                AllowSorting="true" Data="@TalepList" TItem="Talep" ColumnWidth="200px"
+                                SelectionMode="DataGridSelectionMode.Multiple" @bind-Value=@SeciliTalep>
                     <Columns>
-                        <RadzenDataGridColumn TItem="Isler" Width="40px" Sortable="false" Filterable="false">
+                        <RadzenDataGridColumn TItem="Talep" Width="40px" Sortable="false" Filterable="false">
                             <HeaderTemplate>
                                 <RadzenCheckBox TriState="false" TValue="bool" />
                             </HeaderTemplate>
                             <Template Context="data">
-                                <RadzenCheckBox TriState="false" Value="@(selectedEmployees != null && selectedEmployees.Contains(data))" />
+                                <RadzenCheckBox TriState="false" Value="@(SeciliTalep != null && SeciliTalep.Contains(data))" />
                             </Template>
                         </RadzenDataGridColumn>
-                        <RadzenDataGridColumn TItem="Isler" Property="IsAdi" Title="Is Adı" />
-                        <RadzenDataGridColumn TItem="Isler" Property="Yapildi" Title="Yapildimi" />
-                        <RadzenDataGridColumn TItem="Isler" Property="Gonderildi" Title="Gonderildi" />
+                        <RadzenDataGridColumn TItem="Talep" Property="IsAdi" Title="Is Adı" />
+                        <RadzenDataGridColumn TItem="Talep" Property="Yapildi" Title="Yapildimi" />
+                        <RadzenDataGridColumn TItem="Talep" Property="Gonderildi" Title="Gonderildi" />
                     </Columns>
 
                 </RadzenDataGrid>
@@ -105,42 +105,42 @@
 
     <div class="col-md-6">
         <RadzenButton Text="Excel" Icon="grid_on" Click="@(args => Export("excel"))" Style="margin-bottom:20px" /><RadzenButton Text="CSV" Icon="wrap_text" Click="@(args => Export("csv"))" Style="margin-left:20px;margin-bottom:20px;" />
-        <RadzenDataGrid @ref="grid" AllowFiltering="true" AllowPaging="true" AllowSorting="true" Data="@gecmis" TItem="Gecmis">
+        <RadzenDataGrid  AllowFiltering="true" AllowPaging="true" AllowSorting="true" Data="@TalepList" TItem="Talep">
             <Columns>
-                <RadzenDataGridColumn TItem="Gecmis" Property="TalepAdi" Title="Talep Adı" />
-                <RadzenDataGridColumn TItem="Gecmis" Property="TalepTarihi" Title="Talep Tarihi">
+                <RadzenDataGridColumn TItem="Talep" Property="TalepBaslik" Title="Talep Adı" />
+                <RadzenDataGridColumn TItem="Talep" Property=""TalebinYapilmaTarihi"" Title="Talep Tarihi">
                     <Template Context="data">
-                        @String.Format("{0:d}", data.TalepTarihi)
+                        @String.Format("{0:d}", data.TalebinYapilmaTarihi)
                     </Template>
                 </RadzenDataGridColumn>
-                <RadzenDataGridColumn TItem="Gecmis" Property="TalepKonusu" Title="Talep Konusu" />
-                <RadzenDataGridColumn TItem="Gecmis" Property="TalepEdenPersonel" Title="Talep Eden Personel" />
-                <RadzenDataGridColumn TItem="Gecmis" Property="TalepEdilenYerleske" Title="Talep Edilen Yerleske" />
-                <RadzenDataGridColumn TItem="Gecmis" Property="TalepAtanmaTarihi" Title="Talep Atanma Tarihi">
-                    <Template Context="data">
-                        @String.Format("{0:d}", data.TalepAtanmaTarihi)
-                    </Template>
-                </RadzenDataGridColumn>
-                <RadzenDataGridColumn TItem="Gecmis" Property="TalepGoturmeTarihi" Title="Talep Goturme Tarihi">
-                    <Template Context="data">
-                        @String.Format("{0:d}", data.TalepGoturmeTarihi)
-                    </Template>
-                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="Talep" Property=""TalepAciklama"" Title="Talep Konusu" />
+                <RadzenDataGridColumn TItem="Talep" Property=""TalepKonu"" Title="Talep Eden Personel" />
+               
             </Columns>
         </RadzenDataGrid>
     </div>
 </div>
 @code{
-    IEnumerable<Isler> isler;
-    IEnumerable<Gecmis> gecmis;
-    IList<Isler> selectedEmployees;
-    RadzenDataGrid<Gecmis> grid;
+    [Parameter]
+    public IEnumerable<IsTipleri> istipleri { get; set; }
+    [Parameter]
+    public IEnumerable<Amirlik> amirlikler { get; set; }
+    public IList<Talep> SeciliTalep = new List<Talep>();
+    public List<Talep> TalepList = new List<Talep>();
+    List<Amirlik> AmirlikList = new List<Amirlik>();
+    public IEnumerable<Talep> talepler { get; set; }
 
     bool busy;
     protected override async Task OnInitializedAsync()
     {
-        isler = await Task.Run(() => islerService.IslerList());
-        gecmis = await Task.Run(() => gecmisService.GecmisList());
+        talepler = await Task.Run(() => talepsService.GetTaleps());
+        amirlikler = await Task.Run(() => amirliksService.GetAmirliks());
+        istipleri = await Task.Run(() => istipleriService.GetIsTipleris());
+        TalepList.AddRange(talepler);
+        AmirlikList.AddRange(amirlikler);
+        TalepList.AddRange(talepler);
+        SeciliTalep = TalepList.Take(1).ToList();
+
     }
     async Task OnBusyClick()
     {
@@ -154,4 +154,4 @@
         /* gecmis.Export("Gecmis", type, new Query() { OrderBy = grid.Query.OrderBy, Filter = grid.Query.Filter });*/
     }
 
-}*@
+}
