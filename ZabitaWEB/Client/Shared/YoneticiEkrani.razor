@@ -36,7 +36,7 @@
         <div class="row">
             <div class="col-md-12 mb-4">
                 <RadzenDataGrid AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="4"
-                                AllowSorting="true" Data="@TalepList" TItem="Talep" ColumnWidth="200px"
+                                AllowSorting="true" Data="@talepler" TItem="Talep" ColumnWidth="200px"
                                 SelectionMode="DataGridSelectionMode.Multiple" @bind-Value=@SeciliTalep>
                     <Columns>
                         <RadzenDataGridColumn TItem="Talep" Width="40px" Sortable="false" Filterable="false">
@@ -105,16 +105,16 @@
 
     <div class="col-md-6">
         <RadzenButton Text="Excel" Icon="grid_on" Click="@(args => Export("excel"))" Style="margin-bottom:20px" /><RadzenButton Text="CSV" Icon="wrap_text" Click="@(args => Export("csv"))" Style="margin-left:20px;margin-bottom:20px;" />
-        <RadzenDataGrid  AllowFiltering="true" AllowPaging="true" AllowSorting="true" Data="@TalepList" TItem="Talep">
+        <RadzenDataGrid  AllowFiltering="true" AllowPaging="true" AllowSorting="true" Data="@talepler" TItem="Talep">
             <Columns>
                 <RadzenDataGridColumn TItem="Talep" Property="TalepBaslik" Title="Talep Adı" />
-                <RadzenDataGridColumn TItem="Talep" Property=""TalebinYapilmaTarihi"" Title="Talep Tarihi">
+                <RadzenDataGridColumn TItem="Talep" Property="TalebinYapilmaTarihi" Title="Talep Tarihi">
                     <Template Context="data">
                         @String.Format("{0:d}", data.TalebinYapilmaTarihi)
                     </Template>
                 </RadzenDataGridColumn>
-                <RadzenDataGridColumn TItem="Talep" Property=""TalepAciklama"" Title="Talep Konusu" />
-                <RadzenDataGridColumn TItem="Talep" Property=""TalepKonu"" Title="Talep Eden Personel" />
+                <RadzenDataGridColumn TItem="Talep" Property="TalepAciklama" Title="Talep Konusu" />
+                <RadzenDataGridColumn TItem="Talep" Property="TalepKonu" Title="Talep Eden Personel" />
                
             </Columns>
         </RadzenDataGrid>
@@ -128,30 +128,33 @@
     public IList<Talep> SeciliTalep = new List<Talep>();
     public List<Talep> TalepList = new List<Talep>();
     List<Amirlik> AmirlikList = new List<Amirlik>();
+    [Parameter]
     public IEnumerable<Talep> talepler { get; set; }
 
     bool busy;
-    protected override async Task OnInitializedAsync()
+    protected async override void OnParametersSet()
     {
-        talepler = await Task.Run(() => talepsService.GetTaleps());
-        amirlikler = await Task.Run(() => amirliksService.GetAmirliks());
-        istipleri = await Task.Run(() => istipleriService.GetIsTipleris());
-        TalepList.AddRange(talepler);
+        // talepler = await Task.Run(() => talepsService.GetTaleps());
+        // amirlikler = await Task.Run(() => amirliksService.GetAmirliks());
+        //  istipleri = await Task.Run(() => istipleriService.GetIsTipleris());
+       @* TalepList.AddRange(talepler);
         AmirlikList.AddRange(amirlikler);
         TalepList.AddRange(talepler);
-        SeciliTalep = TalepList.Take(1).ToList();
+        SeciliTalep = TalepList.Take(1).ToList();*@
+         
+        //SeciliTalep = talepler.Take(1).ToList();
 
-    }
-    async Task OnBusyClick()
-    {
-        busy = true;
-        await Task.Delay(2000);
-        busy = false;
-    }
-    public void Export(string type)
-    {
+}
+async Task OnBusyClick()
+{
+    busy = true;
+    await Task.Delay(2000);
+    busy = false;
+}
+public void Export(string type)
+{
 
-        /* gecmis.Export("Gecmis", type, new Query() { OrderBy = grid.Query.OrderBy, Filter = grid.Query.Filter });*/
-    }
+    /* gecmis.Export("Gecmis", type, new Query() { OrderBy = grid.Query.OrderBy, Filter = grid.Query.Filter });*/
+}
 
 }

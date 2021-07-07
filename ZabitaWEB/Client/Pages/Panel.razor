@@ -17,7 +17,7 @@
             <MudTabs Elevation="24" Rounded="true" Centered="true" Border="true" Position="Position.Top" Color="@Color.Info" PrevIcon="@Icons.Filled.SkipPrevious" NextIcon="@Icons.Filled.SkipNext">
                 <MudTabPanel Text="Daire Büro">
 
-                    <YoneticiEkrani/>
+                    <YoneticiEkrani istipleri="@Istipleris" amirlikler="@Amirlikler" talepler="@Talepler"/>
 
 
                 </MudTabPanel>
@@ -41,7 +41,7 @@
     IList<IBrowserFile> files = new List<IBrowserFile>();
 
     List<Talep> TalepList = new List<Talep>();
-    List<IsTipleri> TalepTipleriList = new List<IsTipleri>();
+    List<IsTipleri> IstipleriList = new List<IsTipleri>();
     List<Amirlik> AmirlikList = new List<Amirlik>();
     List<IsAltTipleri> IsAltTipleriList = new List<IsAltTipleri>();
     private string[] Istipi = { };
@@ -65,7 +65,7 @@
     IList<TalepAltSonucu> talepAltSonucus = new List<TalepAltSonucu>();
 
 
-    IEnumerable<IsTipleri> Taleptipleri { get; set; }
+    IEnumerable<IsTipleri> Istipleris { get; set; }
     IEnumerable<Amirlik> Amirlikler { get; set; }
     IEnumerable<Talep> Talepler { get; set; }
     IEnumerable<IsAltTipleri> IsAltTipleri;
@@ -122,16 +122,16 @@
     {
         try
         {
-            Taleptipleri = await istipleriService.GetIsTipleris();
+            Istipleris = await istipleriService.GetIsTipleris();
             IsAltTipleri = await isalttipleriService.GetIsAltTipleris();
 
             Amirlikler = await amirliksService.GetAmirliks();
-            //listtalep = await talepsService.GetTaleps();
+            Talepler = await talepsService.GetTaleps();
             //IsTipleriList.AddRange(lististipleri);
             //AmirlikList.AddRange(listyerleske);
             // TalepList.AddRange(listtalep);
             IsAltTipleriList.AddRange(IsAltTipleri);
-            TalepTipleriList.AddRange(Taleptipleri);
+            IstipleriList.AddRange(Istipleris);
             AmirlikList.AddRange(Amirlikler);
         }
         catch(Exception e)
