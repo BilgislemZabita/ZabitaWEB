@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Radzen;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -12,6 +13,7 @@ namespace ZabitaWEB.Client.Services.Abstract
         Task<ActionResult<Talep>> GetTalep(int id);
         Task<List<Talep>> GetTaleps();
         Task<Uri> PostTalep(Talep talep);
+        void Export( Query query = null);
         Task<IActionResult> PutTalep(int id, Talep talep);
     }
 }

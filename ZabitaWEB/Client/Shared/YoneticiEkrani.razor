@@ -1,13 +1,16 @@
 ﻿@page "/panel/buroekrani"
 @using Zabita.Entities.Concrete
 @using ZabitaWEB.Client.Services.Abstract
+
+
+
 @inject ITalepsService talepsService
 @inject IAmirliksService amirliksService
 @inject IIsTiplerisService istipleriService
 @inject IIsAltTiplerisService isalttipleriService
 
 
-<div class="row">
+<div class="row mt-4">
     <div class="col-md-6">
         <div class="row">
             <div class="col-md-12">
@@ -56,20 +59,20 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-xl-12 mb-1">
-                <div class="row">
-                    <div class="col-xl-8">
-                        <span>Gönderilecek Birim Seçiniz</span>
-                        <RadzenDropDown AllowClear="true" TValue="string" Style="width:300px;vertical-align:middle;margin:0 0 0 1rem"
+            <div class="col-12 mb-n1 mt-n1">
+                <h5>Atanacak Personeli Seçin</h5>
+
+            </div>
+                    <div class="col-lg-8 col-sm-12 mt-1 mb-1">
+                        <RadzenDropDown AllowClear="true" TValue="string" Style=" display: flex; text-align: right !important;direction:inherit;text-anchor:start"
+                                        
                                         FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
                                         FilterOperator="StringFilterOperator.StartsWith" AllowFiltering="true" />
                     </div>
-                    <div class="col-xl-3">
-                        <RadzenButton style="margin: 0 1rem 1rem 0; width: 200px" Icon="send" BusyText="Gönderiliyor ..." IsBusy=@busy Click=@OnBusyClick Text="Gonder" />
+                    <div class="col-lg-4 col-sm-12 mt-1 mb-1">
+                        <RadzenButton Style="display: flex; text-align: left !important;width:100% "  Icon="send" BusyText="Gönderiliyor ..." IsBusy=@busy Click=@OnBusyClick Text="Gonder" />
                     </div>
 
-                </div>
-            </div>
         </div>
         <div class="row">
             <div class="col-md-12">
@@ -104,8 +107,9 @@
     </div>
 
     <div class="col-md-6">
-        <RadzenButton Text="Excel" Icon="grid_on" Click="@(args => Export("excel"))" Style="margin-bottom:20px" /><RadzenButton Text="CSV" Icon="wrap_text" Click="@(args => Export("csv"))" Style="margin-left:20px;margin-bottom:20px;" />
-        <RadzenDataGrid  AllowFiltering="true" AllowPaging="true" AllowSorting="true" Data="@talepler" TItem="Talep">
+        <RadzenButton Text="Excel" Icon="grid_on" Click="@(args => Export())"  />  
+        <RadzenButton Text="CSV" Icon="wrap_text" Click="@(args => Export())"  />
+        <RadzenDataGrid @ref="grid" AllowFiltering="true" AllowPaging="true" AllowSorting="true" Data="@talepler" TItem="Talep">
             <Columns>
                 <RadzenDataGridColumn TItem="Talep" Property="TalepBaslik" Title="Talep Adı" />
                 <RadzenDataGridColumn TItem="Talep" Property="TalebinYapilmaTarihi" Title="Talep Tarihi">
@@ -115,12 +119,14 @@
                 </RadzenDataGridColumn>
                 <RadzenDataGridColumn TItem="Talep" Property="TalepAciklama" Title="Talep Konusu" />
                 <RadzenDataGridColumn TItem="Talep" Property="TalepKonu" Title="Talep Eden Personel" />
-               
+
             </Columns>
         </RadzenDataGrid>
     </div>
 </div>
 @code{
+    RadzenDataGrid<Talep> grid;
+
     [Parameter]
     public IEnumerable<IsTipleri> istipleri { get; set; }
     [Parameter]
@@ -137,24 +143,25 @@
         // talepler = await Task.Run(() => talepsService.GetTaleps());
         // amirlikler = await Task.Run(() => amirliksService.GetAmirliks());
         //  istipleri = await Task.Run(() => istipleriService.GetIsTipleris());
-       @* TalepList.AddRange(talepler);
-        AmirlikList.AddRange(amirlikler);
-        TalepList.AddRange(talepler);
-        SeciliTalep = TalepList.Take(1).ToList();*@
-         
+        @* TalepList.AddRange(talepler);
+            AmirlikList.AddRange(amirlikler);
+            TalepList.AddRange(talepler);
+            SeciliTalep = TalepList.Take(1).ToList();*@
+
         //SeciliTalep = talepler.Take(1).ToList();
 
-}
-async Task OnBusyClick()
-{
-    busy = true;
-    await Task.Delay(2000);
-    busy = false;
-}
-public void Export(string type)
-{
+    }
+    async Task OnBusyClick()
+    {
+        busy = true;
+        await Task.Delay(2000);
+        busy = false;
+    }
+    public void Export()
+    {
 
-    /* gecmis.Export("Gecmis", type, new Query() { OrderBy = grid.Query.OrderBy, Filter = grid.Query.Filter });*/
+        talepsService.Export(new Query() { OrderBy = grid.Query.OrderBy, Filter = grid.Query.Filter });
+        
+    }
 }
 
-}

@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Mvc;
+using Radzen;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,10 +15,13 @@ namespace ZabitaWEB.Client.Services.Concrete
     public class TalepsService : ITalepsService
     {
         private readonly HttpClient _httpClient;
+        private readonly NavigationManager navigationManager;
 
-        public TalepsService(HttpClient httpClient)
+        public TalepsService(HttpClient httpClient, NavigationManager navigationManager)
         {
             _httpClient = httpClient;
+            this.navigationManager = navigationManager;
+
         }
         public Task<IActionResult> DeleteTalep(int id)
         {
@@ -39,7 +44,11 @@ namespace ZabitaWEB.Client.Services.Concrete
             response.EnsureSuccessStatusCode();
             return response.Headers.Location; 
         }
+        public async void Export( Query query = null)
+        {
 
+            await Task.Run(() => navigationManager.NavigateTo(query != null ? query.ToUrl($"/api/Taleps") : $"/api/Taleps", true)); 
+        }
         public Task<IActionResult> PutTalep(int id, Talep talep)
         {
             throw new NotImplementedException();
