@@ -1,6 +1,7 @@
 ﻿@page "/panel/buroekrani"
 @using Zabita.Entities.Concrete
 @using ZabitaWEB.Client.Services.Abstract
+@using System.Timers;
 
 
 @inject IDialogService DialogService
@@ -15,14 +16,14 @@
     <div class="col-md-6">
         <div class="row">
             <div class="col-md-12 mb-4">
-                <RadzenDataGrid @ref="grid" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="4"
-                                AllowSorting="true" Data="@taleplerd" TItem="Talep" ColumnWidth="200px"
-                                SelectionMode="DataGridSelectionMode.Multiple" @bind-Value=@SeciliTalepd>
+                <RadzenDataGrid Data="@talepler" @ref="grid" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="4"
+                                AllowSorting="true"  TItem="Talep" AllowVirtualization="true" ColumnWidth="200px" 
+                                SelectionMode="DataGridSelectionMode.Multiple" @bind-Value=@SeciliTalep>
                     <Columns>
                         <RadzenDataGridColumn TItem="Talep" Width="40px" Sortable="false" Filterable="false">
-                      
+
                             <Template Context="data">
-                                <RadzenCheckBox TriState="false" Value="@(SeciliTalepd != null && SeciliTalepd.Contains(data))" />
+                                <RadzenCheckBox TriState="false" Value="@(SeciliTalep != null && SeciliTalep.Contains(data))" />
                             </Template>
                         </RadzenDataGridColumn>
                         <RadzenDataGridColumn TItem="Talep" Property="YerleskeAciklamasi" Title="Is Adı">
@@ -39,7 +40,7 @@
             </div>
         </div>
 
-        
+
         <div class="row">
             <div class="col-md-12"></div>
         </div>
@@ -94,7 +95,7 @@
     <div class="col-md-6">
         <RadzenButton Text="Excel" Icon="grid_on" Click="@(args => Export())" />
         <RadzenButton Text="CSV" Icon="wrap_text" Click="@(args => Export())" />
-        <RadzenDataGrid @ref="grid" AllowFiltering="true" AllowPaging="true" AllowSorting="true" Data="@taleplerd" TItem="Talep">
+        <RadzenDataGrid @ref="grid" AllowFiltering="true" AllowPaging="true" AllowSorting="true" Data="@talepler" TItem="Talep">
             <Columns>
                 <RadzenDataGridColumn TItem="Talep" Property="TalepBaslik" Title="Talep Adı" />
                 <RadzenDataGridColumn TItem="Talep" Property="TalebinYapilmaTarihi" Title="Talep Tarihi">
@@ -124,9 +125,20 @@
     [Parameter]
     public IEnumerable<Talep> talepler { get; set; } = new List<Talep>();
     public IEnumerable<Talep> taleplerd { get; set; } = new List<Talep>();
+    int count { get; set; } = 0;
 
     bool busy;
-    protected async override void OnParametersSet()
+    async void LoadData(LoadDataArgs args)
+    {
+
+
+
+        //count = talepler.Count();
+        await grid.Reload();
+        StateHasChanged();
+
+    }
+    protected async override void OnInitialized()
     {
         // talepler = await Task.Run(() => talepsService.GetTaleps());
         // amirlikler = await Task.Run(() => amirliksService.GetAmirliks());
@@ -137,17 +149,21 @@
             SeciliTalep = TalepList.Take(1).ToList();*@
 
         //SeciliTalep = talepler.Take(1).ToList();
-        taleplerd = talepler;
-        SeciliTalepd = SeciliTalep;
-        StateHasChanged();
+
+        Timer timer = new Timer(5000);
+        timer.Elapsed += (s, e) => { InvokeAsync(grid.Reload); };
+        timer.Start();
+        base.OnInitialized();
+
     }
     async Task OpenDialog(Talep talep)
     {
         var parameters = new DialogParameters { ["Talep"] = talep };
 
-        var result = await DialogService.Show<DetayDialog>("talep",parameters).Result;
+        var result = await DialogService.Show<DetayDialog>("talep", parameters).Result;
 
     }
+
 
     async Task OnBusyClick()
     {

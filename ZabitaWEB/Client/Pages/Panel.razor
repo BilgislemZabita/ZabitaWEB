@@ -17,7 +17,7 @@
             <MudTabs Elevation="24" Rounded="true" Centered="true" Border="true" Position="Position.Top" Color="@Color.Info" PrevIcon="@Icons.Filled.SkipPrevious" NextIcon="@Icons.Filled.SkipNext">
                 <MudTabPanel Text="Daire Büro">
 
-                    <YoneticiEkrani istipleri="@Istipleris" amirlikler="@Amirlikler" talepler="@Talepler"/>
+                    <YoneticiEkrani talepler="@Talepler" istipleri="@Istipleris" amirlikler="@Amirlikler"  />
 
 
                 </MudTabPanel>
@@ -37,7 +37,6 @@
        
 @code {
     bool disabled = true;
-
     IList<IBrowserFile> files = new List<IBrowserFile>();
 
     List<Talep> TalepList = new List<Talep>();
