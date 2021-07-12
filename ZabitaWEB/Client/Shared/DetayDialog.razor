@@ -1,0 +1,59 @@
+﻿@using System.Net
+@using System.Text
+@using Zabita.Entities.Concrete
+
+<MudDialog DisableSidePadding="true">
+    <DialogContent>
+        <MudContainer Style="max-height: 300px; overflow-y: scroll">
+            @if (Loading)
+            {
+                <MudProgressCircular Indeterminate="true"></MudProgressCircular>
+            }
+            else
+            {
+
+                <MudText Style="white-space: pre-wrap;">@tlp.TalepAciklama</MudText>
+                <RadzenDataGridColumn TItem="Talep" Property="Fotolar" Title="Foto" Sortable="false" Filterable="false">
+                    
+                    <Template Context="data">
+                        @foreach (var i in data.Fotolar)
+                        {
+                            <RadzenImage @bind-data="@i.FotoData" style="width: 40px; height: 40px; border-radius: 8px;" />
+                            @data.TalepAmirlik @data.TalepAciklama
+                        }
+
+                    </Template>
+                </RadzenDataGridColumn>
+
+
+            }
+        </MudContainer>
+    </DialogContent>
+    <DialogActions>
+        <MudButton Color="Color.Primary" OnClick="Ok">Kapat</MudButton>
+    </DialogActions>
+</MudDialog>
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+    [Parameter] public Talep talep { get; set; }
+    [Inject] HttpClient HttpClient { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        Loading = true;
+        var response = await HttpClient.GetAsync("https://raw.githubusercontent.com/Garderoben/MudBlazor/master/LICENSE");
+        tlp = talep;
+
+        Loading = false;
+    }
+
+    private Talep tlp;
+    private bool Loading = false;
+
+    private void Ok()
+    {
+        MudDialog.Close(DialogResult.Ok(true));
+    }
+}

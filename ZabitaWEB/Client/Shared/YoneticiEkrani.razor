@@ -3,6 +3,7 @@
 @using ZabitaWEB.Client.Services.Abstract
 
 
+@inject IDialogService DialogService
 
 @inject ITalepsService talepsService
 @inject IAmirliksService amirliksService
@@ -13,44 +14,23 @@
 <div class="row mt-4">
     <div class="col-md-6">
         <div class="row">
-            <div class="col-md-12">
-                <RadzenCard Style="width:100%; margin-bottom: 20px; height:200px;">
-                    <div class="card-header" style="max-height:2.5em;background-color:white"><h5 style="text-align:start">Personel Bilgisi</h5></div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div style="">Yerleşke Adı:</div>
-                            <b>Yerleşke_Adi</b>
-                            <div style="margin-top:20px">Yerleşke Açıklaması:</div>
-                            <b>Yerleşke_Aciklamasi</b>
-                        </div>
-                        <div class="col-md-6">
-                            <div style="">Talep Eden Personel:</div>
-                            <b>Talep_Eden_Personel</b>
-                            <div style="margin-top:20px">Tarih:</div>
-                            <b>01.01.1001</b>
-                        </div>
-                    </div>
-                </RadzenCard>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12"></div>
-        </div>
-        <div class="row">
             <div class="col-md-12 mb-4">
-                <RadzenDataGrid AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="4"
-                                AllowSorting="true" Data="@talepler" TItem="Talep" ColumnWidth="200px"
-                                SelectionMode="DataGridSelectionMode.Multiple" @bind-Value=@SeciliTalep>
+                <RadzenDataGrid @ref="grid" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="4"
+                                AllowSorting="true" Data="@taleplerd" TItem="Talep" ColumnWidth="200px"
+                                SelectionMode="DataGridSelectionMode.Multiple" @bind-Value=@SeciliTalepd>
                     <Columns>
                         <RadzenDataGridColumn TItem="Talep" Width="40px" Sortable="false" Filterable="false">
-                            <HeaderTemplate>
-                                <RadzenCheckBox TriState="false" TValue="bool" />
-                            </HeaderTemplate>
+                      
                             <Template Context="data">
-                                <RadzenCheckBox TriState="false" Value="@(SeciliTalep != null && SeciliTalep.Contains(data))" />
+                                <RadzenCheckBox TriState="false" Value="@(SeciliTalepd != null && SeciliTalepd.Contains(data))" />
                             </Template>
                         </RadzenDataGridColumn>
-                        <RadzenDataGridColumn TItem="Talep" Property="TalepAciklama" Title="Is Adı" />
+                        <RadzenDataGridColumn TItem="Talep" Property="YerleskeAciklamasi" Title="Is Adı">
+                            <Template Context="data">
+                                <MudButton Variant="Variant.Outlined" Size="Size.Small" OnClick="@(() => OpenDialog(data))"> Detay</MudButton>
+                            </Template>
+
+                        </RadzenDataGridColumn>
                         <RadzenDataGridColumn TItem="Talep" Property="TalepBaslik" Title="Yapildimi" />
                         <RadzenDataGridColumn TItem="Talep" Property="TalepKonu" Title="Gonderildi" />
                     </Columns>
@@ -58,20 +38,25 @@
                 </RadzenDataGrid>
             </div>
         </div>
+
+        
+        <div class="row">
+            <div class="col-md-12"></div>
+        </div>
+
         <div class="row">
             <div class="col-12 mb-n1 mt-n1">
                 <h5>Atanacak Personeli Seçin</h5>
 
             </div>
-                    <div class="col-lg-8 col-sm-12 mt-1 mb-1">
-                        <RadzenDropDown AllowClear="true" TValue="string" Style=" display: flex; text-align: right !important;direction:inherit;text-anchor:start"
-                                        
-                                        FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
-                                        FilterOperator="StringFilterOperator.StartsWith" AllowFiltering="true" />
-                    </div>
-                    <div class="col-lg-4 col-sm-12 mt-1 mb-1">
-                        <RadzenButton Style="display: flex; text-align: left !important;width:100% "  Icon="send" BusyText="Gönderiliyor ..." IsBusy=@busy Click=@OnBusyClick Text="Gonder" />
-                    </div>
+            <div class="col-lg-8 col-sm-12 mt-1 mb-1">
+                <RadzenDropDown AllowClear="true" TValue="string" Style=" display: flex; text-align: right !important;direction:inherit;text-anchor:start"
+                                FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
+                                FilterOperator="StringFilterOperator.StartsWith" AllowFiltering="true" />
+            </div>
+            <div class="col-lg-4 col-sm-12 mt-1 mb-1">
+                <RadzenButton Style="display: flex; text-align: left !important;width:100% " Icon="send" BusyText="Gönderiliyor ..." IsBusy=@busy Click=@OnBusyClick Text="Gonder" />
+            </div>
 
         </div>
         <div class="row">
@@ -107,9 +92,9 @@
     </div>
 
     <div class="col-md-6">
-        <RadzenButton Text="Excel" Icon="grid_on" Click="@(args => Export())"  />  
-        <RadzenButton Text="CSV" Icon="wrap_text" Click="@(args => Export())"  />
-        <RadzenDataGrid @ref="grid" AllowFiltering="true" AllowPaging="true" AllowSorting="true" Data="@talepler" TItem="Talep">
+        <RadzenButton Text="Excel" Icon="grid_on" Click="@(args => Export())" />
+        <RadzenButton Text="CSV" Icon="wrap_text" Click="@(args => Export())" />
+        <RadzenDataGrid @ref="grid" AllowFiltering="true" AllowPaging="true" AllowSorting="true" Data="@taleplerd" TItem="Talep">
             <Columns>
                 <RadzenDataGridColumn TItem="Talep" Property="TalepBaslik" Title="Talep Adı" />
                 <RadzenDataGridColumn TItem="Talep" Property="TalebinYapilmaTarihi" Title="Talep Tarihi">
@@ -126,16 +111,19 @@
 </div>
 @code{
     RadzenDataGrid<Talep> grid;
+    public bool ShowDetails { get; set; } = false;
 
     [Parameter]
-    public IEnumerable<IsTipleri> istipleri { get; set; }
+    public IEnumerable<IsTipleri> istipleri { get; set; } = new List<IsTipleri>();
     [Parameter]
     public IEnumerable<Amirlik> amirlikler { get; set; }
-    public IList<Talep> SeciliTalep = new List<Talep>();
+    public IList<Talep> SeciliTalep { get; set; } = new List<Talep>();
+    public IList<Talep> SeciliTalepd { get; set; } = new List<Talep>();
     public List<Talep> TalepList = new List<Talep>();
     List<Amirlik> AmirlikList = new List<Amirlik>();
     [Parameter]
-    public IEnumerable<Talep> talepler { get; set; }
+    public IEnumerable<Talep> talepler { get; set; } = new List<Talep>();
+    public IEnumerable<Talep> taleplerd { get; set; } = new List<Talep>();
 
     bool busy;
     protected async override void OnParametersSet()
@@ -149,8 +137,18 @@
             SeciliTalep = TalepList.Take(1).ToList();*@
 
         //SeciliTalep = talepler.Take(1).ToList();
+        taleplerd = talepler;
+        SeciliTalepd = SeciliTalep;
+        StateHasChanged();
+    }
+    async Task OpenDialog(Talep talep)
+    {
+        var parameters = new DialogParameters { ["Talep"] = talep };
+
+        var result = await DialogService.Show<DetayDialog>("talep",parameters).Result;
 
     }
+
     async Task OnBusyClick()
     {
         busy = true;
@@ -161,7 +159,7 @@
     {
 
         talepsService.Export(new Query() { OrderBy = grid.Query.OrderBy, Filter = grid.Query.Filter });
-        
+
     }
 }
 

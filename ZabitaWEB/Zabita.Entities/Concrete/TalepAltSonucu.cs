@@ -10,7 +10,7 @@ namespace Zabita.Entities.Concrete
 {
     public class TalepAltSonucu:IEntity
     {
-        [Key]
+        [Key] 
         public virtual int TalepAltSonucuId { get; set; }
 
         public virtual string TalepAltSonucuTipi { get; set; }
