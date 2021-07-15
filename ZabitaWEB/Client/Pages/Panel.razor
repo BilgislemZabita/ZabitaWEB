@@ -19,7 +19,6 @@
 
                     <YoneticiEkrani talepler="@Talepler" istipleri="@Istipleris" amirlikler="@Amirlikler"  />
 
-
                 </MudTabPanel>
                 <MudTabPanel Text="İSG Büro">
 
@@ -132,6 +131,7 @@
             IsAltTipleriList.AddRange(IsAltTipleri);
             IstipleriList.AddRange(Istipleris);
             AmirlikList.AddRange(Amirlikler);
+            StateHasChanged();
         }
         catch(Exception e)
         {

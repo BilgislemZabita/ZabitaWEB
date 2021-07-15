@@ -1,0 +1,59 @@
+﻿@page "/panel/buroekraniz"
+@using Zabita.Entities.Concrete
+@using ZabitaWEB.Client.Services.Abstract
+@using System.Timers;
+@inject ITalepsService talepsService
+
+<MudTable Items="@talepler" MultiSelection="true" @bind-SelectedItems="selectedItems" Hover="true">
+    <HeaderContent>
+        <MudTh>Nr</MudTh>
+        <MudTh>Sign</MudTh>
+        <MudTh>Name</MudTh>
+        <MudTh>Position</MudTh>
+        <MudTh>Molar mass</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="TalepAciklama">@context.TalepAciklama</MudTd>
+        <MudTd DataLabel="TalepAltSonucus">@context.TalepAltSonucus</MudTd>
+        <MudTd DataLabel="TalepKonu">@context.TalepKonu</MudTd>
+        <MudTd DataLabel="YerleskeAciklamasi">@context.YerleskeAciklamasi</MudTd>
+        <MudTd DataLabel="TalepBaslik">@context.TalepBaslik</MudTd>
+    </RowTemplate>
+    <PagerContent>
+        <MudTablePager PageSizeOptions="new int[] { 1, 100 }" />
+    </PagerContent>
+    <FooterContent>
+        <MudTd colspan="5">Select All</MudTd>
+    </FooterContent>
+</MudTable>
+<MudText Inline="true">Selected items: @(selectedItems == null ? "" : string.Join(", ", selectedItems.OrderBy(x => x.TalepBaslik).Select(x => x.TalepBaslik)))</MudText>
+
+@code{
+
+    private HashSet<Talep> selectedItems = new HashSet<Talep>();
+
+
+    public IEnumerable<Talep> talepler = new List<Talep>();
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        // talepler = await Task.Run(() => talepsService.GetTaleps());
+        // amirlikler = await Task.Run(() => amirliksService.GetAmirliks());
+        //  istipleri = await Task.Run(() => istipleriService.GetIsTipleris());
+        @* TalepList.AddRange(talepler);
+            AmirlikList.AddRange(amirlikler);
+            TalepList.AddRange(talepler);
+            SeciliTalep = TalepList.Take(1).ToList();*@
+
+        //SeciliTalep = talepler.Take(1).ToList();
+
+        //Timer timer = new Timer(5000);
+        //timer.Elapsed += (s, e) => { InvokeAsync(grid.Reload); };
+        //timer.Start();
+        //base.OnInitialized();
+        talepler = await talepsService.GetTaleps();
+
+
+    }
+}
