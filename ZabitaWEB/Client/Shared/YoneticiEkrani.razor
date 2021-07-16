@@ -16,8 +16,8 @@
     <div class="col-md-6">
         <div class="row">
             <div class="col-md-12 mb-4">
-                <RadzenDataGrid Data="@talepler" @ref="grid" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="4"
-                                AllowSorting="true"  TItem="Talep" AllowVirtualization="true" ColumnWidth="200px" 
+                <RadzenDataGrid Data="@talepler" @ref="grid" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="5"
+                                AllowSorting="true" TItem="Talep" AllowVirtualization="true" ColumnWidth="200px"
                                 SelectionMode="DataGridSelectionMode.Multiple" @bind-Value=@SeciliTalep>
                     <Columns>
                         <RadzenDataGridColumn TItem="Talep" Width="40px" Sortable="false" Filterable="false">
@@ -26,13 +26,13 @@
                                 <RadzenCheckBox TriState="false" Value="@(SeciliTalep != null && SeciliTalep.Contains(data))" />
                             </Template>
                         </RadzenDataGridColumn>
-                        <RadzenDataGridColumn TItem="Talep" Property="YerleskeAciklamasi" Title="Is Adı">
+                        <RadzenDataGridColumn TItem="Talep" Property="TalepBaslik" Title="Talep Konusu">
                             <Template Context="data">
                                 <MudButton Variant="Variant.Outlined" Size="Size.Small" OnClick="@(() => OpenDialog(data))"> Detay</MudButton>
                             </Template>
 
                         </RadzenDataGridColumn>
-                        <RadzenDataGridColumn TItem="Talep" Property="TalepBaslik" Title="Yapildimi" />
+                        <RadzenDataGridColumn TItem="Talep" Property="TalepAmirlik" Title="Talep Amirliği" />
                         <RadzenDataGridColumn TItem="Talep" Property="TalepKonu" Title="Gonderildi" />
                     </Columns>
 
@@ -111,6 +111,7 @@
     </div>
 </div>
 @code{
+
     RadzenDataGrid<Talep> grid;
     public bool ShowDetails { get; set; } = false;
 
@@ -150,10 +151,10 @@
 
         //SeciliTalep = talepler.Take(1).ToList();
 
-        Timer timer = new Timer(5000);
-        timer.Elapsed += (s, e) => { InvokeAsync(grid.Reload); };
-        timer.Start();
-        base.OnInitialized();
+        //Timer timer = new Timer(5000);
+        //timer.Elapsed += (s, e) => { InvokeAsync(grid.Reload); };
+        //timer.Start();
+        //base.OnInitialized();
 
     }
     async Task OpenDialog(Talep talep)

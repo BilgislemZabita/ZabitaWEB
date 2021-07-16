@@ -184,7 +184,7 @@
 
 
 
-    protected async override void OnParametersSet()
+    protected override async Task OnInitializedAsync()
     {
         Taleptipleri = await istipleriService.GetIsTipleris();
         IsAltTipleri = await isalttipleriService.GetIsAltTipleris();

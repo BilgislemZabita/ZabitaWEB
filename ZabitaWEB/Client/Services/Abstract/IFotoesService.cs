@@ -11,6 +11,7 @@ namespace ZabitaWEB.Client.Services.Abstract
         Task<ActionResult<bool>> DeleteFoto(int id);
 
         Task<ActionResult<Foto>> GetFoto(int id);
+        Task<ActionResult<Foto>> GetTalepFoto(int id);
 
         Task<List<Foto>>  GetFotolars();
 

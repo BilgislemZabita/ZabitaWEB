@@ -15,10 +15,9 @@
 
         <div class="col-12 mb-4 ">
             <MudTabs Elevation="24" Rounded="true" Centered="true" Border="true" Position="Position.Top" Color="@Color.Info" PrevIcon="@Icons.Filled.SkipPrevious" NextIcon="@Icons.Filled.SkipNext">
-                <MudTabPanel Text="Daire Büro">
+                <MudTabPanel Text="Daire Büro"  >
 
-                    <YoneticiEkrani talepler="@Talepler" istipleri="@Istipleris" amirlikler="@Amirlikler"  />
-
+                    <YoneticiEkrani talepler="@Talepler" istipleri="@Istipleris" amirlikler="@Amirlikler"   />
                 </MudTabPanel>
                 <MudTabPanel Text="İSG Büro">
 
@@ -35,6 +34,7 @@
     </div>
        
 @code {
+
     bool disabled = true;
     IList<IBrowserFile> files = new List<IBrowserFile>();
 
@@ -116,7 +116,7 @@
 
 
 
-    protected async override void OnInitialized()
+    protected async override void OnParametersSet()
     {
         try
         {
@@ -136,7 +136,7 @@
         catch(Exception e)
         {
             Console.WriteLine(e.Message.ToString());
-            }
+        }
 
 
     }

@@ -41,6 +41,19 @@ namespace ZabitaWEB.Server.Controllers
 
             return foto;
         }
+        // GET: api/Fotoes/talep/5
+        [HttpGet("talep/{id:int}")]
+        public async Task<ActionResult<List<Foto>>> GetTalepFoto(int id)
+        {
+            var foto = await _context.Fotolars.Where(s=>s.FotoTalep.TalepId==id).ToListAsync();
+
+            if (foto == null)
+            {
+                return NotFound();
+            }
+
+            return foto;
+        }
 
         // PUT: api/Fotoes/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754

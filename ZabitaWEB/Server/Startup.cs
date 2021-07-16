@@ -23,6 +23,7 @@ namespace ZabitaWEB.Server
             //zabitaDatabaseContext.Database.EnsureCreated();
            // zabitaDatabaseContext.Database.Migrate();
             Configuration = configuration; 
+           
         }
 
         public IConfiguration Configuration { get; }
@@ -40,6 +41,8 @@ namespace ZabitaWEB.Server
             services.AddSingleton<ZabitaDatabaseContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();
+            //services.AddControllers().AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Serialize);
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
