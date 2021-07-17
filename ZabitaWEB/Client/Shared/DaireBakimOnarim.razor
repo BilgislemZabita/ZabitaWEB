@@ -175,7 +175,7 @@
         Snackbar.Configuration.PositionClass = Defaults.Classes.Position.TopRight;
         Snackbar.Add("Kayıt Başarılı!", Severity.Success);
         //NavigationManager.NavigateTo("talep", true);
-
+        StateHasChanged();
         disabled = true;
     }
 
@@ -186,20 +186,28 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Taleptipleri = await istipleriService.GetIsTipleris();
-        IsAltTipleri = await isalttipleriService.GetIsAltTipleris();
-        foreach (var z in IsAltTipleri)
+        try
         {
-            Istipi.Append(z.IsAltTipi);
+            Taleptipleri = await istipleriService.GetIsTipleris();
+            IsAltTipleri = await isalttipleriService.GetIsAltTipleris();
+            foreach (var z in IsAltTipleri)
+            {
+                Istipi.Append(z.IsAltTipi);
+            }
+            Amirlikler = await amirliksService.GetAmirliks();
+            //listtalep = await talepsService.GetTaleps();
+            //IsTipleriList.AddRange(lististipleri);
+            //AmirlikList.AddRange(listyerleske);
+            // TalepList.AddRange(listtalep);
+            IsAltTipleriList.AddRange(IsAltTipleri);
+            TalepTipleriList.AddRange(Taleptipleri);
+            AmirlikList.AddRange(Amirlikler);
         }
-        Amirlikler = await amirliksService.GetAmirliks();
-        //listtalep = await talepsService.GetTaleps();
-        //IsTipleriList.AddRange(lististipleri);
-        //AmirlikList.AddRange(listyerleske);
-        // TalepList.AddRange(listtalep);
-        IsAltTipleriList.AddRange(IsAltTipleri);
-        TalepTipleriList.AddRange(Taleptipleri);
-        AmirlikList.AddRange(Amirlikler);
+        catch(Exception e)
+        {
+            Console.WriteLine(e.Message.ToString());
+        }
+
 
     }
 
