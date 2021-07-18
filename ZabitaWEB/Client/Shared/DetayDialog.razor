@@ -3,9 +3,18 @@
 @using Zabita.Entities.Concrete
 @using ZabitaWEB.Client.Services.Abstract
 @inject IFotoesService fotosService
-<MudDialog DisableSidePadding="true">
+
+<MudDialogProvider FullWidth="true" 
+                   MaxWidth="MaxWidth.ExtraSmall" 
+                   CloseButton="true"
+                   DisableBackdropClick="true" 
+                   NoHeader="true"
+                   Position="DialogPosition.Center" >
+</MudDialogProvider>
+<MudDialog>
     <DialogContent>
-        <MudContainer Style="max-height: 100%; overflow-y: scroll; overflow-x: scroll; max-width: 100%">
+        <MudContainer Style="height: 100vh; overflow-y: auto;width: 100vw; justify-content:flex-start">
+
             @if (Loading)
             {
                 <MudProgressCircular Indeterminate="true"></MudProgressCircular>
@@ -16,28 +25,31 @@
                 <MudText Style="white-space: pre-wrap;">@tlp.TalepAciklama</MudText>
 
 
-                <MudCarousel ItemsSource="@TalepFoto" Style="height: 25em" ShowArrows="true" ShowDelimiters="true" AutoCycle="false">
+                <MudCarousel ItemsSource="@TalepFoto" Style="height: 90vh; width: 100%; justify-content:flex-end" ShowArrows="true" ShowDelimiters="true" AutoCycle="false">
+
                     <ItemTemplate>
                         <div class="d-flex flex-column flex-column justify-center" style="height:100%">
-                            <img src="data:image/bmp;base64, @(Convert.ToBase64String(context.FotoData))" class="img-fluid" alt="...">
+                                <img class="img-responsive" src="data:image/jpeg;base64, @(Convert.ToBase64String(context.FotoData))"
+                                     style="width: 100%; height: 100%; justify-content:space-between">
+                                <div class="carousel-caption">acts_as_money</div>
                         </div>
                     </ItemTemplate>
                 </MudCarousel>
 
 
             }
-        </MudContainer>
+            </MudContainer>
     </DialogContent>
     <DialogActions>
         <MudButton Color="Color.Primary" OnClick="Ok">Kapat</MudButton>
     </DialogActions>
 </MudDialog>
+
 @code {
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
 
     [Parameter] public Talep talep { get; set; }
     public IEnumerable<Foto> TalepFoto { get; set; }
-    [Inject] HttpClient HttpClient { get; set; }
 
     protected override async Task OnInitializedAsync()
     {

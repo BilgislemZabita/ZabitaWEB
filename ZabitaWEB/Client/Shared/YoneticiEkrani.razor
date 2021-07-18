@@ -157,7 +157,7 @@
         //timer.Elapsed += (s, e) => { InvokeAsync(grid.Reload); };
         //timer.Start();
         //base.OnInitialized();
-       
+
 
     }
 
@@ -165,9 +165,11 @@
 
     async Task OpenDialog(Talep talep)
     {
+        MudBlazor.DialogOptions fullScreen = new MudBlazor.DialogOptions() { FullScreen = true, CloseButton = true };
+
         var parameters = new DialogParameters { ["Talep"] = talep };
 
-        var result = await DialogService.Show<DetayDialog>("talep", parameters).Result;
+        var result = await DialogService.Show<DetayDialog>("talep", parameters,fullScreen).Result;
 
     }
 
