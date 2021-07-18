@@ -37,11 +37,12 @@ namespace ZabitaWEB.Server
             services.AddDbContext<DbContext>(options =>
             {
                 options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"));
-            });
-            services.AddSingleton<ZabitaDatabaseContext>();
+                
+            },ServiceLifetime.Transient);
+            services.AddTransient<ZabitaDatabaseContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();
-            //services.AddControllers().AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Serialize);
+            services.AddControllers().AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Serialize);
 
         }
 

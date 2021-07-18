@@ -1,10 +1,11 @@
 ﻿@using System.Net
 @using System.Text
 @using Zabita.Entities.Concrete
-
+@using ZabitaWEB.Client.Services.Abstract
+@inject IFotoesService fotosService
 <MudDialog DisableSidePadding="true">
     <DialogContent>
-        <MudContainer Style="max-height: 300px; overflow-y: scroll">
+        <MudContainer Style="max-height: 100%; overflow-y: scroll; overflow-x: scroll; max-width: 100%">
             @if (Loading)
             {
                 <MudProgressCircular Indeterminate="true"></MudProgressCircular>
@@ -13,17 +14,15 @@
             {
 
                 <MudText Style="white-space: pre-wrap;">@tlp.TalepAciklama</MudText>
-                <RadzenDataGridColumn TItem="Talep" Property="Fotolar" Title="Foto" Sortable="false" Filterable="false">
-                    
-                    <Template Context="data">
-                        @foreach (var i in data.Fotolar)
-                        {
-                            <RadzenImage @bind-data="@i.FotoData" style="width: 40px; height: 40px; border-radius: 8px;" />
-                            @data.TalepAmirlik @data.TalepAciklama
-                        }
 
-                    </Template>
-                </RadzenDataGridColumn>
+
+                <MudCarousel ItemsSource="@TalepFoto" Style="height: 25em" ShowArrows="true" ShowDelimiters="true" AutoCycle="false">
+                    <ItemTemplate>
+                        <div class="d-flex flex-column flex-column justify-center" style="height:100%">
+                            <img src="data:image/bmp;base64, @(Convert.ToBase64String(context.FotoData))" class="img-fluid" alt="...">
+                        </div>
+                    </ItemTemplate>
+                </MudCarousel>
 
 
             }
@@ -37,13 +36,14 @@
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
 
     [Parameter] public Talep talep { get; set; }
+    public IEnumerable<Foto> TalepFoto { get; set; }
     [Inject] HttpClient HttpClient { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
         Loading = true;
-        var response = await HttpClient.GetAsync("https://raw.githubusercontent.com/Garderoben/MudBlazor/master/LICENSE");
+        TalepFoto = await fotosService.GetTalepFoto(talep.TalepId);
         tlp = talep;
 
         Loading = false;

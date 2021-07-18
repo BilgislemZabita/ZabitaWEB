@@ -16,8 +16,8 @@
     <div class="col-md-6">
         <div class="row">
             <div class="col-md-12 mb-4">
-                <RadzenDataGrid Data="@talepler" @ref="grid" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="5"
-                                AllowSorting="true" TItem="Talep" AllowVirtualization="true" ColumnWidth="200px"
+                <RadzenDataGrid @ref="gridc" Data="@talepler"  AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="5"
+                                AllowSorting="true" TItem="Talep" AllowVirtualization="true" ColumnWidth ="300px"
                                 SelectionMode="DataGridSelectionMode.Multiple" @bind-Value=@SeciliTalep>
                     <Columns>
                         <RadzenDataGridColumn TItem="Talep" Width="40px" Sortable="false" Filterable="false">
@@ -26,14 +26,15 @@
                                 <RadzenCheckBox TriState="false" Value="@(SeciliTalep != null && SeciliTalep.Contains(data))" />
                             </Template>
                         </RadzenDataGridColumn>
-                        <RadzenDataGridColumn TItem="Talep" Property="TalepBaslik" Title="Talep Konusu">
+                        <RadzenDataGridColumn TItem="Talep" Title="Detay" Filterable="false" Width="7em">
                             <Template Context="data">
-                                <MudButton Variant="Variant.Outlined" Size="Size.Small" OnClick="@(() => OpenDialog(data))"> Detay</MudButton>
+                                <MudButton Variant="Variant.Outlined" OnClick="@(() => OpenDialog(data))"> Detay</MudButton>
                             </Template>
 
                         </RadzenDataGridColumn>
                         <RadzenDataGridColumn TItem="Talep" Property="TalepAmirlik" Title="Talep Amirliği" />
                         <RadzenDataGridColumn TItem="Talep" Property="TalepKonu" Title="Gonderildi" />
+                    
                     </Columns>
 
                 </RadzenDataGrid>
@@ -67,7 +68,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="gallery">
-                                <a target="_blank" href="~/images/1.jpg">
+                                @*<a target="_blank" href="~/images/1.jpg">
                                     <img src="images/1.jpg" alt="cck1" width="100" height="100">
                                 </a>
                                 <a target="_blank" href="~/images/2.jpg">
@@ -78,7 +79,7 @@
                                 </a>
                                 <a target="_blank" href="~/images/4.jpg">
                                     <img src="images/4.jpg" alt="cck2" width="100" height="100">
-                                </a>
+                                </a>*@
                             </div>
                         </div>
                     </div>
@@ -113,6 +114,7 @@
 @code{
 
     RadzenDataGrid<Talep> grid;
+    RadzenDataGrid<Talep> gridc;
     public bool ShowDetails { get; set; } = false;
 
     [Parameter]
@@ -139,7 +141,7 @@
         StateHasChanged();
 
     }
-    protected async override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         // talepler = await Task.Run(() => talepsService.GetTaleps());
         // amirlikler = await Task.Run(() => amirliksService.GetAmirliks());
@@ -155,8 +157,12 @@
         //timer.Elapsed += (s, e) => { InvokeAsync(grid.Reload); };
         //timer.Start();
         //base.OnInitialized();
+       
 
     }
+
+
+
     async Task OpenDialog(Talep talep)
     {
         var parameters = new DialogParameters { ["Talep"] = talep };

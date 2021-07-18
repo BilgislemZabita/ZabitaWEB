@@ -18,9 +18,9 @@ namespace ZabitaWEB.Client.Services.Concrete
             _httpClient = httpClient;
         }
 
-        public async Task<ActionResult<Foto>> GetTalepFoto(int id)
+        public async Task<List<Foto>> GetTalepFoto(int id)
         {
-            return await _httpClient.GetFromJsonAsync<Foto>("/api/Fotoes/talep/" + id.ToString());
+            return await _httpClient.GetFromJsonAsync<List<Foto>>("/api/Fotoes/talep/" + id.ToString());
         }
 
         Task<ActionResult<bool>> IFotoesService.DeleteFoto(int id)
