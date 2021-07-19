@@ -22,13 +22,14 @@ namespace Zabita.Entities.Concrete
 
         public virtual string PersonelSicil { get; set; }
 
-     public virtual string PersonelTelefon { get; set; }
+        public virtual string PersonelTelefon { get; set; }
 
         public virtual string PersonelDahili { get; set; }
 
         public virtual string YetkiLevel { get; set; }
 
          public virtual Yetki PersonelYetki { get; set; }
+         public virtual string IsAtanabilir { get; set; }
 
         public virtual Yerleske PersonelYerleske { get; set; }
         public virtual Mudurluk PersonelMudurluk { get; set; }

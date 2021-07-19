@@ -52,9 +52,12 @@
 
             </div>
             <div class="col-lg-8 col-sm-12 mt-1 mb-1">
-                <RadzenDropDown AllowClear="true" TValue="string" Style=" display: flex; text-align: right !important;direction:inherit;text-anchor:start"
+                @*<RadzenDropDown AllowClear="true" TValue="string" Style=" display: flex; text-align: right !important;direction:inherit;text-anchor:start"
                                 FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
-                                FilterOperator="StringFilterOperator.StartsWith" AllowFiltering="true" />
+                                FilterOperator="StringFilterOperator.StartsWith"
+                                AllowFiltering="true" TValue="string" @bind-Value=@amirlikid Placeholder="Amirlik Seçiniz..."
+                                Data=@AmirlikList SelectedItem="@selectedamirliks" TextProperty="AmirlikIsım" ValueProperty="AmirlikID" />*@
+                
             </div>
             <div class="col-lg-4 col-sm-12 mt-1 mb-1">
                 <RadzenButton Style="display: flex; text-align: left !important;width:100% " Icon="send" BusyText="Gönderiliyor ..." IsBusy=@busy Click=@OnBusyClick Text="Gonder" />
