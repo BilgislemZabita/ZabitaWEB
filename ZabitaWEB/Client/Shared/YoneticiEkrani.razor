@@ -10,6 +10,7 @@
 @inject IAmirliksService amirliksService
 @inject IIsTiplerisService istipleriService
 @inject IIsAltTiplerisService isalttipleriService
+@inject IPersonelsService personelService
 
 
 <div class="row mt-4">
@@ -52,11 +53,11 @@
 
             </div>
             <div class="col-lg-8 col-sm-12 mt-1 mb-1">
-                @*<RadzenDropDown AllowClear="true" TValue="string" Style=" display: flex; text-align: right !important;direction:inherit;text-anchor:start"
+                <RadzenDropDown AllowClear="true" Style=" display: flex; text-align: right !important;direction:inherit;text-anchor:start"
                                 FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
-                                FilterOperator="StringFilterOperator.StartsWith"
-                                AllowFiltering="true" TValue="string" @bind-Value=@amirlikid Placeholder="Amirlik Seçiniz..."
-                                Data=@AmirlikList SelectedItem="@selectedamirliks" TextProperty="AmirlikIsım" ValueProperty="AmirlikID" />*@
+                                FilterOperator="StringFilterOperator.StartsWith" 
+                                AllowFiltering="true" TValue="int" @bind-Value=@personel
+                                Data=@PersonelList SelectedItem="@SeciliPersonel" TextProperty="PersonelIsim" ValueProperty="PersonelId" />
                 
             </div>
             <div class="col-lg-4 col-sm-12 mt-1 mb-1">
@@ -132,6 +133,9 @@
     public IEnumerable<Talep> talepler { get; set; } = new List<Talep>();
     public IEnumerable<Talep> taleplerd { get; set; } = new List<Talep>();
     int count { get; set; } = 0;
+    private HashSet<Personel> SeciliPersonel { get; set; } = new HashSet<Personel>() { };
+    List<Personel> PersonelList = new List<Personel>();
+    int personel;
 
     bool busy;
     async void LoadData(LoadDataArgs args)
@@ -160,6 +164,7 @@
         //timer.Elapsed += (s, e) => { InvokeAsync(grid.Reload); };
         //timer.Start();
         //base.OnInitialized();
+        PersonelList = await personelService.GetTalepPersonel();
 
 
     }

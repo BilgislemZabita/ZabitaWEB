@@ -41,7 +41,19 @@ namespace ZabitaWEB.Server.Controllers
 
             return personel;
         }
+        // GET: api/Personels/talep
+        [HttpGet("talep")]
+        public async Task<ActionResult<List<Personel>>> GetTalepPersonel()
+        {
+            var personels = await _context.Personels.Where(s => s.IsAtanabilir == "1").ToListAsync();
 
+            if (personels == null)
+            {
+                return NotFound();
+            }
+
+            return personels;
+        }
         // PUT: api/Personels/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]

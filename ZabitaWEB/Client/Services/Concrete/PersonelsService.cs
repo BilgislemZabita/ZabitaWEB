@@ -32,6 +32,10 @@ namespace ZabitaWEB.Client.Services.Concrete
         {
             return await _httpClient.GetFromJsonAsync<List<Personel>>("/api/Personels");
         }
+        public async Task<List<Personel>> GetTalepPersonel()
+        {
+            return await _httpClient.GetFromJsonAsync<List<Personel>>("/api/Personels/talep/");
+        }
 
         public Task<ActionResult<Personel>> PostPersonel(Personel personel)
         {
