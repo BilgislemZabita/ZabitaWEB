@@ -41,11 +41,11 @@ namespace ZabitaWEB.Server.Controllers
 
             return personel;
         }
-        // GET: api/Personels/talep
-        [HttpGet("talep")]
-        public async Task<ActionResult<List<Personel>>> GetTalepPersonel()
+        // GET: api/Personels/talep/amirlik/3
+        [HttpGet("talep/{amirlik:int}/{atama}")]
+        public async Task<ActionResult<List<Personel>>> GetTalepPersonel(int amirlik,string atama)
         {
-            var personels = await _context.Personels.Where(s => s.IsAtanabilir == "1").ToListAsync();
+            var personels = await _context.Personels.Where(s=>s.PersonelAmirlik.AmirlikID==amirlik && s.IsAtanabilir == atama).ToListAsync();
 
             if (personels == null)
             {

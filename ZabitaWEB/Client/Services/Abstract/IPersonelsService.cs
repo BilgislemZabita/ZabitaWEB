@@ -12,7 +12,7 @@ namespace ZabitaWEB.Client.Services.Abstract
         Task<ActionResult<Personel>> GetPersonel(int id);
 
         Task<List<Personel>> GetPersonels();
-        Task<List<Personel>> GetTalepPersonel();
+        Task<List<Personel>> GetTalepPersonel(int amirlik, string atama);
         Task<ActionResult<Personel>> PostPersonel(Personel personel);
 
         Task<IActionResult> PutPersonel(int id, Personel personel);

@@ -164,8 +164,8 @@
         //timer.Elapsed += (s, e) => { InvokeAsync(grid.Reload); };
         //timer.Start();
         //base.OnInitialized();
-        PersonelList = await personelService.GetTalepPersonel();
-
+        PersonelList = await personelService.GetTalepPersonel(1,"1");
+        
 
     }
 
