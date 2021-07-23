@@ -40,6 +40,7 @@ namespace Zabita.Entities.Concrete
         public virtual ICollection<Demirbas> Demirbaslar { get; set; }
         public virtual ICollection<Sarf> Sarf { get; set; }
         public virtual ICollection<Talep> Taleps { get; set; }
+        public virtual ICollection<TalepAltSonucu> TalepAltSonucus { get; set; }
         public virtual ICollection<Modul> Moduls { get; set; }
         public virtual ICollection<Yetki> Yetkis { get; set; }
         public virtual ICollection<ModulPersonelc> ModulPersonelcs { get; set; }

@@ -11,6 +11,7 @@
 @inject IIsTiplerisService istipleriService
 @inject IIsAltTiplerisService isalttipleriService
 @inject IPersonelsService personelService
+@inject ITalepAltSonucusService talepaltsonucuService
 
 
 <div class="row mt-4">
@@ -165,7 +166,7 @@
         //timer.Start();
         //base.OnInitialized();
         PersonelList = await personelService.GetTalepPersonel(1,"1");
-        
+
 
     }
 
@@ -185,7 +186,8 @@
     async Task OnBusyClick()
     {
         busy = true;
-        await Task.Delay(2000);
+        TalepAltSonucu talepAltSonucu = new TalepAltSonucu {};
+
         busy = false;
     }
     public void Export()

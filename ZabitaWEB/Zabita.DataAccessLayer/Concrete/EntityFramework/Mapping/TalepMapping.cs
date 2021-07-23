@@ -20,6 +20,9 @@ namespace Zabita.DataAccessLayer.Concrete.EntityFramework.Mapping
             builder
                .HasMany(m => m.Fotolar)
                .WithOne(m => m.FotoTalep).OnDelete(DeleteBehavior.Cascade);
+            builder
+               .HasMany(m => m.TalepAltSonucus)
+               .WithOne(m => m.Taleptalepaltsonucu).OnDelete(DeleteBehavior.Cascade);
 
         }
     }

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Zabita.DataAccessLayer.Concrete.EntityFramework;
@@ -9,9 +10,10 @@ using Zabita.DataAccessLayer.Concrete.EntityFramework;
 namespace Zabita.DataAccessLayer.Migrations
 {
     [DbContext(typeof(ZabitaDatabaseContext))]
-    partial class ZabitaDatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20210722231747_talepaltsonucu")]
+    partial class talepaltsonucu
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -618,12 +620,6 @@ namespace Zabita.DataAccessLayer.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<int?>("AmirlikID")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("PersonelId")
-                        .HasColumnType("integer");
-
                     b.Property<string>("TalepAltSonucuAciklama")
                         .HasColumnType("text");
 
@@ -636,21 +632,22 @@ namespace Zabita.DataAccessLayer.Migrations
                     b.Property<string>("TalepAltSonucuTipi")
                         .HasColumnType("text");
 
-                    b.Property<string>("TalepIdString")
+                    b.Property<string>("TalepId")
                         .HasColumnType("text");
+
+                    b.Property<int?>("TalepId1")
+                        .HasColumnType("integer");
 
                     b.Property<int?>("TaleptalepaltsonucuTalepId")
                         .HasColumnType("integer");
 
                     b.HasKey("TalepAltSonucuId");
 
-                    b.HasIndex("AmirlikID");
-
-                    b.HasIndex("PersonelId");
+                    b.HasIndex("TalepId1");
 
                     b.HasIndex("TaleptalepaltsonucuTalepId");
 
-                    b.ToTable("TalepAltSonucu");
+                    b.ToTable("TalepAltSonucus");
                 });
 
             modelBuilder.Entity("Zabita.Entities.Concrete.TalepSonucu", b =>
@@ -1296,22 +1293,16 @@ namespace Zabita.DataAccessLayer.Migrations
 
             modelBuilder.Entity("Zabita.Entities.Concrete.TalepAltSonucu", b =>
                 {
-                    b.HasOne("Zabita.Entities.Concrete.Amirlik", "Amirlik")
+                    b.HasOne("Zabita.Entities.Concrete.Talep", "Talep")
                         .WithMany("TalepAltSonucus")
-                        .HasForeignKey("AmirlikID");
-
-                    b.HasOne("Zabita.Entities.Concrete.Personel", "Personel")
-                        .WithMany("TalepAltSonucus")
-                        .HasForeignKey("PersonelId");
-
-                    b.HasOne("Zabita.Entities.Concrete.Talep", "Taleptalepaltsonucu")
-                        .WithMany("TalepAltSonucus")
-                        .HasForeignKey("TaleptalepaltsonucuTalepId")
+                        .HasForeignKey("TalepId1")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.Navigation("Amirlik");
+                    b.HasOne("Zabita.Entities.Concrete.Talep", "Taleptalepaltsonucu")
+                        .WithMany()
+                        .HasForeignKey("TaleptalepaltsonucuTalepId");
 
-                    b.Navigation("Personel");
+                    b.Navigation("Talep");
 
                     b.Navigation("Taleptalepaltsonucu");
                 });
@@ -1439,8 +1430,6 @@ namespace Zabita.DataAccessLayer.Migrations
 
                     b.Navigation("Sarf");
 
-                    b.Navigation("TalepAltSonucus");
-
                     b.Navigation("YerleskeBakimOnarim");
 
                     b.Navigation("YerleskeIklimlendirme");
@@ -1511,8 +1500,6 @@ namespace Zabita.DataAccessLayer.Migrations
                     b.Navigation("ModulPersonelcs");
 
                     b.Navigation("Sarf");
-
-                    b.Navigation("TalepAltSonucus");
 
                     b.Navigation("Taleps");
 
