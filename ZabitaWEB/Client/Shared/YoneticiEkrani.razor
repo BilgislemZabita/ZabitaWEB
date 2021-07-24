@@ -186,7 +186,18 @@
     async Task OnBusyClick()
     {
         busy = true;
-        TalepAltSonucu talepAltSonucu = new TalepAltSonucu {};
+        //  TalepAltSonucu talepAltSonucu = new TalepAltSonucu {};
+
+        foreach (var i in SeciliTalep)
+        {
+            i.TalepDurumu = "1";
+            i.TalepId = i.TalepId;
+            await talepsService.PutTalep(i.TalepId, i);
+
+            Console.WriteLine(i.TalepId);
+
+
+        }
 
         busy = false;
     }
@@ -196,5 +207,5 @@
         talepsService.Export(new Query() { OrderBy = grid.Query.OrderBy, Filter = grid.Query.Filter });
 
     }
-}
+    }
 

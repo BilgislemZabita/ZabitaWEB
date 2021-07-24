@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Radzen;
 using System;
@@ -49,9 +50,11 @@ namespace ZabitaWEB.Client.Services.Concrete
 
             await Task.Run(() => navigationManager.NavigateTo(query != null ? query.ToUrl($"/api/Taleps") : $"/api/Taleps", true)); 
         }
-        public Task<IActionResult> PutTalep(int id, Talep talep)
+        public async Task<StatusCodeResult> PutTalep(int id, Talep talep)
         {
-            throw new NotImplementedException();
+            await _httpClient.PutAsJsonAsync<Talep>("/api/Taleps/" + id.ToString(), talep);
+            return new StatusCodeResult(StatusCodes.Status200OK);
         }
+       
     }
 }

@@ -15,6 +15,6 @@ namespace ZabitaWEB.Client.Services.Abstract
         Task<List<Personel>> GetTalepPersonel(int amirlik, string atama);
         Task<ActionResult<Personel>> PostPersonel(Personel personel);
 
-        Task<IActionResult> PutPersonel(int id, Personel personel);
+        Task<ActionResult<StatusCodeResult>> PutPersonel(int id, Personel personel);
     }
 }

@@ -4,8 +4,11 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
+using System.Web.Http.Description;
 using Zabita.Entities.Concrete;
 using ZabitaWEB.Client.Services.Abstract;
+using Microsoft.AspNetCore.Http;
+
 
 namespace ZabitaWEB.Client.Services.Concrete
 {
@@ -43,10 +46,13 @@ namespace ZabitaWEB.Client.Services.Concrete
         {
             throw new NotImplementedException();
         }
+        [ResponseType(typeof(Talep))]
 
-        public Task<IActionResult> PutPersonel(int id, Personel personel)
+        public async Task<ActionResult<StatusCodeResult>> PutPersonel(int id, Personel personel)
         {
-            throw new NotImplementedException();
+
+            return new StatusCodeResult(StatusCodes.Status200OK);
+
         }
     }
-}
+} 

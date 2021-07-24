@@ -14,6 +14,6 @@ namespace ZabitaWEB.Client.Services.Abstract
         Task<List<Talep>> GetTaleps();
         Task<Uri> PostTalep(Talep talep);
         void Export( Query query = null);
-        Task<IActionResult> PutTalep(int id, Talep talep);
+        Task<StatusCodeResult> PutTalep(int id, Talep talep);
     }
 }
