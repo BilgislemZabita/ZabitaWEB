@@ -541,7 +541,7 @@
       "url": "_framework\/ZabitaWEB.Shared.dll"
     },
     {
-      "hash": "sha256-wqo4vWhGh3Pr5+rGw6RpSg6ltOFkRRs6RCTTxA2cEvU=",
+      "hash": "sha256-JDIOWWo8gvi6YUuT8GC+HHb6gLsVwqwaOGLCCcpo7Gs=",
       "url": "_framework\/ZabitaWEB.Client.dll"
     },
     {
@@ -1033,7 +1033,7 @@
       "url": "_framework\/zh-Hant\/Microsoft.CodeAnalysis.Workspaces.resources.dll"
     },
     {
-      "hash": "sha256-W\/Y94x8tSHfq9\/Y\/oBDRbeAa9d3GstKW7LZqPxIRLiA=",
+      "hash": "sha256-V\/h\/ZntveBPqnQLnAw+LjcKBX\/Nrq4p77e0HEJWFfSM=",
       "url": "_framework\/blazor.boot.json"
     },
     {
@@ -1041,5 +1041,5 @@
       "url": "_framework\/blazor.webassembly.js"
     }
   ],
-  "version": "Ok\/8Dw60"
+  "version": "TuRC9RFd"
 };
