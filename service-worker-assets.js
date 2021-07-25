@@ -529,19 +529,19 @@
       "url": "_framework\/System.Windows.Extensions.dll"
     },
     {
-      "hash": "sha256-ccimC67DRgmqAWi1ar50LW3JY+akvr0rinygoL3Uesc=",
+      "hash": "sha256-rAdrcdK3Lp7F0xNDQO7hRvbGON5GDCU388JECYNQj4E=",
       "url": "_framework\/Zabita.DataAccessLayer.dll"
     },
     {
-      "hash": "sha256-v88AzH2qNoE6nxlwec82999gHlgNe7ZqfC7nk0d9jgo=",
+      "hash": "sha256-7NVzEGrWxmdyPBxoIWL149eij57Fll4nZu4oPHjBII4=",
       "url": "_framework\/Zabita.Entities.dll"
     },
     {
-      "hash": "sha256-06bhxyquLeJPDkB9PMtvSjbFpk9rx7vrxAEROdIFngA=",
+      "hash": "sha256-2\/MinT1XFhVtufxWIWoJdVCYQXkPLzCCe8dR2iPSThw=",
       "url": "_framework\/ZabitaWEB.Shared.dll"
     },
     {
-      "hash": "sha256-q\/ImGJsIoxhjG2rJchWSDUh47arHeDBxZmqDYBaJPDg=",
+      "hash": "sha256-wqo4vWhGh3Pr5+rGw6RpSg6ltOFkRRs6RCTTxA2cEvU=",
       "url": "_framework\/ZabitaWEB.Client.dll"
     },
     {
@@ -593,7 +593,7 @@
       "url": "_framework\/System.ComponentModel.dll"
     },
     {
-      "hash": "sha256-s1Vp0nSaUYjmVpJ+obAHJT39otA74164F2+wZhwcRtQ=",
+      "hash": "sha256-oh6S3sBgihkbu3UPrjFiWc\/7IQCPIK70ZNls1QenVvI=",
       "url": "_framework\/System.Console.dll"
     },
     {
@@ -821,7 +821,7 @@
       "url": "_framework\/System.Web.HttpUtility.dll"
     },
     {
-      "hash": "sha256-wD3sZPmFWxqmE1KdJ9EXywP6fm\/KZkW\/b71MdN3P748=",
+      "hash": "sha256-bQBDoh+pcEVnKu2h1XDJucMRIhT+6HOs1iqKX1kQfZM=",
       "url": "_framework\/System.Private.CoreLib.dll"
     },
     {
@@ -1033,7 +1033,7 @@
       "url": "_framework\/zh-Hant\/Microsoft.CodeAnalysis.Workspaces.resources.dll"
     },
     {
-      "hash": "sha256-9ijhnl7ZJNDxV4J874yOQLd6gpE2sHR2U53P6Nif03o=",
+      "hash": "sha256-W\/Y94x8tSHfq9\/Y\/oBDRbeAa9d3GstKW7LZqPxIRLiA=",
       "url": "_framework\/blazor.boot.json"
     },
     {
@@ -1041,5 +1041,5 @@
       "url": "_framework\/blazor.webassembly.js"
     }
   ],
-  "version": "\/MyD4GzR"
+  "version": "Ok\/8Dw60"
 };
