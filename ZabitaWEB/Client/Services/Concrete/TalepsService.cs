@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Zabita.Entities.Concrete;
 using ZabitaWEB.Client.Services.Abstract;
 
+
 namespace ZabitaWEB.Client.Services.Concrete
 {
     public class TalepsService : ITalepsService
@@ -42,6 +43,12 @@ namespace ZabitaWEB.Client.Services.Concrete
         {
             return await _httpClient.GetFromJsonAsync<List<Talep>>("/api/Taleps");
         }
+        public async Task<IEnumerable<Talep>> GetTalepsEnum()
+        {
+            return await _httpClient.GetFromJsonAsync<IEnumerable<Talep>>("/api/Taleps");
+           
+        } 
+       
 
         public async Task<Uri> PostTalep(Talep talep)
         {
@@ -49,16 +56,20 @@ namespace ZabitaWEB.Client.Services.Concrete
             response.EnsureSuccessStatusCode();
             return response.Headers.Location; 
         }
-        public async void Export( Query query = null)
-        {
+        //public async void Export( Query query = null)
+        //{
 
-            await Task.Run(() => navigationManager.NavigateTo(query != null ? query.ToUrl($"/api/Taleps") : $"/api/Taleps", true)); 
-        }
+        //    await Task.Run(() => navigationManager.NavigateTo(query != null ? query.ToUrl($"/api/Taleps") : $"/api/Taleps", true)); 
+        //}
         public async Task<StatusCodeResult> PutTalep(int id, Talep talep)
         {
             await _httpClient.PutAsJsonAsync<Talep>("/api/Taleps/" + id.ToString(), talep);
             return new StatusCodeResult(StatusCodes.Status200OK);
         }
-       
+
+        public Task<IActionResult> Export()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

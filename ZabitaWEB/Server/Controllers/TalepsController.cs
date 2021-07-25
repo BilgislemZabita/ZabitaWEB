@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using ClosedXML.Excel;
+using Fingers10.ExcelExport.ActionResults;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -132,6 +136,21 @@ namespace ZabitaWEB.Server.Controllers
         private bool TalepExists(int id)
         {
             return _context.Taleps.Any(e => e.TalepId == id);
+        }
+        private IEnumerable<Talep> TalepEnum()
+        {
+            return _context.Taleps.Take(10);
+        }
+        IEnumerable<Talep> taleps { get; set; }
+
+        [HttpGet("export")]
+        public async Task<IActionResult> GetExcel()
+        {
+            //var results = await _context.Taleps.Where(s => s.TalepDurumu == "1").Take(100);
+            var results = this.TalepEnum();
+            
+    
+            return new ExcelResult<Talep>(results, "Demo Sheet Name", "Fingers10");
         }
     }
 }

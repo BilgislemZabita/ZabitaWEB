@@ -2,7 +2,8 @@
 @using Zabita.Entities.Concrete
 @using ZabitaWEB.Client.Services.Abstract
 @using System.Timers;
-
+@using ActionScheduler;
+@using Microsoft.AspNetCore.Mvc;
 
 @inject IDialogService DialogService
 
@@ -20,7 +21,7 @@
         <div class="row">
             <div class="col-md-12 mb-4">
                 <RadzenDataGrid @ref="gridr" Data="@talepler" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="5"
-                                AllowSorting="true" TItem="Talep" AllowVirtualization="true" ColumnWidth="300px" 
+                                AllowSorting="true" TItem="Talep" AllowVirtualization="true" ColumnWidth="300px"
                                 SelectionMode="DataGridSelectionMode.Multiple" @bind-Value=@SeciliTalep>
                     <Columns>
                         <RadzenDataGridColumn TItem="Talep" Width="40px" Sortable="false" Filterable="false">
@@ -71,7 +72,7 @@
             <div class="col-md-12">
                 <RadzenCard Style="width:100%; margin-bottom: 20px; height:28em;">
 
-                    <div class="card-header" style="max-height:3em;background-color:white"><h5 style="text-align:start">Atanmış İşler</h5></div>
+                    <div class="card-header mb-2" style="max-height: 3em; background-color: lightskyblue "><h5 style="text-align:start">Atanmış İşler</h5></div>
 
                     <RadzenDataGrid @ref="gridc" Data="@atanmisisler" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="4"
                                     AllowSorting="true" TItem="Talep" AllowVirtualization="true" ColumnWidth="300px"
@@ -101,21 +102,44 @@
     </div>
 
     <div class="col-md-6">
-        <RadzenButton Text="Excel" Icon="grid_on" Click="@(args => Export())" />
-        <RadzenButton Text="CSV" Icon="wrap_text" Click="@(args => Export())" />
-        <RadzenDataGrid @ref="grid" AllowFiltering="true" AllowPaging="true" AllowSorting="true" Data="@gecmis" TItem="Talep">
-            <Columns>
-                <RadzenDataGridColumn TItem="Talep" Property="TalepBaslik" Title="Talep Adı" />
-                <RadzenDataGridColumn TItem="Talep" Property="TalebinYapilmaTarihi" Title="Talep Tarihi">
-                    <Template Context="data">
-                        @String.Format("{0:d}", data.TalebinYapilmaTarihi)
-                    </Template>
-                </RadzenDataGridColumn>
-                <RadzenDataGridColumn TItem="Talep" Property="TalepAciklama" Title="Talep Konusu" />
-                <RadzenDataGridColumn TItem="Talep" Property="TalepKonu" Title="Talep Eden Personel" />
+        <div class="row">
+            <div class="col-12 mb-1">
 
-            </Columns>
-        </RadzenDataGrid>
+                <RadzenButton Text="Excel" Icon="grid_on" Click="@(args => Export())" />
+                <RadzenButton Text="CSV" Icon="wrap_text" Click="@(args => Export())" />
+
+            </div>
+        </div>
+        <RadzenCard Style="width:100%; margin-bottom: 20px; height:40em;">
+            <div class="card-header" style="max-height:3em;background-color:lightskyblue">
+                <h5 style="text-align:start">
+                    Geçmiş İşler
+
+                </h5>
+            </div>
+
+
+            <div class="row">
+                <div class="col-12 mt-2">
+                    <RadzenDataGrid @ref="grid" AllowFiltering="true" AllowPaging="true" AllowSorting="true" Data="@gecmis" TItem="Talep">
+                        <Columns>
+                            <RadzenDataGridColumn TItem="Talep" Property="TalepBaslik" Title="Talep Adı" />
+                            <RadzenDataGridColumn TItem="Talep" Property="TalebinYapilmaTarihi" Title="Talep Tarihi">
+                                <Template Context="data">
+                                    @String.Format("{0:d}", data.TalebinYapilmaTarihi)
+                                </Template>
+                            </RadzenDataGridColumn>
+                            <RadzenDataGridColumn TItem="Talep" Property="TalepAciklama" Title="Talep Konusu" />
+                            <RadzenDataGridColumn TItem="Talep" Property="TalepKonu" Title="Talep Eden Personel" />
+
+                        </Columns>
+                    </RadzenDataGrid>
+                </div>
+
+            </div>
+
+
+        </RadzenCard>
     </div>
 </div>
 @code{
@@ -143,7 +167,7 @@
     int personelId = 0;
 
     bool busy;
-    async void LoadData( )
+    async void LoadData()
     {
 
         gecmis = await talepsService.GetDurumTalep("2");
@@ -157,8 +181,20 @@
         StateHasChanged();
 
     }
+
+
+
+    // To Start The Scheduler
+
+    //jobScheduler.Stop(); // To Stop The Scheduler
     protected override async Task OnInitializedAsync()
     {
+        ActionScheduler jobScheduler = new ActionScheduler(TimeSpan.FromSeconds(20), () =>
+        {
+
+            this.LoadData();
+        });
+        jobScheduler.Start();
         // talepler = await Task.Run(() => talepsService.GetTaleps());
         // amirlikler = await Task.Run(() => amirliksService.GetAmirliks());
         //  istipleri = await Task.Run(() => istipleriService.GetIsTipleris());
@@ -225,10 +261,11 @@
         StateHasChanged();
         busy = false;
     }
-    public void Export()
+    public async Task<IActionResult> Export()
     {
 
-        talepsService.Export(new Query() { OrderBy = grid.Query.OrderBy, Filter = grid.Query.Filter });
+        return await talepsService.Export();
+       // return new ExcelResult<Talep>(results, "Demo Sheet Name", "Fingers10");
 
     }
 }
