@@ -15,5 +15,6 @@ namespace ZabitaWEB.Client.Services.Abstract
         Task<Uri> PostTalep(Talep talep);
         void Export( Query query = null);
         Task<StatusCodeResult> PutTalep(int id, Talep talep);
+        Task<List<Talep>> GetDurumTalep(string durum);
     }
 }

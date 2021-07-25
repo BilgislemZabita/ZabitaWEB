@@ -146,10 +146,15 @@
             talepAltSonucus.Add(new TalepAltSonucu()
             {
                 TalepAltSonucuAciklama = ist.IsAltTipiAciklama,
-                TalepAltSonucuTipi = ist.IsAltTipi
+                TalepAltSonucuTipi = ist.IsAltTipi,
+                TalepAltSonucuIlgiliTalepTipi=ist.IsAltTipiId,
+                TalepIsTipiAmirlik = "1",
+                TalepAltSonucuDurumu = "0",
+                
+
             }
 
-            );
+            ); 
 
         }
         var talep = new Talep
@@ -158,11 +163,12 @@
             TalepBaslik = "deneme",
             TalepAciklama = isbilgileri,
             Fotolar = fotos,
+            TalepAltSonucus=talepAltSonucus,
             YerleskeAciklamasi = yerleskebilgileri,
             AmirlikId = amirlikid.ToString(),
             TalebinYapilmaTarihi = DateTime.Now,
-            TalepAltSonucus = talepAltSonucus,
-            TalepIstipleriID = IsTipiId
+            TalepIstipleriID = IsTipiId,
+            TalepDurumu="0"
 
         };
 

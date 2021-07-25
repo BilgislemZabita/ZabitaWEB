@@ -27,12 +27,25 @@ namespace ZabitaWEB.Server.Controllers
         {
             return await _context.Taleps.ToListAsync();
         }
-
+  
         // GET: api/Taleps/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Talep>> GetTalep(int id)
         {
             var talep = await _context.Taleps.FindAsync(id);
+
+            if (talep == null)
+            {
+                return NotFound();
+            }
+
+            return talep;
+        }
+        // GET: api/Taleps/durum/5
+        [HttpGet("durum/{durum}")]
+        public async Task<ActionResult<List<Talep>>> GetDurumTalep(string durum)
+        {
+            var talep = await _context.Taleps.Where(s => s.TalepDurumu == durum).ToListAsync();
 
             if (talep == null)
             {

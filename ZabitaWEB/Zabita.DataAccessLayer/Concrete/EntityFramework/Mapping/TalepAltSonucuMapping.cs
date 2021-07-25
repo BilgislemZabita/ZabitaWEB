@@ -17,7 +17,7 @@ namespace Zabita.DataAccessLayer.Concrete.EntityFramework.Mapping
             builder.HasOne(s => s.Amirlik).WithMany(s => s.TalepAltSonucus);
 
 
-         
+            //builder.HasOne(s => s.Taleptalepaltsonucu).WithMany(s=>s.TalepAltSonucus);
           
                
 

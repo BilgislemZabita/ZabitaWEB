@@ -8,16 +8,16 @@
 
 @inject ISnackbar Snackbar
 @inject HttpClient Http
-@inject NavigationManager NavigationManager
+@inject NavigationManager navigationManager
 <div class="container-fluid">
 
     <div class="row">
 
         <div class="col-12 mb-4 ">
             <MudTabs Elevation="24" Rounded="true" Centered="true" Border="true" Position="Position.Top" Color="@Color.Info" PrevIcon="@Icons.Filled.SkipPrevious" NextIcon="@Icons.Filled.SkipNext">
-                <MudTabPanel Text="Daire Büro"  >
-
-                    <YoneticiEkrani talepler="@Talepler" istipleri="@Istipleris" amirlikler="@Amirlikler"   />
+                <MudTabPanel Text="Daire Büro">
+                    
+                     <YoneticiEkrani istipleri="@Istipleris" amirlikler="@Amirlikler" > </YoneticiEkrani>
                 </MudTabPanel>
                 <MudTabPanel Text="İSG Büro">
 
@@ -34,7 +34,6 @@
     </div>
        
 @code {
-
     bool disabled = true;
     IList<IBrowserFile> files = new List<IBrowserFile>();
 
@@ -65,7 +64,7 @@
 
     IEnumerable<IsTipleri> Istipleris { get; set; }
     IEnumerable<Amirlik> Amirlikler { get; set; }
-    IEnumerable<Talep> Talepler { get; set; }
+    List<Talep> Talepler { get; set; } = new List<Talep>();
     IEnumerable<IsAltTipleri> IsAltTipleri;
 
     [Parameter]
@@ -125,7 +124,9 @@
             IsAltTipleri = await isalttipleriService.GetIsAltTipleris();
 
             Amirlikler = await amirliksService.GetAmirliks();
-            Talepler = await talepsService.GetTaleps();
+            Talepler = await talepsService.GetDurumTalep("0");
+            var tt = await talepsService.GetDurumTalep("1");
+            Talepler.AddRange(tt);
             //IsTipleriList.AddRange(lististipleri);
             //AmirlikList.AddRange(listyerleske);
             // TalepList.AddRange(listtalep);

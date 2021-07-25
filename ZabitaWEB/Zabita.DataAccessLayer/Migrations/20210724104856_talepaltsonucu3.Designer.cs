@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Zabita.DataAccessLayer.Concrete.EntityFramework;
@@ -9,9 +10,10 @@ using Zabita.DataAccessLayer.Concrete.EntityFramework;
 namespace Zabita.DataAccessLayer.Migrations
 {
     [DbContext(typeof(ZabitaDatabaseContext))]
-    partial class ZabitaDatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20210724104856_talepaltsonucu3")]
+    partial class talepaltsonucu3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -645,7 +647,7 @@ namespace Zabita.DataAccessLayer.Migrations
                     b.Property<string>("TalepIdString")
                         .HasColumnType("text");
 
-                    b.Property<string>("TalepIsTipiAmirlik")
+                    b.Property<string>("TalepIsTipi")
                         .HasColumnType("text");
 
                     b.Property<int?>("TaleptalepaltsonucuTalepId")

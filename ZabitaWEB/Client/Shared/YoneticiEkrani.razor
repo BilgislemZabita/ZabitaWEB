@@ -12,14 +12,15 @@
 @inject IIsAltTiplerisService isalttipleriService
 @inject IPersonelsService personelService
 @inject ITalepAltSonucusService talepaltsonucuService
+@inject NavigationManager NavigationManager;
 
 
 <div class="row mt-4">
     <div class="col-md-6">
         <div class="row">
             <div class="col-md-12 mb-4">
-                <RadzenDataGrid @ref="gridc" Data="@talepler"  AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="5"
-                                AllowSorting="true" TItem="Talep" AllowVirtualization="true" ColumnWidth ="300px"
+                <RadzenDataGrid @ref="gridr" Data="@talepler" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="5"
+                                AllowSorting="true" TItem="Talep" AllowVirtualization="true" ColumnWidth="300px"
                                 SelectionMode="DataGridSelectionMode.Multiple" @bind-Value=@SeciliTalep>
                     <Columns>
                         <RadzenDataGridColumn TItem="Talep" Width="40px" Sortable="false" Filterable="false">
@@ -36,7 +37,7 @@
                         </RadzenDataGridColumn>
                         <RadzenDataGridColumn TItem="Talep" Property="TalepAmirlik" Title="Talep Amirliği" />
                         <RadzenDataGridColumn TItem="Talep" Property="TalepKonu" Title="Gonderildi" />
-                    
+
                     </Columns>
 
                 </RadzenDataGrid>
@@ -56,10 +57,10 @@
             <div class="col-lg-8 col-sm-12 mt-1 mb-1">
                 <RadzenDropDown AllowClear="true" Style=" display: flex; text-align: right !important;direction:inherit;text-anchor:start"
                                 FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
-                                FilterOperator="StringFilterOperator.StartsWith" 
-                                AllowFiltering="true" TValue="int" @bind-Value=@personel
-                                Data=@PersonelList SelectedItem="@SeciliPersonel" TextProperty="PersonelIsim" ValueProperty="PersonelId" />
-                
+                                FilterOperator="StringFilterOperator.StartsWith"
+                                AllowFiltering="true" TValue="int" @bind-Value=@personelId
+                                Data=@PersonelList TextProperty="PersonelIsim" ValueProperty="PersonelId" />
+
             </div>
             <div class="col-lg-4 col-sm-12 mt-1 mb-1">
                 <RadzenButton Style="display: flex; text-align: left !important;width:100% " Icon="send" BusyText="Gönderiliyor ..." IsBusy=@busy Click=@OnBusyClick Text="Gonder" />
@@ -68,31 +69,32 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                <RadzenCard Style="width:100%; margin-bottom: 20px; height:330px;">
-                    <div class="card-header" style="max-height:3em;background-color:white"><h5 style="text-align:start">Fotoğraflar</h5></div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="gallery">
-                                @*<a target="_blank" href="~/images/1.jpg">
-                                    <img src="images/1.jpg" alt="cck1" width="100" height="100">
-                                </a>
-                                <a target="_blank" href="~/images/2.jpg">
-                                    <img src="images/2.jpg" alt="cck2" width="100" height="100">
-                                </a>
-                                <a target="_blank" href="~/images/3.jpg">
-                                    <img src="images/3.jpg" alt="cck2" width="100" height="100">
-                                </a>
-                                <a target="_blank" href="~/images/4.jpg">
-                                    <img src="images/4.jpg" alt="cck2" width="100" height="100">
-                                </a>*@
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <RadzenUpload Multiple="true" Accept="image/*" Url="upload/multiple" Style="margin-bottom: 20px;" />
-                        </div>
-                    </div>
+                <RadzenCard Style="width:100%; margin-bottom: 20px; height:28em;">
+
+                    <div class="card-header" style="max-height:3em;background-color:white"><h5 style="text-align:start">Atanmış İşler</h5></div>
+
+                    <RadzenDataGrid @ref="gridc" Data="@atanmisisler" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="4"
+                                    AllowSorting="true" TItem="Talep" AllowVirtualization="true" ColumnWidth="300px"
+                                    SelectionMode="DataGridSelectionMode.Single" @bind-Value=@SeciliTalepGecmis>
+                        <Columns>
+                            <RadzenDataGridColumn TItem="Talep" Width="40px" Sortable="false" Filterable="false">
+
+                                <Template Context="data">
+                                    <RadzenCheckBox TriState="false" Value="@(SeciliTalepGecmis != null && SeciliTalepGecmis.Contains(data))" />
+                                </Template>
+                            </RadzenDataGridColumn>
+                            <RadzenDataGridColumn TItem="Talep" Title="Detay" Filterable="false" Width="7em">
+                                <Template Context="data">
+                                    <MudButton Variant="Variant.Outlined" OnClick="@(() => OpenDialog(data))"> Detay</MudButton>
+                                </Template>
+
+                            </RadzenDataGridColumn>
+                            <RadzenDataGridColumn TItem="Talep" Property="TalepAmirlik" Title="Talep Amirliği" />
+                            <RadzenDataGridColumn TItem="Talep" Property="TalepKonu" Title="Gonderildi" />
+
+                        </Columns>
+
+                    </RadzenDataGrid>
                 </RadzenCard>
             </div>
         </div>
@@ -101,7 +103,7 @@
     <div class="col-md-6">
         <RadzenButton Text="Excel" Icon="grid_on" Click="@(args => Export())" />
         <RadzenButton Text="CSV" Icon="wrap_text" Click="@(args => Export())" />
-        <RadzenDataGrid @ref="grid" AllowFiltering="true" AllowPaging="true" AllowSorting="true" Data="@talepler" TItem="Talep">
+        <RadzenDataGrid @ref="grid" AllowFiltering="true" AllowPaging="true" AllowSorting="true" Data="@gecmis" TItem="Talep">
             <Columns>
                 <RadzenDataGridColumn TItem="Talep" Property="TalepBaslik" Title="Talep Adı" />
                 <RadzenDataGridColumn TItem="Talep" Property="TalebinYapilmaTarihi" Title="Talep Tarihi">
@@ -120,6 +122,7 @@
 
     RadzenDataGrid<Talep> grid;
     RadzenDataGrid<Talep> gridc;
+    RadzenDataGrid<Talep> gridr;
     public bool ShowDetails { get; set; } = false;
 
     [Parameter]
@@ -127,16 +130,17 @@
     [Parameter]
     public IEnumerable<Amirlik> amirlikler { get; set; }
     public IList<Talep> SeciliTalep { get; set; } = new List<Talep>();
-    public IList<Talep> SeciliTalepd { get; set; } = new List<Talep>();
+    public IList<Talep> SeciliTalepGecmis { get; set; } = new List<Talep>();
     public List<Talep> TalepList = new List<Talep>();
     List<Amirlik> AmirlikList = new List<Amirlik>();
-    [Parameter]
-    public IEnumerable<Talep> talepler { get; set; } = new List<Talep>();
-    public IEnumerable<Talep> taleplerd { get; set; } = new List<Talep>();
+    public IList<Talep> talepler { get; set; } = new List<Talep>();
+    public IList<Talep> talepler1 { get; set; } = new List<Talep>();
+    public IList<Talep> atanmisisler { get; set; } = new List<Talep>();
+    public IList<Talep> gecmis { get; set; } = new List<Talep>();
     int count { get; set; } = 0;
     private HashSet<Personel> SeciliPersonel { get; set; } = new HashSet<Personel>() { };
     List<Personel> PersonelList = new List<Personel>();
-    int personel;
+    int personelId = 0;
 
     bool busy;
     async void LoadData(LoadDataArgs args)
@@ -159,13 +163,19 @@
             TalepList.AddRange(talepler);
             SeciliTalep = TalepList.Take(1).ToList();*@
 
+        //talepler1 = talepler;
+        //talepler = talepler.Where(s => s.TalepDurumu == "0").ToList();
+        //atanmisisler = talepler1.Where(s => s.TalepDurumu == "1").ToList();
+        gecmis = await talepsService.GetDurumTalep("2");
+        atanmisisler = await talepsService.GetDurumTalep("1");
+        talepler = await talepsService.GetDurumTalep("0");
         //SeciliTalep = talepler.Take(1).ToList();
 
         //Timer timer = new Timer(5000);
         //timer.Elapsed += (s, e) => { InvokeAsync(grid.Reload); };
         //timer.Start();
         //base.OnInitialized();
-        PersonelList = await personelService.GetTalepPersonel(1,"1");
+        PersonelList = await personelService.GetTalepPersonel(1, "1");
 
 
     }
@@ -178,7 +188,7 @@
 
         var parameters = new DialogParameters { ["Talep"] = talep };
 
-        var result = await DialogService.Show<DetayDialog>("talep", parameters,fullScreen).Result;
+        var result = await DialogService.Show<DetayDialog>("talep", parameters, fullScreen).Result;
 
     }
 
@@ -187,18 +197,30 @@
     {
         busy = true;
         //  TalepAltSonucu talepAltSonucu = new TalepAltSonucu {};
+        //var personelid = SeciliPersonel.First().PersonelId;
+        //var personel = new Personel();
+        //personel = SeciliPersonel.First();
+
 
         foreach (var i in SeciliTalep)
         {
+
             i.TalepDurumu = "1";
             i.TalepId = i.TalepId;
+            i.TalebiKarsilayanPersonelId = personelId;
             await talepsService.PutTalep(i.TalepId, i);
 
-            Console.WriteLine(i.TalepId);
+
+
+
 
 
         }
 
+        gridc.Reload().GetAwaiter().GetResult();
+        gridr.Reload().GetAwaiter().GetResult();
+
+        StateHasChanged();
         busy = false;
     }
     public void Export()
@@ -207,5 +229,5 @@
         talepsService.Export(new Query() { OrderBy = grid.Query.OrderBy, Filter = grid.Query.Filter });
 
     }
-    }
+}
 

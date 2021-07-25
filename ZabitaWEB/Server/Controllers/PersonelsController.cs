@@ -41,7 +41,7 @@ namespace ZabitaWEB.Server.Controllers
 
             return personel;
         }
-        // GET: api/Personels/talep/amirlik/3
+        // GET: api/Personels/talep/1/1
         [HttpGet("talep/{amirlik:int}/{atama}")]
         public async Task<ActionResult<List<Personel>>> GetTalepPersonel(int amirlik,string atama)
         {

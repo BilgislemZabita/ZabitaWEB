@@ -33,6 +33,10 @@ namespace ZabitaWEB.Client.Services.Concrete
         {
             throw new NotImplementedException();
         }
+        public async Task<List<Talep>> GetDurumTalep(string durum)
+        {
+            return await _httpClient.GetFromJsonAsync<List<Talep>>("/api/Taleps/durum/" + durum );
+        }
 
         public async Task<List<Talep>> GetTaleps()
         {
