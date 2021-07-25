@@ -20,7 +20,7 @@
         <div class="row">
             <div class="col-md-12 mb-4">
                 <RadzenDataGrid @ref="gridr" Data="@talepler" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="5"
-                                AllowSorting="true" TItem="Talep" AllowVirtualization="true" ColumnWidth="300px"
+                                AllowSorting="true" TItem="Talep" AllowVirtualization="true" ColumnWidth="300px" 
                                 SelectionMode="DataGridSelectionMode.Multiple" @bind-Value=@SeciliTalep>
                     <Columns>
                         <RadzenDataGridColumn TItem="Talep" Width="40px" Sortable="false" Filterable="false">
@@ -143,13 +143,17 @@
     int personelId = 0;
 
     bool busy;
-    async void LoadData(LoadDataArgs args)
+    async void LoadData( )
     {
 
-
+        gecmis = await talepsService.GetDurumTalep("2");
+        atanmisisler = await talepsService.GetDurumTalep("1");
+        talepler = await talepsService.GetDurumTalep("0");
 
         //count = talepler.Count();
-        await grid.Reload();
+
+        await gridc.Reload();
+        await gridr.Reload();
         StateHasChanged();
 
     }
@@ -166,11 +170,9 @@
         //talepler1 = talepler;
         //talepler = talepler.Where(s => s.TalepDurumu == "0").ToList();
         //atanmisisler = talepler1.Where(s => s.TalepDurumu == "1").ToList();
-        gecmis = await talepsService.GetDurumTalep("2");
-        atanmisisler = await talepsService.GetDurumTalep("1");
-        talepler = await talepsService.GetDurumTalep("0");
-        //SeciliTalep = talepler.Take(1).ToList();
 
+        //SeciliTalep = talepler.Take(1).ToList();
+        this.LoadData();
         //Timer timer = new Timer(5000);
         //timer.Elapsed += (s, e) => { InvokeAsync(grid.Reload); };
         //timer.Start();
@@ -216,7 +218,7 @@
 
 
         }
-
+        this.LoadData();
         gridc.Reload().GetAwaiter().GetResult();
         gridr.Reload().GetAwaiter().GetResult();
 
