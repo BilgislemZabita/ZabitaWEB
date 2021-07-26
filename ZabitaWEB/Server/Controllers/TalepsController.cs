@@ -148,9 +148,31 @@ namespace ZabitaWEB.Server.Controllers
         {
             //var results = await _context.Taleps.Where(s => s.TalepDurumu == "1").Take(100);
             var results = this.TalepEnum();
-            
-    
-            return new ExcelResult<Talep>(results, "Demo Sheet Name", "Fingers10");
+            DataTable dt = new DataTable("Gecmis Talep");
+            dt.Columns.AddRange(new DataColumn[4] { new DataColumn("Talep Açıklama"),
+                                            new DataColumn("Talep Durumu"),
+                                            new DataColumn("Talep Konu"),
+                                            new DataColumn("Yerleşke Açıklaması") });
+            /*IEnumerable<Talep> taleps = new List<Talep> { new Talep { TalepAciklama = "wer" }, new Talep { TalepDurumu = "2" } };
+            return new ExcelResult<Talep>(results, "Demo Sheet Name", "Fingers10");*/
+
+            var taleps = from talep in results
+                         select talep;
+
+            foreach (var talep in taleps)
+            {
+                dt.Rows.Add(talep.TalepAciklama, talep.TalepDurumu, talep.TalepKonu, talep.YerleskeAciklamasi);
+            }
+
+            using (XLWorkbook wb = new XLWorkbook())
+            {
+                wb.Worksheets.Add(dt);
+                using (MemoryStream stream = new MemoryStream())
+                {
+                    wb.SaveAs(stream);
+                    return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "GecmisTalepler.xlsx");
+                }
+            }
         }
     }
 }
