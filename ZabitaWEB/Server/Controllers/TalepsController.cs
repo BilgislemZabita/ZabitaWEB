@@ -146,7 +146,8 @@ namespace ZabitaWEB.Server.Controllers
         [HttpGet("export")]
         public async Task<IActionResult> GetExcel()
         {
-            //var results = await _context.Taleps.Where(s => s.TalepDurumu == "1").Take(100);
+            ////var results = await _context.Taleps.Where(s => s.TalepDurumu == "1").Take(100);
+
             var results = this.TalepEnum();
             DataTable dt = new DataTable("Gecmis Talep");
             dt.Columns.AddRange(new DataColumn[4] { new DataColumn("Talep Açıklama"),
@@ -157,7 +158,7 @@ namespace ZabitaWEB.Server.Controllers
             return new ExcelResult<Talep>(results, "Demo Sheet Name", "Fingers10");*/
 
             var taleps = from talep in results
-                         select talep;
+                         select talep; 
 
             foreach (var talep in taleps)
             {
