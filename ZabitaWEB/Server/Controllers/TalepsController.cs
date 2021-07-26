@@ -31,7 +31,7 @@ namespace ZabitaWEB.Server.Controllers
         {
             return await _context.Taleps.ToListAsync();
         }
-  
+
         // GET: api/Taleps/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Talep>> GetTalep(int id)
@@ -93,7 +93,7 @@ namespace ZabitaWEB.Server.Controllers
         // POST: api/Taleps
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<IActionResult> PostTalep( Talep talep)
+        public async Task<IActionResult> PostTalep(Talep talep)
         {
             _context.Taleps.Add(talep);
             try
@@ -141,16 +141,39 @@ namespace ZabitaWEB.Server.Controllers
         {
             return _context.Taleps.Take(10);
         }
-        IEnumerable<Talep> taleps { get; set; }
+        //IEnumerable<Talep> taleps { get; set; }
 
         [HttpGet("export")]
         public async Task<IActionResult> GetExcel()
         {
+
             //var results = await _context.Taleps.Where(s => s.TalepDurumu == "1").Take(100);
             var results = this.TalepEnum();
-            
-    
-            return new ExcelResult<Talep>(results, "Demo Sheet Name", "Fingers10");
+            DataTable dt = new DataTable("Gecmis Talep");
+            dt.Columns.AddRange(new DataColumn[4] { new DataColumn("Talep Açıklama"),
+                                            new DataColumn("Talep Durumu"),
+                                            new DataColumn("Talep Konu"),
+                                            new DataColumn("Yerleşke Açıklaması") });
+            /*IEnumerable<Talep> taleps = new List<Talep> { new Talep { TalepAciklama = "wer" }, new Talep { TalepDurumu = "2" } };
+            return new ExcelResult<Talep>(results, "Demo Sheet Name", "Fingers10");*/
+
+            var taleps = from talep in results
+                            select talep;
+
+            foreach (var talep in taleps)
+            {
+                dt.Rows.Add(talep.TalepAciklama, talep.TalepDurumu, talep.TalepKonu, talep.YerleskeAciklamasi);
+            }
+
+            using (XLWorkbook wb = new XLWorkbook())
+            {
+                wb.Worksheets.Add(dt);
+                using (MemoryStream stream = new MemoryStream())
+                {
+                    wb.SaveAs(stream);
+                    return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "GecmisTalepler.xlsx");
+                }
+            }
         }
     }
 }
