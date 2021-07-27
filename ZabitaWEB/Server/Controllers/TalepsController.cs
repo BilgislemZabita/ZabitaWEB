@@ -93,7 +93,7 @@ namespace ZabitaWEB.Server.Controllers
         // POST: api/Taleps
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<IActionResult> PostTalep( Talep talep)
+        public async Task<ActionResult<Talep>> PostTalep( Talep talep)
         {
             _context.Taleps.Add(talep);
             try
@@ -114,7 +114,7 @@ namespace ZabitaWEB.Server.Controllers
             }
             //https://www.tutorialsteacher.com/webapi/implement-post-method-in-web-api
             //https://www.tutorialsteacher.com/webapi/consume-web-api-post-method-in-aspnet-mvc
-            return Accepted();
+            return CreatedAtAction("GetTalep", new { id = talep.TalepId }, talep);
         }
 
         // DELETE: api/Taleps/5

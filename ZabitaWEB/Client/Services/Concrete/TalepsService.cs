@@ -50,11 +50,11 @@ namespace ZabitaWEB.Client.Services.Concrete
         } 
        
 
-        public async Task<Uri> PostTalep(Talep talep)
+        public async Task<StatusCodeResult> PostTalep(Talep talep)
         {
-            var response = await _httpClient.PostAsJsonAsync<Talep>("/api/Taleps", talep);
+             await _httpClient.PostAsJsonAsync<Talep>("/api/Taleps", talep);
             //response.EnsureSuccessStatusCode();
-            return response.Headers.Location; 
+            return new StatusCodeResult(StatusCodes.Status201Created);
         }
         //public async void Export( Query query = null)
         //{
