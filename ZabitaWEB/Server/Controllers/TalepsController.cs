@@ -137,9 +137,9 @@ namespace ZabitaWEB.Server.Controllers
         {
             return _context.Taleps.Any(e => e.TalepId == id);
         }
-        private IEnumerable<Talep> TalepEnum()
+        private async Task<IEnumerable<Talep>> TalepEnum()
         {
-            return _context.Taleps.Take(10);
+            return await _context.Taleps.ToListAsync();
         }
         //IEnumerable<Talep> taleps { get; set; }
 
@@ -148,7 +148,7 @@ namespace ZabitaWEB.Server.Controllers
         {
 
             //var results = await _context.Taleps.Where(s => s.TalepDurumu == "1").Take(100);
-            var results = this.TalepEnum();
+            var results =await this.TalepEnum();
             DataTable dt = new DataTable("Gecmis Talep");
             dt.Columns.AddRange(new DataColumn[4] { new DataColumn("Talep Açıklama"),
                                             new DataColumn("Talep Durumu"),

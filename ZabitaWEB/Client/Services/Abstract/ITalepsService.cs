@@ -2,6 +2,8 @@
 using Radzen;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Zabita.Entities.Concrete;
 
@@ -17,6 +19,6 @@ namespace ZabitaWEB.Client.Services.Abstract
         Task<StatusCodeResult> PutTalep(int id, Talep talep);
         Task<List<Talep>> GetDurumTalep(string durum);
         Task<IEnumerable<Talep>> GetTalepsEnum();
-        Task<IActionResult> Export();
+        Task<Stream> Export();
     }
 }

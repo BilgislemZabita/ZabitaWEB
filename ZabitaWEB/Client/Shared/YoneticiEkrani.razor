@@ -14,7 +14,7 @@
 @inject IPersonelsService personelService
 @inject ITalepAltSonucusService talepaltsonucuService
 @inject NavigationManager NavigationManager;
-
+@inject HttpClient _httpClient;
 
 <div class="row mt-4">
     <div class="col-md-6">
@@ -106,7 +106,7 @@
             <div class="col-12 mb-1">
 
                 <RadzenButton Text="Excel" Icon="grid_on" Click="@(args => Export())" />
-                <RadzenButton Text="CSV" Icon="wrap_text" Click="@(args => Export())" />
+                <RadzenButton Text="CSV" Icon="wrap_text" Click="@Export" />
 
             </div>
         </div>
@@ -261,11 +261,11 @@
         StateHasChanged();
         busy = false;
     }
-    public async Task<IActionResult> Export()
+    public async Task<byte[]> Export()
     {
 
-        return await talepsService.Export();
-       // return new ExcelResult<Talep>(results, "Demo Sheet Name", "Fingers10");
+        return await _httpClient.GetByteArrayAsync("/api/Taleps/export");
+        // return new ExcelResult<Talep>(results, "Demo Sheet Name", "Fingers10");
 
     }
 }

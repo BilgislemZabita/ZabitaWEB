@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Radzen;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
@@ -67,9 +68,9 @@ namespace ZabitaWEB.Client.Services.Concrete
             return new StatusCodeResult(StatusCodes.Status200OK);
         }
 
-        public Task<IActionResult> Export()
+        public async Task<Stream> Export()
         {
-            throw new NotImplementedException();
+            return await _httpClient.GetStreamAsync("/api/Taleps/export" );
         }
     }
 }
