@@ -68,9 +68,10 @@ namespace ZabitaWEB.Client.Services.Concrete
             return new StatusCodeResult(StatusCodes.Status200OK);
         }
 
-        public async Task<Stream> Export()
+        public void Export()
         {
-            return await _httpClient.GetStreamAsync("/api/Taleps/export" );
+              navigationManager.NavigateTo("/api/Taleps/export",true);
+            
         }
     }
 }

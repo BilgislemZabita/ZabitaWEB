@@ -16,32 +16,41 @@
 @inject NavigationManager NavigationManager;
 @inject HttpClient _httpClient;
 
-<div class="row mt-4">
+<div class="row mt-4 mx-n5 ">
     <div class="col-md-6">
         <div class="row">
-            <div class="col-md-12 mb-4">
-                <RadzenDataGrid @ref="gridr" Data="@talepler" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="5"
-                                AllowSorting="true" TItem="Talep" AllowVirtualization="true" ColumnWidth="300px"
-                                SelectionMode="DataGridSelectionMode.Multiple" @bind-Value=@SeciliTalep>
-                    <Columns>
-                        <RadzenDataGridColumn TItem="Talep" Width="40px" Sortable="false" Filterable="false">
+            <div class="col-12 " style="margin-left:3px">
+                <RadzenCard Style="width:100%; margin-bottom: 10px; height:auto;">
+                    <div class="card-header" style="max-height:3em;background-color:lightskyblue">
+                        <h5 style="text-align:start">
+                            Gelen İşler
 
-                            <Template Context="data">
-                                <RadzenCheckBox TriState="false" Value="@(SeciliTalep != null && SeciliTalep.Contains(data))" />
-                            </Template>
-                        </RadzenDataGridColumn>
-                        <RadzenDataGridColumn TItem="Talep" Title="Detay" Filterable="false" Width="7em">
-                            <Template Context="data">
-                                <MudButton Variant="Variant.Outlined" OnClick="@(() => OpenDialog(data))"> Detay</MudButton>
-                            </Template>
+                        </h5>
+                    </div>
+                    <RadzenDataGrid @ref="gridr" Data="@talepler" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="5"
+                                    AllowSorting="true" TItem="Talep" AllowVirtualization="true" ColumnWidth="270px"
+                                    SelectionMode="DataGridSelectionMode.Multiple" @bind-Value=@SeciliTalep>
+                        <Columns>
+                            <RadzenDataGridColumn TItem="Talep" Width="40px" Sortable="false" Filterable="false">
 
-                        </RadzenDataGridColumn>
-                        <RadzenDataGridColumn TItem="Talep" Property="TalepAmirlik" Title="Talep Amirliği" />
-                        <RadzenDataGridColumn TItem="Talep" Property="TalepKonu" Title="Gonderildi" />
+                                <Template Context="data">
+                                    <RadzenCheckBox TriState="false" Value="@(SeciliTalep != null && SeciliTalep.Contains(data))" />
+                                </Template>
+                            </RadzenDataGridColumn>
+                            <RadzenDataGridColumn TItem="Talep" Title="Detay" Filterable="false" Width="7em">
+                                <Template Context="data">
+                                    <MudButton Variant="Variant.Outlined" OnClick="@(() => OpenDialog(data))"> Detay</MudButton>
+                                </Template>
 
-                    </Columns>
+                            </RadzenDataGridColumn>
+                            <RadzenDataGridColumn TItem="Talep" Property="TalepAmirlik" Title="Talep Amirliği" />
+                            <RadzenDataGridColumn TItem="Talep" Property="TalepKonu" Title="Gonderildi" />
 
-                </RadzenDataGrid>
+                        </Columns>
+
+                    </RadzenDataGrid>
+                </RadzenCard>
+
             </div>
         </div>
 
@@ -72,10 +81,10 @@
             <div class="col-md-12">
                 <RadzenCard Style="width:100%; margin-bottom: 20px; height:28em;">
 
-                    <div class="card-header mb-2" style="max-height: 3em; background-color: lightskyblue "><h5 style="text-align:start">Atanmış İşler</h5></div>
+                    <div class="card-header" style="max-height: 3em; background-color: lightskyblue "><h5 style="text-align:start">Atanmış İşler</h5></div>
 
                     <RadzenDataGrid @ref="gridc" Data="@atanmisisler" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="4"
-                                    AllowSorting="true" TItem="Talep" AllowVirtualization="true" ColumnWidth="300px"
+                                    AllowSorting="true" TItem="Talep" AllowVirtualization="true" ColumnWidth="270px"
                                     SelectionMode="DataGridSelectionMode.Single" @bind-Value=@SeciliTalepGecmis>
                         <Columns>
                             <RadzenDataGridColumn TItem="Talep" Width="40px" Sortable="false" Filterable="false">
@@ -102,14 +111,7 @@
     </div>
 
     <div class="col-md-6">
-        <div class="row">
-            <div class="col-12 mb-1">
 
-                <RadzenButton Text="Excel" Icon="grid_on" Click="@(args => Export())" />
-                <RadzenButton Text="CSV" Icon="wrap_text" Click="@Export" />
-
-            </div>
-        </div>
         <RadzenCard Style="width:100%; margin-bottom: 20px; height:40em;">
             <div class="card-header" style="max-height:3em;background-color:lightskyblue">
                 <h5 style="text-align:start">
@@ -120,7 +122,7 @@
 
 
             <div class="row">
-                <div class="col-12 mt-2">
+                <div class="col-12">
                     <RadzenDataGrid @ref="grid" AllowFiltering="true" AllowPaging="true" AllowSorting="true" Data="@gecmis" TItem="Talep">
                         <Columns>
                             <RadzenDataGridColumn TItem="Talep" Property="TalepBaslik" Title="Talep Adı" />
@@ -134,7 +136,15 @@
 
                         </Columns>
                     </RadzenDataGrid>
+                    <div class="row">
+                        <div class="col-12 mt-1">
+
+                            <RadzenButton Text="Excel" Icon="grid_on" Style="width:stretch" Click="@(args => Export())" />
+
+                        </div>
+                    </div>
                 </div>
+
 
             </div>
 
@@ -142,6 +152,7 @@
         </RadzenCard>
     </div>
 </div>
+
 @code{
 
     RadzenDataGrid<Talep> grid;
@@ -261,10 +272,10 @@
         StateHasChanged();
         busy = false;
     }
-    public async Task<byte[]> Export()
+    public void Export()
     {
 
-        return await _httpClient.GetByteArrayAsync("/api/Taleps/export");
+        talepsService.Export();
         // return new ExcelResult<Talep>(results, "Demo Sheet Name", "Fingers10");
 
     }

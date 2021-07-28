@@ -14,11 +14,11 @@ namespace ZabitaWEB.Client.Services.Abstract
         Task<IActionResult> DeleteTalep(int id);
         Task<ActionResult<Talep>> GetTalep(int id);
         Task<List<Talep>> GetTaleps();
-        Task<Uri> PostTalep(Talep talep);
+        Task<StatusCodeResult> PostTalep(Talep talep);
         //void Export( Query query = null);
         Task<StatusCodeResult> PutTalep(int id, Talep talep);
         Task<List<Talep>> GetDurumTalep(string durum);
         Task<IEnumerable<Talep>> GetTalepsEnum();
-        Task<Stream> Export();
+        void Export();
     }
 }
