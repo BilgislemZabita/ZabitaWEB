@@ -79,33 +79,44 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                <RadzenCard Style="width:100%; margin-bottom: 20px; height:28em;">
+                <MudCard>
+                    <MudCardHeader Style="background-color:lightskyblue">
+                        <CardHeaderContent >
+                            <MudText Typo="Typo.h6" Color="Color.Dark" >Atanmış İşler</MudText>
+                        </CardHeaderContent>
+                        <CardHeaderActions>
+                            <MudIconButton Icon="@Icons.Material.Filled.Settings" Color="Color.Default" />
+                        </CardHeaderActions>
+                    </MudCardHeader>
+                    <MudCardContent>
+                        <RadzenDataGrid @ref="gridc" Data="@atanmisisler" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="4"
+                                        AllowSorting="true" TItem="Talep" AllowVirtualization="true" ColumnWidth="270px"
+                                        SelectionMode="DataGridSelectionMode.Single" @bind-Value=@SeciliTalepGecmis>
+                            <Columns>
+                                <RadzenDataGridColumn TItem="Talep" Width="40px" Sortable="false" Filterable="false">
 
-                    <div class="card-header" style="max-height: 3em; background-color: lightskyblue "><h5 style="text-align:start">Atanmış İşler</h5></div>
+                                    <Template Context="data">
+                                        <RadzenCheckBox TriState="false" Value="@(SeciliTalepGecmis != null && SeciliTalepGecmis.Contains(data))" />
+                                    </Template>
+                                </RadzenDataGridColumn>
+                                <RadzenDataGridColumn TItem="Talep" Title="Detay" Filterable="false" Width="7em">
+                                    <Template Context="data">
+                                        <MudButton Variant="Variant.Outlined" OnClick="@(() => OpenDialog(data))"> Detay</MudButton>
+                                    </Template>
 
-                    <RadzenDataGrid @ref="gridc" Data="@atanmisisler" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="4"
-                                    AllowSorting="true" TItem="Talep" AllowVirtualization="true" ColumnWidth="270px"
-                                    SelectionMode="DataGridSelectionMode.Single" @bind-Value=@SeciliTalepGecmis>
-                        <Columns>
-                            <RadzenDataGridColumn TItem="Talep" Width="40px" Sortable="false" Filterable="false">
+                                </RadzenDataGridColumn>
+                                <RadzenDataGridColumn TItem="Talep" Property="TalepAmirlik" Title="Talep Amirliği" />
+                                <RadzenDataGridColumn TItem="Talep" Property="TalepKonu" Title="Gonderildi" />
 
-                                <Template Context="data">
-                                    <RadzenCheckBox TriState="false" Value="@(SeciliTalepGecmis != null && SeciliTalepGecmis.Contains(data))" />
-                                </Template>
-                            </RadzenDataGridColumn>
-                            <RadzenDataGridColumn TItem="Talep" Title="Detay" Filterable="false" Width="7em">
-                                <Template Context="data">
-                                    <MudButton Variant="Variant.Outlined" OnClick="@(() => OpenDialog(data))"> Detay</MudButton>
-                                </Template>
+                            </Columns>
 
-                            </RadzenDataGridColumn>
-                            <RadzenDataGridColumn TItem="Talep" Property="TalepAmirlik" Title="Talep Amirliği" />
-                            <RadzenDataGridColumn TItem="Talep" Property="TalepKonu" Title="Gonderildi" />
-
-                        </Columns>
-
-                    </RadzenDataGrid>
-                </RadzenCard>
+                        </RadzenDataGrid>
+                    </MudCardContent>
+                    <MudCardActions>
+                        <MudButton Variant="Variant.Text" Color="Color.Primary">Read More</MudButton>
+                    </MudCardActions>
+                </MudCard>
+               
             </div>
         </div>
     </div>
