@@ -15,152 +15,152 @@
 @inject ITalepAltSonucusService talepaltsonucuService
 @inject NavigationManager NavigationManager;
 @inject HttpClient _httpClient;
+@inject ISnackbar Snackbar
 
 <div class="row mt-4 mx-n5 ">
     <div class="col-md-6">
-        <div class="row">
-            <div class="col-12 " style="margin-left:3px">
-                <RadzenCard Style="width:100%; margin-bottom: 10px; height:auto;">
-                    <div class="card-header" style="max-height:3em;background-color:lightskyblue">
-                        <h5 style="text-align:start">
-                            Gelen İşler
-
-                        </h5>
-                    </div>
-                    <RadzenDataGrid @ref="gridr" Data="@talepler" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="5"
-                                    AllowSorting="true" TItem="Talep" AllowVirtualization="true" ColumnWidth="270px"
-                                    SelectionMode="DataGridSelectionMode.Multiple" @bind-Value=@SeciliTalep>
-                        <Columns>
-                            <RadzenDataGridColumn TItem="Talep" Width="40px" Sortable="false" Filterable="false">
-
-                                <Template Context="data">
-                                    <RadzenCheckBox TriState="false" Value="@(SeciliTalep != null && SeciliTalep.Contains(data))" />
-                                </Template>
-                            </RadzenDataGridColumn>
-                            <RadzenDataGridColumn TItem="Talep" Title="Detay" Filterable="false" Width="7em">
-                                <Template Context="data">
-                                    <MudButton Variant="Variant.Outlined" OnClick="@(() => OpenDialog(data))"> Detay</MudButton>
-                                </Template>
-
-                            </RadzenDataGridColumn>
-                            <RadzenDataGridColumn TItem="Talep" Property="TalepAmirlik" Title="Talep Amirliği" />
-                            <RadzenDataGridColumn TItem="Talep" Property="TalepKonu" Title="Gonderildi" />
-
-                        </Columns>
-
-                    </RadzenDataGrid>
-                </RadzenCard>
-
-            </div>
-        </div>
 
 
-        <div class="row">
-            <div class="col-md-12"></div>
-        </div>
+        <MudCard>
+            <MudCardHeader Style="background-color:lightblue;height:2.5em">
+                <CardHeaderContent>
+                    <MudText Typo="Typo.h6" Color="Color.Dark">
+                        Gelen İşler
+                    </MudText>
+                </CardHeaderContent>
 
-        <div class="row">
-            <div class="col-12 mb-n1 mt-n1">
-                <h5>Atanacak Personeli Seçin</h5>
+            </MudCardHeader>
+            <MudCardContent>
+                <RadzenDataGrid @ref="gridr" Data="@talepler" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="5"
+                                AllowSorting="true" TItem="Talep" AllowVirtualization="false" ColumnWidth="270px"
+                                SelectionMode="DataGridSelectionMode.Multiple" @bind-Value=@SeciliTalep>
+                    <Columns>
+                        <RadzenDataGridColumn TItem="Talep" Width="40px" Sortable="false" Filterable="false">
 
-            </div>
-            <div class="col-lg-8 col-sm-12 mt-1 mb-1">
-                <RadzenDropDown AllowClear="true" Style=" display: flex; text-align: right !important;direction:inherit;text-anchor:start"
-                                FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
-                                FilterOperator="StringFilterOperator.StartsWith"
-                                AllowFiltering="true" TValue="int" @bind-Value=@personelId
-                                Data=@PersonelList TextProperty="PersonelIsim" ValueProperty="PersonelId" />
+                            <Template Context="data">
+                                <RadzenCheckBox TriState="false" Value="@(SeciliTalep != null && SeciliTalep.Contains(data))" />
+                            </Template>
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="Talep" Title="Detay" Filterable="false" Width="7em">
+                            <Template Context="data">
+                                <MudButton Variant="Variant.Outlined" OnClick="@(() => OpenDialog(data))"> Detay</MudButton>
+                            </Template>
 
-            </div>
-            <div class="col-lg-4 col-sm-12 mt-1 mb-1">
-                <RadzenButton Style="display: flex; text-align: left !important;width:100% " Icon="send" BusyText="Gönderiliyor ..." IsBusy=@busy Click=@OnBusyClick Text="Gonder" />
-            </div>
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="Talep" Property="TalepAmirlik" Title="Talep Amirliği" />
+                        <RadzenDataGridColumn TItem="Talep" Property="TalepKonu" Title="Gonderildi" />
 
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <MudCard>
-                    <MudCardHeader Style="background-color:lightskyblue">
-                        <CardHeaderContent >
-                            <MudText Typo="Typo.h6" Color="Color.Dark" >Atanmış İşler</MudText>
-                        </CardHeaderContent>
-                        <CardHeaderActions>
-                            <MudIconButton Icon="@Icons.Material.Filled.Settings" Color="Color.Default" />
-                        </CardHeaderActions>
-                    </MudCardHeader>
-                    <MudCardContent>
-                        <RadzenDataGrid @ref="gridc" Data="@atanmisisler" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="4"
-                                        AllowSorting="true" TItem="Talep" AllowVirtualization="true" ColumnWidth="270px"
-                                        SelectionMode="DataGridSelectionMode.Single" @bind-Value=@SeciliTalepGecmis>
-                            <Columns>
-                                <RadzenDataGridColumn TItem="Talep" Width="40px" Sortable="false" Filterable="false">
+                    </Columns>
 
-                                    <Template Context="data">
-                                        <RadzenCheckBox TriState="false" Value="@(SeciliTalepGecmis != null && SeciliTalepGecmis.Contains(data))" />
-                                    </Template>
-                                </RadzenDataGridColumn>
-                                <RadzenDataGridColumn TItem="Talep" Title="Detay" Filterable="false" Width="7em">
-                                    <Template Context="data">
-                                        <MudButton Variant="Variant.Outlined" OnClick="@(() => OpenDialog(data))"> Detay</MudButton>
-                                    </Template>
+                </RadzenDataGrid>
+            </MudCardContent>
+            <MudCardActions>
+                <MudGrid>
+                    <MudItem sm="12" lg="12" md="12" xs="12" xl="12">
+                        <RadzenDropDown AllowClear="true" Style="display:block;  text-align: left !important;direction:inherit;text-anchor:start;width:100% !important"
+                                        FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
+                                        FilterOperator="StringFilterOperator.StartsWith"
+                                        AllowFiltering="true" TValue="int" @bind-Value=@personelId
+                                        Data=@PersonelList TextProperty="PersonelIsim" ValueProperty="PersonelId" />
+                    </MudItem>
+                    <MudItem Style="margin-top:-1.2em">
 
-                                </RadzenDataGridColumn>
-                                <RadzenDataGridColumn TItem="Talep" Property="TalepAmirlik" Title="Talep Amirliği" />
-                                <RadzenDataGridColumn TItem="Talep" Property="TalepKonu" Title="Gonderildi" />
+                        <MudButton Disabled="@_processing" Variant="Variant.Filled" Color="Color.Secondary" OnClick="@OnBusyClick" EndIcon="@Icons.Material.Outlined.Send">
+                            @if (_processing)
+                            {
+                                <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
+                                <MudText Class="ms-2">Gönderiliyor..</MudText>
+                            }
+                            else
+                            {
+                                <MudText>Gönder</MudText>
+                            }
+                        </MudButton>
+                    </MudItem>
 
-                            </Columns>
+                </MudGrid>
+                       
 
-                        </RadzenDataGrid>
-                    </MudCardContent>
-                    <MudCardActions>
-                        <MudButton Variant="Variant.Text" Color="Color.Primary">Read More</MudButton>
-                    </MudCardActions>
-                </MudCard>
-               
-            </div>
-        </div>
+                 
+             
+
+            </MudCardActions>
+        </MudCard>
+
+
+
+
+
+        <MudCard>
+            <MudCardHeader Style="background-color: lightblue; height: 2.5em">
+                <CardHeaderContent>
+                    <MudText Typo="Typo.h6" Color="Color.Dark">Atanmış İşler</MudText>
+                </CardHeaderContent>
+
+            </MudCardHeader>
+            <MudCardContent>
+                <RadzenDataGrid @ref="gridc" Data="@atanmisisler" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="4"
+                                AllowSorting="true" TItem="Talep" AllowVirtualization="false" ColumnWidth="270px"
+                                SelectionMode="DataGridSelectionMode.Single" @bind-Value=@SeciliTalepGecmis>
+                    <Columns>
+                        <RadzenDataGridColumn TItem="Talep" Width="40px" Sortable="false" Filterable="false">
+
+                            <Template Context="data">
+                                <RadzenCheckBox TriState="false" Value="@(SeciliTalepGecmis != null && SeciliTalepGecmis.Contains(data))" />
+                            </Template>
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="Talep" Title="Detay" Filterable="false" Width="7em">
+                            <Template Context="data">
+                                <MudButton Variant="Variant.Outlined" OnClick="@(() => OpenDialog(data))"> Detay</MudButton>
+                            </Template>
+
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="Talep" Property="TalepAmirlik" Title="Talep Amirliği" />
+                        <RadzenDataGridColumn TItem="Talep" Property="TalepKonu" Title="Gonderildi" />
+
+                    </Columns>
+
+                </RadzenDataGrid>
+            </MudCardContent>
+            <MudCardActions>
+                <MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="@TalepGeriAl" EndIcon="@Icons.Outlined.SettingsBackupRestore">Talebi Geri Al</MudButton>
+            </MudCardActions>
+        </MudCard>
+
     </div>
 
     <div class="col-md-6">
 
-        <RadzenCard Style="width:100%; margin-bottom: 20px; height:40em;">
-            <div class="card-header" style="max-height:3em;background-color:lightskyblue">
-                <h5 style="text-align:start">
-                    Geçmiş İşler
 
-                </h5>
-            </div>
+        <MudCard>
+            <MudCardHeader Style="background-color: lightblue; height: 2.5em">
+                <CardHeaderContent>
+                    <MudText Typo="Typo.h6" Color="Color.Dark">
+                        Geçmiş İşler
+                    </MudText>
+                </CardHeaderContent>
 
+            </MudCardHeader>
+            <MudCardContent>
+                <RadzenDataGrid @ref="grid" AllowFiltering="true"  AllowVirtualization="true" AllowPaging="true" AllowSorting="true" Data="@gecmis" TItem="Talep" ColumnWidth="11em" PageSize="20">
+                    <Columns>
+                        <RadzenDataGridColumn TItem="Talep" Property="TalepBaslik" Title="Talep Adı" />
+                        <RadzenDataGridColumn TItem="Talep" Property="TalebinYapilmaTarihi" Title="Talep Tarihi">
+                            <Template Context="data">
+                                @String.Format("{0:d}", data.TalebinYapilmaTarihi)
+                            </Template>
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="Talep" Property="TalepAciklama" Title="Talep Konusu" />
+                        <RadzenDataGridColumn TItem="Talep" Property="TalepKonu" Title="Talep Eden Personel" />
 
-            <div class="row">
-                <div class="col-12">
-                    <RadzenDataGrid @ref="grid" AllowFiltering="true" AllowPaging="true" AllowSorting="true" Data="@gecmis" TItem="Talep">
-                        <Columns>
-                            <RadzenDataGridColumn TItem="Talep" Property="TalepBaslik" Title="Talep Adı" />
-                            <RadzenDataGridColumn TItem="Talep" Property="TalebinYapilmaTarihi" Title="Talep Tarihi">
-                                <Template Context="data">
-                                    @String.Format("{0:d}", data.TalebinYapilmaTarihi)
-                                </Template>
-                            </RadzenDataGridColumn>
-                            <RadzenDataGridColumn TItem="Talep" Property="TalepAciklama" Title="Talep Konusu" />
-                            <RadzenDataGridColumn TItem="Talep" Property="TalepKonu" Title="Talep Eden Personel" />
+                    </Columns>
+                </RadzenDataGrid>
+            </MudCardContent>
+            <MudCardActions>
+                <MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="@Export" EndIcon="@Icons.Custom.FileFormats.FileExcel">Excel</MudButton>
 
-                        </Columns>
-                    </RadzenDataGrid>
-                    <div class="row">
-                        <div class="col-12 mt-1">
-
-                            <RadzenButton Text="Excel" Icon="grid_on" Style="width:stretch" Click="@(args => Export())" />
-
-                        </div>
-                    </div>
-                </div>
-
-
-            </div>
-
-
-        </RadzenCard>
+            </MudCardActions>
+        </MudCard>
     </div>
 </div>
 
@@ -170,6 +170,7 @@
     RadzenDataGrid<Talep> gridc;
     RadzenDataGrid<Talep> gridr;
     public bool ShowDetails { get; set; } = false;
+    private bool _processing = false;
 
     [Parameter]
     public IEnumerable<IsTipleri> istipleri { get; set; } = new List<IsTipleri>();
@@ -255,33 +256,43 @@
 
     async Task OnBusyClick()
     {
-        busy = true;
         //  TalepAltSonucu talepAltSonucu = new TalepAltSonucu {};
         //var personelid = SeciliPersonel.First().PersonelId;
         //var personel = new Personel();
         //personel = SeciliPersonel.First();
 
-
-        foreach (var i in SeciliTalep)
+        if (SeciliTalep.Count != 0 & personelId !=0)
         {
+            _processing = true;
+            foreach (var i in SeciliTalep)
+            {
 
-            i.TalepDurumu = "1";
-            i.TalepId = i.TalepId;
-            i.TalebiKarsilayanPersonelId = personelId;
-            await talepsService.PutTalep(i.TalepId, i);
+                i.TalepDurumu = "1";
+                i.TalepId = i.TalepId;
+                i.TalebiKarsilayanPersonelId = personelId;
+                await talepsService.PutTalep(i.TalepId, i);
 
 
 
 
 
+
+            }
+            this.LoadData();
+            gridc.Reload().GetAwaiter().GetResult();
+            gridr.Reload().GetAwaiter().GetResult();
+
+            StateHasChanged();
+            await this.Show("İş Gönderildi!", Severity.Success);
+
+            _processing = false;
+        }
+        else
+        {
+           await  this.Show("Tablodan İş ve Personel Seçiniz!",Severity.Warning);
 
         }
-        this.LoadData();
-        gridc.Reload().GetAwaiter().GetResult();
-        gridr.Reload().GetAwaiter().GetResult();
 
-        StateHasChanged();
-        busy = false;
     }
     public void Export()
     {
@@ -289,6 +300,41 @@
         talepsService.Export();
         // return new ExcelResult<Talep>(results, "Demo Sheet Name", "Fingers10");
 
+
     }
+    public async Task TalepGeriAl()
+    {
+        if (SeciliTalepGecmis.Count != 0)
+        {
+            Talep talep = SeciliTalepGecmis.First();
+            talep.TalepDurumu = "0";
+            await talepsService.PutTalep(SeciliTalepGecmis.First().TalepId, talep);
+            // return new ExcelResult<Talep>(results, "Demo Sheet Name", "Fingers10");
+            this.LoadData();
+            StateHasChanged();
+            await this.Show("Talep Geri Alındı!", Severity.Info);
+
+        }
+        else
+        {
+          await this.Show("Tablodan İş Seçiniz!",Severity.Warning);
+        }
+
+    }
+     async Task Show(string message,Severity severity)
+    {
+        Snackbar.Configuration.VisibleStateDuration = 2000;
+        Snackbar.Configuration.HideTransitionDuration = 500;
+        Snackbar.Configuration.ShowTransitionDuration = 500;
+         Snackbar.Add(message, severity, config =>
+        {
+
+            config.Onclick = snackbar =>
+            {
+                 return  Task.CompletedTask;
+            };
+        });
+    }
+
 }
 
