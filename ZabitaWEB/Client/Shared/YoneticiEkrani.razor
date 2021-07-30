@@ -32,7 +32,7 @@
                 </CardHeaderContent>
 
             </MudCardHeader>
-            <MudCardContent>
+            <MudCardContent Style="padding:0">
                 <RadzenDataGrid @ref="gridr" Data="@talepler" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="5"
                                 AllowSorting="true" TItem="Talep" AllowVirtualization="false" ColumnWidth="270px" 
                                 SelectionMode="DataGridSelectionMode.Multiple" @bind-Value=@SeciliTalep>
@@ -100,7 +100,7 @@
                 </CardHeaderContent>
 
             </MudCardHeader>
-            <MudCardContent>
+            <MudCardContent Style="padding:0">
                 <RadzenDataGrid @ref="gridc" Data="@atanmisisler" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="4"
                                 AllowSorting="true" TItem="Talep" AllowVirtualization="false" ColumnWidth="270px"
                                 SelectionMode="DataGridSelectionMode.Single" @bind-Value=@SeciliTalepGecmis>
@@ -143,7 +143,7 @@
                 </CardHeaderContent>
 
             </MudCardHeader>
-            <MudCardContent>
+            <MudCardContent Style="padding:0">
                 <RadzenDataGrid @ref="grid" AllowFiltering="true" AllowVirtualization="true" AllowPaging="true" AllowSorting="true" Data="@gecmis" TItem="Talep" ColumnWidth="11em" PageSize="20">
                     <Columns>
                         <RadzenDataGridColumn TItem="Talep" Property="TalepBaslik" Title="Talep Adı" />
