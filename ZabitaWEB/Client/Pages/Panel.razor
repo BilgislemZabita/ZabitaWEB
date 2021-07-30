@@ -9,26 +9,28 @@
 @inject ISnackbar Snackbar
 @inject HttpClient Http
 @inject NavigationManager navigationManager
-<div class="container-fluid">
+<MudGrid Style="margin-left:-20px;margin-right:60px;position:center">
+    <MudItem xl="12" md="12" sm="12" lg="12" xs="12" >
 
+        <MudTabs Elevation="24" Rounded="true" Centered="true" Border="true" Position="Position.Top" Color="@Color.Info" PrevIcon="@Icons.Filled.SkipPrevious" NextIcon="@Icons.Filled.SkipNext">
+            <MudTabPanel Text="Daire Büro">
 
-            <MudTabs Elevation="24" Rounded="true" Centered="true" Border="true" Position="Position.Top" Color="@Color.Info" PrevIcon="@Icons.Filled.SkipPrevious" NextIcon="@Icons.Filled.SkipNext">
-                <MudTabPanel Text="Daire Büro">
-                    
-                     <YoneticiEkrani istipleri="@Istipleris" amirlikler="@Amirlikler" > </YoneticiEkrani>
-                </MudTabPanel>
-                <MudTabPanel Text="Daire Personel Ekranı">
-                    <DairePersonelEkrani></DairePersonelEkrani>
-                    
-                </MudTabPanel>
-                <MudTabPanel Text="Three" />
-                <MudTabPanel Text="Four" />
-                <MudTabPanel Text="Five" />
+                <YoneticiEkrani istipleri="@Istipleris" amirlikler="@Amirlikler"> </YoneticiEkrani>
+            </MudTabPanel>
+            <MudTabPanel Text="Daire Personel Ekranı">
+                <DairePersonelEkrani></DairePersonelEkrani>
 
-            </MudTabs>
+            </MudTabPanel>
+            <MudTabPanel Text="Three" />
+            <MudTabPanel Text="Four" />
+            <MudTabPanel Text="Five" />
+
+        </MudTabs>
+
+    </MudItem>
+</MudGrid>
 
        
-    </div>
        
 @code {
     bool disabled = true;

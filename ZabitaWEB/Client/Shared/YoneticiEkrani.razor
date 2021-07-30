@@ -17,8 +17,10 @@
 @inject HttpClient _httpClient;
 @inject ISnackbar Snackbar
 
-<div class="row mt-4 mx-n5 ">
-    <div class="col-md-6">
+<MudGrid >
+
+
+    <MudItem lg="6" md="6" xl="6" xs="12" Style="width:100%">
 
 
         <MudCard>
@@ -32,7 +34,7 @@
             </MudCardHeader>
             <MudCardContent>
                 <RadzenDataGrid @ref="gridr" Data="@talepler" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="5"
-                                AllowSorting="true" TItem="Talep" AllowVirtualization="false" ColumnWidth="270px"
+                                AllowSorting="true" TItem="Talep" AllowVirtualization="false" ColumnWidth="270px" 
                                 SelectionMode="DataGridSelectionMode.Multiple" @bind-Value=@SeciliTalep>
                     <Columns>
                         <RadzenDataGridColumn TItem="Talep" Width="40px" Sortable="false" Filterable="false">
@@ -79,10 +81,10 @@
                     </MudItem>
 
                 </MudGrid>
-                       
 
-                 
-             
+
+
+
 
             </MudCardActions>
         </MudCard>
@@ -127,9 +129,9 @@
             </MudCardActions>
         </MudCard>
 
-    </div>
+    </MudItem>
 
-    <div class="col-md-6">
+    <MudItem xs="12" xl="6" md="6" lg="6" Style="width:100%">
 
 
         <MudCard>
@@ -142,7 +144,7 @@
 
             </MudCardHeader>
             <MudCardContent>
-                <RadzenDataGrid @ref="grid" AllowFiltering="true"  AllowVirtualization="true" AllowPaging="true" AllowSorting="true" Data="@gecmis" TItem="Talep" ColumnWidth="11em" PageSize="20">
+                <RadzenDataGrid @ref="grid" AllowFiltering="true" AllowVirtualization="true" AllowPaging="true" AllowSorting="true" Data="@gecmis" TItem="Talep" ColumnWidth="11em" PageSize="20">
                     <Columns>
                         <RadzenDataGridColumn TItem="Talep" Property="TalepBaslik" Title="Talep Adı" />
                         <RadzenDataGridColumn TItem="Talep" Property="TalebinYapilmaTarihi" Title="Talep Tarihi">
@@ -161,9 +163,8 @@
 
             </MudCardActions>
         </MudCard>
-    </div>
-</div>
-
+    </MudItem>
+</MudGrid>
 @code{
 
     RadzenDataGrid<Talep> grid;
