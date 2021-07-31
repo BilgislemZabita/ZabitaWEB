@@ -19,7 +19,7 @@
                 </CardHeaderContent>
 
             </MudCardHeader>
-            <MudCardContent>
+            <MudCardContent Style="padding:0">
                 <RadzenDataGrid @ref="gridr" Data="@talepler" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="5"
                                 AllowSorting="true" TItem="Talep" AllowVirtualization="false" ColumnWidth="270px"
                                 SelectionMode="DataGridSelectionMode.Multiple" @bind-Value=@SeciliTalep>
@@ -46,7 +46,7 @@
             <MudCardActions>
                 <MudGrid>
 
-                    <MudItem Style="margin-top:-1.2em">
+                    <MudItem >
 
                         <MudButton Disabled="@_processing" Variant="Variant.Filled" Color="Color.Success" OnClick="@OnBusyClick" EndIcon="@Icons.Material.Outlined.ThumbUp">
                             @if (_processing)
@@ -60,7 +60,7 @@
                             }
                         </MudButton>
                     </MudItem>
-                    <MudItem Style="margin-top:-1.2em">
+                    <MudItem>
 
                         <MudButton Disabled="@_processing" Variant="Variant.Filled" Color="Color.Secondary" OnClick="@OnBusyClick" EndIcon="@Icons.Material.Outlined.ThumbDown">
                             @if (_processing)
