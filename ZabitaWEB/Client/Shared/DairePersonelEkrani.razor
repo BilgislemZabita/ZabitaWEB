@@ -8,8 +8,11 @@
 @inject IAmirliksService amirlikService
 
 
-<div class="row mt-4">
-    <div class="col-12 mb-4">
+<MudGrid>
+
+
+    <MudItem lg="12" md="12" xl="12" xs="12" Style="width:100%">
+
         <MudCard>
             <MudCardHeader Style="background-color:lightblue;height:2.5em">
                 <CardHeaderContent>
@@ -46,7 +49,7 @@
             <MudCardActions>
                 <MudGrid>
 
-                    <MudItem >
+                    <MudItem>
 
                         <MudButton Disabled="@_processing" Variant="Variant.Filled" Color="Color.Success" OnClick="@OnBusyClick" EndIcon="@Icons.Material.Outlined.ThumbUp">
                             @if (_processing)
@@ -84,13 +87,14 @@
             </MudCardActions>
         </MudCard>
 
-    </div>
-</div>
-<div class="row">
-    <div class="col-12"></div>
-</div>
-<div class="row">
-    <div class="col-12">
+</MudItem>    
+    </MudGrid>
+    
+<MudGrid>
+
+
+    <MudItem lg="12" md="12" xl="12" xs="12" Style="width:100%">
+
         <RadzenCard Style="width:100%; margin-bottom: 20px;height:fit-content;">
             <div class="card-header" style="max-height:2.5em;background-color:white"><h5 style="text-align:start">Personel Bilgisi</h5></div>
 
@@ -121,76 +125,74 @@
 
             </div>
         </RadzenCard>
-    </div>
-
-</div>
-
+</MudItem>
+</MudGrid>
 
 
-@code{
-    RadzenDataGrid<Talep> gridr;
+        @code{
+            RadzenDataGrid<Talep> gridr;
 
-    private bool _processing = false;
+            private bool _processing = false;
 
-    //IEnumerable<Talep> talepler { get; set; }
-    IEnumerable<IsTipleri> gecmis { get; set; }
-    IEnumerable<Amirlik> amirlikler { get; set; }
-    IList<Talep> SeciliTalep = new List<Talep>();
+            //IEnumerable<Talep> talepler { get; set; }
+            IEnumerable<IsTipleri> gecmis { get; set; }
+            IEnumerable<Amirlik> amirlikler { get; set; }
+            IList<Talep> SeciliTalep = new List<Talep>();
 
-    List<Talep> TalepList = new List<Talep>();
-    List<Amirlik> AmirlikList = new List<Amirlik>();
+            List<Talep> TalepList = new List<Talep>();
+            List<Amirlik> AmirlikList = new List<Amirlik>();
 
-    private string searchString = "";
-    private Talep selectedItem = null;
-    private HashSet<Talep> selectedItems = new HashSet<Talep>();
+            private string searchString = "";
+            private Talep selectedItem = null;
+            private HashSet<Talep> selectedItems = new HashSet<Talep>();
 
-    private IEnumerable<Talep> talepler = new List<Talep>();
+            private IEnumerable<Talep> talepler = new List<Talep>();
 
-    bool busy;
-    bool yapilamadi = false;
+            bool busy;
+            bool yapilamadi = false;
 
-    protected async override void OnParametersSet()
-    {
-        talepler = await Task.Run(() => talepService.GetTaleps());
-        amirlikler = await Task.Run(() => amirlikService.GetAmirliks());
-        gecmis = await Task.Run(() => istipleriService.GetIsTipleris());
-        TalepList.AddRange(talepler);
-        AmirlikList.AddRange(amirlikler);
-        SeciliTalep = talepler.Take(1).ToList();
+            protected async override void OnParametersSet()
+            {
+                talepler = await Task.Run(() => talepService.GetTaleps());
+                amirlikler = await Task.Run(() => amirlikService.GetAmirliks());
+                gecmis = await Task.Run(() => istipleriService.GetIsTipleris());
+                TalepList.AddRange(talepler);
+                AmirlikList.AddRange(amirlikler);
+                SeciliTalep = talepler.Take(1).ToList();
 
-    }
-    async Task OnBusyClick()
-    {
-        busy = true;
-        await Task.Delay(2000);
-        busy = false;
-    }
-    async Task OpenDialog(Talep talep)
-    {
-        MudBlazor.DialogOptions fullScreen = new MudBlazor.DialogOptions() { FullScreen = true, CloseButton = true };
+            }
+            async Task OnBusyClick()
+            {
+                busy = true;
+                await Task.Delay(2000);
+                busy = false;
+            }
+            async Task OpenDialog(Talep talep)
+            {
+                MudBlazor.DialogOptions fullScreen = new MudBlazor.DialogOptions() { FullScreen = true, CloseButton = true };
 
-        var parameters = new DialogParameters { ["Talep"] = talep };
+                var parameters = new DialogParameters { ["Talep"] = talep };
 
-        var result = await DialogService.Show<DetayDialog>("talep", parameters, fullScreen).Result;
+                var result = await DialogService.Show<DetayDialog>("talep", parameters, fullScreen).Result;
 
-    }
-    async Task Yapilamadi()
-    {
-        await Task.Delay(2000);
-        yapilamadi = true;
-    }
-    async Task Gonder()
-    {
-        await Task.Delay(2000);
-        yapilamadi = false;
-    }
-    private bool FilterFunc(Talep element)
-    {
-        if (string.IsNullOrWhiteSpace(searchString))
-            return true;
-        if (element.TalepAciklama.Contains(searchString, StringComparison.OrdinalIgnoreCase))
-            return true;
+            }
+            async Task Yapilamadi()
+            {
+                await Task.Delay(2000);
+                yapilamadi = true;
+            }
+            async Task Gonder()
+            {
+                await Task.Delay(2000);
+                yapilamadi = false;
+            }
+            private bool FilterFunc(Talep element)
+            {
+                if (string.IsNullOrWhiteSpace(searchString))
+                    return true;
+                if (element.TalepAciklama.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+                    return true;
 
-        return false;
-    }
-}
+                return false;
+            }
+        }
