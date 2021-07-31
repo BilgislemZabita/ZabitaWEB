@@ -53,8 +53,8 @@ namespace Zabita.DataAccessLayer.Concrete.EntityFramework
            //optionsBuilder.UseNpgsql("Host=rogue.db.elephantsql.com;Database=kjnzrnst;Username=kjnzrnst;Password=c1eikpfygm6lmEiqLZIx8CRA4kFqQOiG");
           //optionsBuilder.UseNpgsql("Host=rogue.db.elephantsql.com;Database=ffwogiyc;Username=ffwogiyc;Password=ZsZU4aVdxV2WqyzOsx-PHOXxDzfsRS3L;sslmode=Require;Trust Server Certificate=true");
           
-         optionsBuilder.UseNpgsql("Host=ec2-176-34-123-50.eu-west-1.compute.amazonaws.com; Database=d4oi9gogogbs90;Username=cojlrwoxdvntrm;Password=e6c936baf9f06dc54a9bd1a33c3637e05995b1b218f6aaa07257ab22a8e2a39b;sslmode = Require; Trust Server Certificate = true") ;
-          //optionsBuilder.UseNpgsql("Host=ec2-34-254-120-2.eu-west-1.compute.amazonaws.com; Database=d9vghicd75ld2s;Username=pbqvttbfdxrmbt;Password=cd0edf7ce3c3a3f9097a3a6bff33271bac81b5839e3e87493dd6080fe2d487df;sslmode = Require; Trust Server Certificate = true") ;
+        // optionsBuilder.UseNpgsql("Host=ec2-176-34-123-50.eu-west-1.compute.amazonaws.com; Database=d4oi9gogogbs90;Username=cojlrwoxdvntrm;Password=e6c936baf9f06dc54a9bd1a33c3637e05995b1b218f6aaa07257ab22a8e2a39b;sslmode = Require; Trust Server Certificate = true") ;
+          optionsBuilder.UseNpgsql("Host=ec2-34-254-120-2.eu-west-1.compute.amazonaws.com; Database=d9vghicd75ld2s;Username=pbqvttbfdxrmbt;Password=cd0edf7ce3c3a3f9097a3a6bff33271bac81b5839e3e87493dd6080fe2d487df;sslmode = Require; Trust Server Certificate = true") ;
           // optionsBuilder.UseNpgsql("Host=localhost;Database=demirbaspersonelsarf;Username=postgres;Password=zabita2143");
             //optionsBuilder.UseNpgsql("Host=postgresqln1.ibb.gov.tr;Database=demirbaspersonelsarfdb;Username=demirbaspersonelsarfusr;Password=R3Q_d6F#y");
             //optionsBuilder.UseNpgsql("Host=10.4.100.137;Database=demirbaspersonelsarf;Username=postgres;Password=zabita2144");
