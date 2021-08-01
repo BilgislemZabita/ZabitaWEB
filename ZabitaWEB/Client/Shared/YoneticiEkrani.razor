@@ -272,6 +272,7 @@
                 i.TalepDurumu = "1";
                 i.TalepId = i.TalepId;
                 i.TalebiKarsilayanPersonelId = personelId;
+                i.TalebinAtanmaTarihi = DateTime.Now;
                 await talepsService.PutTalep(i.TalepId, i);
 
 
@@ -291,7 +292,7 @@
         }
         else
         {
-           await  this.Show("Tablodan İş ve Personel Seçiniz!",Severity.Warning);
+            await  this.Show("Tablodan İş ve Personel Seçiniz!",Severity.Warning);
 
         }
 
@@ -319,21 +320,21 @@
         }
         else
         {
-          await this.Show("Tablodan İş Seçiniz!",Severity.Warning);
+            await this.Show("Tablodan İş Seçiniz!",Severity.Warning);
         }
 
     }
-     async Task Show(string message,Severity severity)
+    async Task Show(string message,Severity severity)
     {
         Snackbar.Configuration.VisibleStateDuration = 2000;
         Snackbar.Configuration.HideTransitionDuration = 500;
         Snackbar.Configuration.ShowTransitionDuration = 500;
-         Snackbar.Add(message, severity, config =>
+        Snackbar.Add(message, severity, config =>
         {
 
             config.Onclick = snackbar =>
             {
-                 return  Task.CompletedTask;
+                return  Task.CompletedTask;
             };
         });
     }

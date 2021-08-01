@@ -127,8 +127,9 @@
 
 
 
-    IList<Foto> fotos = new List<Foto>();
+    IList<Foto> fotos { get; set; } = new List<Foto>();
     IList<TalepAltSonucu> talepAltSonucus = new List<TalepAltSonucu>();
+    Amirlik amirlik  = new Amirlik();
 
 
     IEnumerable<IsTipleri> Taleptipleri { get; set; }
@@ -150,19 +151,21 @@
                 TalepAltSonucuIlgiliTalepTipi=ist.IsAltTipiId,
                 TalepIsTipiAmirlik = "1",
                 TalepAltSonucuDurumu = "0",
-                
+
 
             }
 
-            ); 
+            );
 
         }
+        amirlik.AmirlikID = 1;
         var talep = new Talep
         {
             TalepKonu = amirlikid.ToString(),
             TalepBaslik = "deneme",
             TalepAciklama = isbilgileri,
             Fotolar = fotos,
+            TalepAmirlik=amirlik,
             TalepAltSonucus=talepAltSonucus,
             YerleskeAciklamasi = yerleskebilgileri,
             AmirlikId = amirlikid.ToString(),
@@ -175,7 +178,7 @@
         busy = true;
         //await Task.Delay(2000);
 
-         await talepsService.PostTalep(talep);
+        await talepsService.PostTalep(talep);
         //await Http.PostAsJsonAsync<Talep>("/api/Taleps", talep);
         busy = false;
         Snackbar.Configuration.PositionClass = Defaults.Classes.Position.TopRight;

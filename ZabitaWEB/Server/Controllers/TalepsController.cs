@@ -49,7 +49,7 @@ namespace ZabitaWEB.Server.Controllers
         [HttpGet("durum/{durum}")]
         public async Task<ActionResult<List<Talep>>> GetDurumTalep(string durum)
         {
-            var talep = await _context.Taleps.Where(s => s.TalepDurumu == durum).ToListAsync();
+            var talep = await _context.Taleps.Include(s => s.TalepAmirlik).Where(s => s.TalepDurumu == durum).ToListAsync();
 
             if (talep == null)
             {
@@ -93,9 +93,11 @@ namespace ZabitaWEB.Server.Controllers
         // POST: api/Taleps
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<IActionResult> PostTalep(Talep talep)
+        public async Task<IActionResult> PostTalep( Talep talep)
         {
-            _context.Taleps.Add(talep);
+            _context.Entry(talep).State = EntityState.Added;
+
+            //_context.Taleps.Add(talep);
             try
             {
                 await _context.SaveChangesAsync();
