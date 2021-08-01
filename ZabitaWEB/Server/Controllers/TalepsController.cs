@@ -29,7 +29,7 @@ namespace ZabitaWEB.Server.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Talep>>> GetTaleps()
         {
-            return await _context.Taleps.ToListAsync();
+            return await _context.Taleps.Include(s => s.TalepAmirlik).ToListAsync();
         }
 
         // GET: api/Taleps/5

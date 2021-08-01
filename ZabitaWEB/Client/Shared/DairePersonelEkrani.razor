@@ -25,7 +25,7 @@
             <MudCardContent Style="padding:0">
                 <RadzenDataGrid @ref="gridr" Data="@talepler" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="5"
                                 AllowSorting="true" TItem="Talep" AllowVirtualization="false" ColumnWidth="270px"
-                                SelectionMode="DataGridSelectionMode.Multiple" @bind-Value=@SeciliTalep>
+                                SelectionMode="DataGridSelectionMode.Single" @bind-Value=@SeciliTalep>
                     <Columns>
                         <RadzenDataGridColumn TItem="Talep" Width="40px" Sortable="false" Filterable="false">
 
@@ -49,7 +49,7 @@
             <MudCardActions>
                 <MudGrid>
                     <MudItem xs="12" sm="12" md="12">
-                        <MudTextField T="string" Label="Outlined" Variant="Variant.Outlined" Text="@text" Lines="5" />
+                        <MudTextField T="string" Label="İş Detayı" Variant="Variant.Outlined" Text="@text" Lines="3" />
                     </MudItem>
                     <MudItem>
 
@@ -107,6 +107,7 @@
                     {
                         <div style="">Amirlik Adı:</div>
 
+                        <b>@s.YerleskeAciklamasi</b>
                         <b>@s.TalepAmirlik.AmirlikIsım</b>
                         <div style="margin-top:20px">Yerleşke Açıklaması:</div>
                         <b>Yerleşke_Aciklamasi</b>
@@ -142,6 +143,7 @@
             IEnumerable<Amirlik> amirlikler { get; set; }
             IList<Talep> SeciliTalep = new List<Talep>();
 
+
             List<Talep> TalepList = new List<Talep>();
             List<Amirlik> AmirlikList = new List<Amirlik>();
 
@@ -149,20 +151,20 @@
             private Talep selectedItem = null;
             private HashSet<Talep> selectedItems = new HashSet<Talep>();
 
-            private IEnumerable<Talep> talepler = new List<Talep>();
+            public IList<Talep> talepler { get; set; } = new List<Talep>();
             string text = "";
 
             bool busy;
             bool yapilamadi = false;
 
-            protected async override void OnParametersSet()
+            protected override async Task OnInitializedAsync()
             {
                 talepler = await Task.Run(() => talepService.GetTaleps());
                 amirlikler = await Task.Run(() => amirlikService.GetAmirliks());
                 gecmis = await Task.Run(() => istipleriService.GetIsTipleris());
-                TalepList.AddRange(talepler);
-                AmirlikList.AddRange(amirlikler);
-                SeciliTalep = talepler.Take(1).ToList();
+                //TalepList.AddRange(talepler);
+                //AmirlikList.AddRange(amirlikler);
+                //SeciliTalep = talepler.Take(1).ToList();
 
             }
             async Task OnBusyClick()
