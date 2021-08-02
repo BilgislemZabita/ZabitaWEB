@@ -42,7 +42,7 @@ namespace ZabitaWEB.Server
             services.AddTransient<ZabitaDatabaseContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();
-            services.AddControllers().AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+            services.AddControllers().AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Serialize);
 
         }
 

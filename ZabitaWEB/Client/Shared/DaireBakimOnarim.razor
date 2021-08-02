@@ -129,7 +129,7 @@
 
     IList<Foto> fotos { get; set; } = new List<Foto>();
     IList<TalepAltSonucu> talepAltSonucus = new List<TalepAltSonucu>();
-    Amirlik amirlik  = new Amirlik();
+    Amirlik amirlik { get; set; } = new Amirlik();
 
 
     IEnumerable<IsTipleri> Taleptipleri { get; set; }
@@ -148,7 +148,7 @@
             {
                 TalepAltSonucuAciklama = ist.IsAltTipiAciklama,
                 TalepAltSonucuTipi = ist.IsAltTipi,
-                TalepAltSonucuIlgiliTalepTipi=ist.IsAltTipiId,
+                TalepAltSonucuIlgiliTalepTipi = ist.IsAltTipiId,
                 TalepIsTipiAmirlik = "1",
                 TalepAltSonucuDurumu = "0",
 
@@ -159,19 +159,19 @@
 
         }
         amirlik.AmirlikID = 1;
-        var talep = new Talep
+        Talep talep = new Talep
         {
             TalepKonu = amirlikid.ToString(),
             TalepBaslik = "deneme",
             TalepAciklama = isbilgileri,
             Fotolar = fotos,
-            TalepAmirlik=amirlik,
-            TalepAltSonucus=talepAltSonucus,
+            TalepAltSonucus = talepAltSonucus,
             YerleskeAciklamasi = yerleskebilgileri,
-            AmirlikId = amirlikid.ToString(),
+            AmirlikId = amirlik.AmirlikID.ToString(),
+            TalepAmirlik = amirlik,
             TalebinYapilmaTarihi = DateTime.Now,
             TalepIstipleriID = IsTipiId,
-            TalepDurumu="0"
+            TalepDurumu = "0"
 
         };
 
@@ -211,7 +211,7 @@
             TalepTipleriList.AddRange(Taleptipleri);
             AmirlikList.AddRange(Amirlikler);
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             Console.WriteLine(e.Message.ToString());
         }
