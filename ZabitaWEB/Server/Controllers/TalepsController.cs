@@ -97,7 +97,7 @@ namespace ZabitaWEB.Server.Controllers
         {
             _context.Entry(talep).State = EntityState.Added;
 
-            //_context.Taleps.Add(talep);
+            _context.Taleps.Add(talep);
             try
             {
                 await _context.SaveChangesAsync();
@@ -116,7 +116,7 @@ namespace ZabitaWEB.Server.Controllers
             }
             //https://www.tutorialsteacher.com/webapi/implement-post-method-in-web-api
             //https://www.tutorialsteacher.com/webapi/consume-web-api-post-method-in-aspnet-mvc
-            return Accepted();
+            return CreatedAtAction("GetTalep", new { id = talep.TalepId }, talep);
         }
 
         // DELETE: api/Taleps/5
