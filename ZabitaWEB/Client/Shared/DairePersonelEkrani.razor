@@ -1,11 +1,14 @@
 ﻿@page "/panel/dairepersonelekrani"
 @using ZabitaWEB.Client.Services.Abstract
 @using Zabita.Entities.Concrete
+@using ActionScheduler;
+
 @inject IDialogService DialogService
 
-@inject ITalepsService talepService
+@inject ITalepsService talepsService
 @inject IIsTiplerisService istipleriService
 @inject IAmirliksService amirlikService
+@inject ISnackbar Snackbar
 
 
 <MudGrid>
@@ -48,39 +51,43 @@
             </MudCardContent>
             <MudCardActions>
                 <MudGrid>
-                    <MudItem xs="12" sm="12" md="12">
-                        <MudTextField T="string" Label="İş Detayı" Variant="Variant.Outlined" Text="@text" Lines="3" />
+
+
+                    <MudItem lg="12" md="12" xl="12" xs="12" Style="width:100%">
+
+                        <RadzenCard Style="width:100%; margin-bottom: 20px;height:fit-content;">
+                            <div class="card-header" style="max-height:2.5em;background-color:white"><h5 style="text-align:start">Personel Bilgisi</h5></div>
+
+                            <div class="row">
+                                <div class="col-6">
+                                    @foreach (var s in SeciliTalep)
+                                    {
+                                        <div style="">Amirlik Adı:</div>
+
+                                        <b>@s.TalepAmirlik.AmirlikIsım</b>
+                                        <div style="margin-top:20px">Yerleşke Açıklaması:</div>
+                                        <b>@s.YerleskeAciklamasi</b>
+                                        <div style="margin-top:20px">İstenilen Tarih:</div>
+                                        <b>@s.TalebinYapilmaTarihi</b>
+                                        <div style="margin-top:20px">Atandığı Tarih:</div>
+                                        <b>@s.TalebinAtanmaTarihi</b>
+                                    }
+
+
+                                </div>
+                                <div class="col-6">
+                                    <div style="">Talep Eden Personel:</div>
+                                    <b>Talep_Eden_Personel</b>
+                                    <div style="margin-top:20px">İletişim Bilgileri:</div>
+                                    <b>05455454545 ---</b>
+                                    <b>personel@ibb.gov.tr</b>
+                                    <div style="margin-top:20px">Atanılan Tarih:</div>
+                                    <b>18.05.2021</b>
+                                </div>
+
+                            </div>
+                        </RadzenCard>
                     </MudItem>
-                    <MudItem>
-
-                        <MudButton Disabled="@_processing" Variant="Variant.Filled" Color="Color.Success" OnClick="@OnBusyClick" EndIcon="@Icons.Material.Outlined.ThumbUp">
-                            @if (_processing)
-                            {
-                                <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
-                                <MudText Class="ms-2">KAYDEDİLİYOR..</MudText>
-                            }
-                            else
-                            {
-                                <MudText>YAPILDI</MudText>
-                            }
-                        </MudButton>
-                    </MudItem>
-
-                    <MudItem>
-
-                        <MudButton Disabled="@_processing" Variant="Variant.Filled" Color="Color.Secondary" OnClick="@OnBusyClick" EndIcon="@Icons.Material.Outlined.ThumbDown">
-                            @if (_processing)
-                            {
-                                <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
-                                <MudText Class="ms-2">KAYDEDİLİYOR..</MudText>
-                            }
-                            else
-                            {
-                                <MudText>YAPILAMADI</MudText>
-                            }
-                        </MudButton>
-                    </MudItem>
-
                 </MudGrid>
 
 
@@ -90,115 +97,210 @@
             </MudCardActions>
         </MudCard>
 
-</MudItem>    
-    </MudGrid>
-    
-<MudGrid>
-
-
-    <MudItem lg="12" md="12" xl="12" xs="12" Style="width:100%">
-
-        <RadzenCard Style="width:100%; margin-bottom: 20px;height:fit-content;">
-            <div class="card-header" style="max-height:2.5em;background-color:white"><h5 style="text-align:start">Personel Bilgisi</h5></div>
-
-            <div class="row">
-                <div class="col-6">
-                    @foreach (var s in SeciliTalep)
-                    {
-                        <div style="">Amirlik Adı:</div>
-
-                        <b>@s.YerleskeAciklamasi</b>
-                        <b>@s.TalepAmirlik.AmirlikIsım</b>
-                        <div style="margin-top:20px">Yerleşke Açıklaması:</div>
-                        <b>Yerleşke_Aciklamasi</b>
-                        <div style="margin-top:20px">İstenilen Tarih:</div>
-                        <b>02.05.2021</b>
-                    }
-
-
-                </div>
-                <div class="col-6">
-                    <div style="">Talep Eden Personel:</div>
-                    <b>Talep_Eden_Personel</b>
-                    <div style="margin-top:20px">İletişim Bilgileri:</div>
-                    <b>05455454545 ---</b>
-                    <b>personel@ibb.gov.tr</b>
-                    <div style="margin-top:20px">Atanılan Tarih:</div>
-                    <b>18.05.2021</b>
-                </div>
-
-            </div>
-        </RadzenCard>
-</MudItem>
+    </MudItem>
 </MudGrid>
 
 
-        @code{
-            RadzenDataGrid<Talep> gridr;
 
-            private bool _processing = false;
+<MudGrid>
+    <InputFile id="fileInput" OnChange="UploadFiles" hidden multiple />
 
-            //IEnumerable<Talep> talepler { get; set; }
-            IEnumerable<IsTipleri> gecmis { get; set; }
-            IEnumerable<Amirlik> amirlikler { get; set; }
-            IList<Talep> SeciliTalep = new List<Talep>();
+    <MudItem xs="6" sm="6" md="2" lg="2">
+        <MudButton HtmlTag="label"
+                   Variant="Variant.Filled"
+                   Color="Color.Primary"
+                   StartIcon="@Icons.Filled.Image"
+                   for="fileInput">
+            Galeri
+        </MudButton>
+        <MudText Typo="@Typo.h6">@files.Count() Dosya@(files.Count() == 1 ? "" : " Seçildi")</MudText>
 
+    </MudItem>
+    <MudItem xs="6" sm="6" md="2" lg="2">
+        <MudButton HtmlTag="label"
+                   Variant="Variant.Filled"
+                   Color="Color.Primary"
+                   StartIcon="@Icons.Filled.PhotoCamera"
+                   for="fileInput">
+            Kamera
+        </MudButton>
+    </MudItem>
+    <MudItem xs="12" sm="12" md="12">
+        <MudTextField T="string" Label="İş Detayı" Variant="Variant.Outlined" Text="@text" Lines="3" />
+    </MudItem>
+    <MudItem>
 
-            List<Talep> TalepList = new List<Talep>();
-            List<Amirlik> AmirlikList = new List<Amirlik>();
-
-            private string searchString = "";
-            private Talep selectedItem = null;
-            private HashSet<Talep> selectedItems = new HashSet<Talep>();
-
-            public IList<Talep> talepler { get; set; } = new List<Talep>();
-            string text = "";
-
-            bool busy;
-            bool yapilamadi = false;
-
-            protected override async Task OnInitializedAsync()
+        <MudButton Disabled="@busy" Variant="Variant.Filled" Color="Color.Success" OnClick="@OnBusyClick" EndIcon="@Icons.Material.Outlined.ThumbUp">
+            @if (_processing)
             {
-                talepler = await Task.Run(() => talepService.GetTaleps());
-                amirlikler = await Task.Run(() => amirlikService.GetAmirliks());
-                gecmis = await Task.Run(() => istipleriService.GetIsTipleris());
-                //TalepList.AddRange(talepler);
-                //AmirlikList.AddRange(amirlikler);
-                //SeciliTalep = talepler.Take(1).ToList();
-
+                <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
+                <MudText Class="ms-2">KAYDEDİLİYOR..</MudText>
             }
-            async Task OnBusyClick()
+            else
             {
-                busy = true;
-                await Task.Delay(2000);
-                busy = false;
+                <MudText>YAPILDI</MudText>
             }
-            async Task OpenDialog(Talep talep)
-            {
-                MudBlazor.DialogOptions fullScreen = new MudBlazor.DialogOptions() { FullScreen = true, CloseButton = true };
+        </MudButton>
+    </MudItem>
 
-                var parameters = new DialogParameters { ["Talep"] = talep };
+    <MudItem>
 
-                var result = await DialogService.Show<DetayDialog>("talep", parameters, fullScreen).Result;
+        <MudButton Disabled="@_processing" Variant="Variant.Filled" Color="Color.Secondary" OnClick="@OnBusyClick" EndIcon="@Icons.Material.Outlined.ThumbDown">
+            @if (_processing)
+            {
+                <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
+                <MudText Class="ms-2">KAYDEDİLİYOR..</MudText>
+            }
+            else
+            {
+                <MudText>YAPILAMADI</MudText>
+            }
+        </MudButton>
+    </MudItem>
 
-            }
-            async Task Yapilamadi()
-            {
-                await Task.Delay(2000);
-                yapilamadi = true;
-            }
-            async Task Gonder()
-            {
-                await Task.Delay(2000);
-                yapilamadi = false;
-            }
-            private bool FilterFunc(Talep element)
-            {
-                if (string.IsNullOrWhiteSpace(searchString))
-                    return true;
-                if (element.TalepAciklama.Contains(searchString, StringComparison.OrdinalIgnoreCase))
-                    return true;
+</MudGrid>
+@code{
+    RadzenDataGrid<Talep> gridr;
+    RadzenDataGrid<Talep> grid;
+    RadzenDataGrid<Talep> gridc;
+    private bool _processing = false;
 
-                return false;
-            }
+    //IEnumerable<Talep> talepler { get; set; }
+    public IList<Talep> gecmis { get; set; } = new List<Talep>();
+    IEnumerable<Amirlik> amirlikler { get; set; }
+    IList<Talep> SeciliTalep = new List<Talep>();
+    int personelId = 0;
+
+
+    List<Talep> TalepList = new List<Talep>();
+    List<Amirlik> AmirlikList = new List<Amirlik>();
+
+    private string searchString = "";
+    private Talep selectedItem = null;
+    private HashSet<Talep> selectedItems = new HashSet<Talep>();
+
+    public IList<Talep> talepler { get; set; } = new List<Talep>();
+    string text = "";
+
+    bool busy = false;
+    bool yapilamadi = false;
+
+
+    IList<IBrowserFile> files = new List<IBrowserFile>();
+    private void UploadFiles(InputFileChangeEventArgs e)
+    {
+        foreach (var file in e.GetMultipleFiles())
+        {
+            files.Add(file);
         }
+        //TODO upload the files to the server
+    }
+
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        talepler = await Task.Run(() => talepsService.GetDurumTalep("1"));
+        ActionScheduler jobScheduler = new ActionScheduler(TimeSpan.FromSeconds(20), () =>
+        {
+
+            this.LoadData();
+        });
+        jobScheduler.Start();
+        // amirlikler = await Task.Run(() => amirlikService.GetAmirliks());
+        //  gecmis = await Task.Run(() => istipleriService.GetIsTipleris());
+        //TalepList.AddRange(talepler);
+        //AmirlikList.AddRange(amirlikler);
+        //SeciliTalep = talepler.Take(1).ToList();
+
+    }
+    async void LoadData()
+    {
+
+        gecmis = await talepsService.GetDurumTalep("1");
+
+
+        //count = talepler.Count();
+
+        await gridr.Reload();
+        StateHasChanged();
+
+    }
+    async Task OnBusyClick()
+    {
+        if (SeciliTalep.Count != 0 & personelId != 0)
+        {
+            busy = true;
+            foreach (var i in SeciliTalep)
+            {
+
+                i.TalepDurumu = "1";
+                i.TalepId = i.TalepId;
+                i.TalebiKarsilayanPersonelId = personelId;
+                i.TalebinAtanmaTarihi = DateTime.Now;
+                await talepsService.PutTalep(i.TalepId, i);
+
+
+
+
+
+
+            }
+            this.LoadData();
+            gridc.Reload().GetAwaiter().GetResult();
+            gridr.Reload().GetAwaiter().GetResult();
+
+            StateHasChanged();
+            await this.Show("İş Gönderildi!", Severity.Success);
+
+            busy = false;
+        }
+        else
+        {
+            await this.Show("Tablodan İş ve Personel Seçiniz!", Severity.Warning);
+
+        }
+    }
+    async Task OpenDialog(Talep talep)
+    {
+        MudBlazor.DialogOptions fullScreen = new MudBlazor.DialogOptions() { FullScreen = true, CloseButton = true };
+
+        var parameters = new DialogParameters { ["Talep"] = talep };
+
+        var result = await DialogService.Show<DetayDialog>("talep", parameters, fullScreen).Result;
+
+    }
+    async Task Yapilamadi()
+    {
+        await Task.Delay(2000);
+        yapilamadi = true;
+    }
+    async Task Gonder()
+    {
+        await Task.Delay(2000);
+        yapilamadi = false;
+    }
+    private bool FilterFunc(Talep element)
+    {
+        if (string.IsNullOrWhiteSpace(searchString))
+            return true;
+        if (element.TalepAciklama.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+
+        return false;
+    }
+    async Task Show(string message, Severity severity)
+    {
+        Snackbar.Configuration.VisibleStateDuration = 2000;
+        Snackbar.Configuration.HideTransitionDuration = 500;
+        Snackbar.Configuration.ShowTransitionDuration = 500;
+        Snackbar.Add(message, severity, config =>
+        {
+
+            config.Onclick = snackbar =>
+            {
+                return Task.CompletedTask;
+            };
+        });
+    }
+}

@@ -49,7 +49,7 @@ namespace ZabitaWEB.Server.Controllers
         [HttpGet("durum/{durum}")]
         public async Task<ActionResult<List<Talep>>> GetDurumTalep(string durum)
         {
-            var talep = await _context.Taleps.Where(s => s.TalepDurumu == durum).ToListAsync();
+            var talep = await _context.Taleps.Include(s => s.TalepAmirlik).Where(s => s.TalepDurumu == durum).ToListAsync();
 
             if (talep == null)
             {
@@ -93,8 +93,10 @@ namespace ZabitaWEB.Server.Controllers
         // POST: api/Taleps
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<IActionResult> PostTalep(Talep talep)
+        public async Task<IActionResult> PostTalep( Talep talep)
         {
+            _context.Entry(talep).State = EntityState.Added;
+
             _context.Taleps.Add(talep);
             try
             {
@@ -114,7 +116,7 @@ namespace ZabitaWEB.Server.Controllers
             }
             //https://www.tutorialsteacher.com/webapi/implement-post-method-in-web-api
             //https://www.tutorialsteacher.com/webapi/consume-web-api-post-method-in-aspnet-mvc
-            return Accepted();
+            return CreatedAtAction("GetTalep", new { id = talep.TalepId }, talep);
         }
 
         // DELETE: api/Taleps/5

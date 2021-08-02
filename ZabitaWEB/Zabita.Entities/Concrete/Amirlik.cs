@@ -31,6 +31,7 @@ namespace Zabita.Entities.Concrete
         public virtual ICollection<YerleskeTeknikBilgiler> YerleskeTeknikBilgiler { get; set; }
         public virtual ICollection<Sarf> Sarf { get; set; }
         public virtual ICollection<TalepAltSonucu> TalepAltSonucus { get; set; }
+        public virtual ICollection<Talep> AmirlikTaleps { get; set; }
     }
 
     public class AmirlikYerleskec : IEntity
