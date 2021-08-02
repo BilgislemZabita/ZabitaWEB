@@ -12,7 +12,7 @@ namespace ZabitaWEB.Client.Services.Abstract
         Task<ActionResult<bool>> DeleteAmirlik(int id);
 
         Task<ActionResult<Amirlik>> GetAmirlik(int id);
-
+        Task<Amirlik> GetAmirlikonly(int id);
         Task<List<Amirlik>> GetAmirliks();
 
         Task<Uri> PostAmirlik(Amirlik amirlik);

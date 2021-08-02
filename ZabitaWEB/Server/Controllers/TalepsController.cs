@@ -36,7 +36,7 @@ namespace ZabitaWEB.Server.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Talep>> GetTalep(int id)
         {
-            var talep = await _context.Taleps.FindAsync(id);
+            var talep = await _context.Taleps.Include(s => s.TalepAmirlik).Where(s => s.TalepId == id).FirstAsync();
 
             if (talep == null)
             {

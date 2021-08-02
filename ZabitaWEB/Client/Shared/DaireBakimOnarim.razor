@@ -147,35 +147,37 @@
             {
                 TalepAltSonucuAciklama = ist.IsAltTipiAciklama,
                 TalepAltSonucuTipi = ist.IsAltTipi,
-                TalepAltSonucuIlgiliTalepTipi=ist.IsAltTipiId,
+                TalepAltSonucuIlgiliTalepTipi = ist.IsAltTipiId,
                 TalepIsTipiAmirlik = "1",
                 TalepAltSonucuDurumu = "0",
-                
+
 
             }
 
-            ); 
+            );
 
         }
+        Amirlik amirlik = await amirliksService.GetAmirlikonly(1);
         var talep = new Talep
         {
             TalepKonu = amirlikid.ToString(),
             TalepBaslik = "deneme",
             TalepAciklama = isbilgileri,
             Fotolar = fotos,
-            TalepAltSonucus=talepAltSonucus,
+            TalepAltSonucus = talepAltSonucus,
+            TalepAmirlik = amirlik,
             YerleskeAciklamasi = yerleskebilgileri,
             AmirlikId = amirlikid.ToString(),
             TalebinYapilmaTarihi = DateTime.Now,
             TalepIstipleriID = IsTipiId,
-            TalepDurumu="0"
+            TalepDurumu = "0"
 
         };
 
         busy = true;
         //await Task.Delay(2000);
 
-         await talepsService.PostTalep(talep);
+        await talepsService.PostTalep(talep);
         //await Http.PostAsJsonAsync<Talep>("/api/Taleps", talep);
         busy = false;
         Snackbar.Configuration.PositionClass = Defaults.Classes.Position.TopRight;
@@ -208,7 +210,7 @@
             TalepTipleriList.AddRange(Taleptipleri);
             AmirlikList.AddRange(Amirlikler);
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             Console.WriteLine(e.Message.ToString());
         }

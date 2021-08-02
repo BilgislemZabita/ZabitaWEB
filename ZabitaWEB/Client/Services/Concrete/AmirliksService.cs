@@ -30,6 +30,10 @@ namespace ZabitaWEB.Client.Services.Concrete
         {
             return await _httpClient.GetFromJsonAsync<Amirlik>("/api/Amirliks/" + id.ToString());
         }
+          public async Task<Amirlik> GetAmirlikonly(int id) //Kontrol Edilmedi
+        {
+            return await _httpClient.GetFromJsonAsync<Amirlik>("/api/Amirliks/" + id.ToString());
+        }
 
         public async Task<List<Amirlik>> GetAmirliks()
         {
