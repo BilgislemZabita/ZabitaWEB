@@ -36,7 +36,8 @@ namespace ZabitaWEB.Server.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Talep>> GetTalep(int id)
         {
-            var talep = await _context.Taleps.FindAsync(id);
+            var talep = _context.Taleps.Include(a => a.TalepAmirlik).Include(s => s.Fotolar).Where(s=>s.TalepId==id).First();
+                
 
             if (talep == null)
             {
@@ -93,15 +94,25 @@ namespace ZabitaWEB.Server.Controllers
         // POST: api/Taleps
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<IActionResult> PostTalep( Talep talep)
+        public async Task<IActionResult> PostTalep(Talep talep)
         {
-            _context.Entry(talep).State = EntityState.Added;
+         
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            //_context.Entry(talep).State = EntityState.Added;
+            //_context.Entry(talep).Reference(s => s.TalepAmirlik).Load();
+     
+            //_context.ChangeTracker.DetectChanges();
+   
 
-            //_context.Taleps.Add(talep);
             try
             {
-                await _context.SaveChangesAsync();
+                _context.Taleps.Add(talep);
 
+                await _context.SaveChangesAsync();
+            
             }
             catch (DbUpdateException)
             {
@@ -116,7 +127,7 @@ namespace ZabitaWEB.Server.Controllers
             }
             //https://www.tutorialsteacher.com/webapi/implement-post-method-in-web-api
             //https://www.tutorialsteacher.com/webapi/consume-web-api-post-method-in-aspnet-mvc
-            return Accepted();
+            return CreatedAtAction("GetTalep", new { id = talep.TalepId }, talep);
         }
 
         // DELETE: api/Taleps/5
