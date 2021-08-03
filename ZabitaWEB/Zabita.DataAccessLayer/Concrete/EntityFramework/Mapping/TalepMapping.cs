@@ -15,6 +15,7 @@ namespace Zabita.DataAccessLayer.Concrete.EntityFramework.Mapping
             .HasKey(x => x.TalepId);
 
             builder.HasOne(s => s.Personel).WithMany(s => s.Taleps);
+            builder.HasOne(s => s.TalepAmirlik).WithMany(s => s.AmirlikTaleps);
                 
           
             builder

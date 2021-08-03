@@ -273,6 +273,7 @@
                 i.TalepId = i.TalepId;
                 i.TalebinAtanmaTarihi = DateTime.Now;
                 i.TalebiKarsilayanPersonelId = personelId;
+                i.TalebinAtanmaTarihi = DateTime.Now;
                 await talepsService.PutTalep(i.TalepId, i);
 
 
