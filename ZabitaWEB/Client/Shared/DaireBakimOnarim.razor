@@ -160,20 +160,19 @@
         Amirlik amirlik = await amirliksService.GetAmirlikonly(1);
         var talep = new Talep
         {
-            TalepKonu = amirlikid.ToString(),
+            TalepKonu = IsTipiId,
             TalepBaslik = "deneme",
             TalepAciklama = isbilgileri,
             Fotolar = fotos,
             TalepAltSonucus = talepAltSonucus,
-            TalepAmirlik = amirlik,
             YerleskeAciklamasi = yerleskebilgileri,
-            AmirlikId = amirlikid.ToString(),
+            AmirlikId = "1",
             TalebinYapilmaTarihi = DateTime.Now,
             TalepIstipleriID = IsTipiId,
-            TalepDurumu = "0"
+            TalepDurumu = "0",
+            
 
         };
-
         busy = true;
         //await Task.Delay(2000);
 

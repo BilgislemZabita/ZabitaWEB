@@ -23,7 +23,7 @@ namespace Zabita.DataAccessLayer.Concrete.EntityFramework.Mapping
             builder
                .HasMany(m => m.TalepAltSonucus)
                .WithOne(m => m.Taleptalepaltsonucu).OnDelete(DeleteBehavior.Cascade);
-
+            //builder.Navigation(b => b.TalepAmirlik).UsePropertyAccessMode(PropertyAccessMode.);
         }
     }
 }

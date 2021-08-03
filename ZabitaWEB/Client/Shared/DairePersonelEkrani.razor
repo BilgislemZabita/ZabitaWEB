@@ -23,7 +23,7 @@
 
             </MudCardHeader>
             <MudCardContent Style="padding:0">
-                <RadzenDataGrid @ref="gridr" Data="@talepler" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="5"
+                <RadzenDataGrid @ref="gridr" Data="@talepler" FilterMode="FilterMode.Advanced" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="5"
                                 AllowSorting="true" TItem="Talep" AllowVirtualization="false" ColumnWidth="270px"
                                 SelectionMode="DataGridSelectionMode.Single" @bind-Value=@SeciliTalep>
                     <Columns>
@@ -39,8 +39,11 @@
                             </Template>
 
                         </RadzenDataGridColumn>
-                        <RadzenDataGridColumn TItem="Talep" Property="TalepAmirlik" Title="Talep Amirliği" />
+                        <RadzenDataGridColumn TItem="Talep" Property="TalepAmirlik.AmirlikIsım" Title="Talep Amirliği" />
+                        <RadzenDataGridColumn TItem="Talep" Property="TalepBaslik" Title="Talep Özet" />
                         <RadzenDataGridColumn TItem="Talep" Property="TalepKonu" Title="Gonderildi" />
+                        <RadzenDataGridColumn TItem="Talep" SortProperty="TalebinYapilmaTarihi" SortOrder="SortOrder.Descending" Property="TalebinYapilmaTarihi" Title="Talep Tarihi" />
+                        <RadzenDataGridColumn TItem="Talep" SortProperty="TalebinAtanmaTarihi" SortOrder="SortOrder.Descending" Property="TalebinAtanmaTarihi" Title="Atanma Tarihi" />
 
                     </Columns>
 
@@ -90,9 +93,9 @@
             </MudCardActions>
         </MudCard>
 
-</MudItem>    
-    </MudGrid>
-    
+    </MudItem>
+</MudGrid>
+
 <MudGrid>
 
 
@@ -129,76 +132,85 @@
 
             </div>
         </RadzenCard>
-</MudItem>
+    </MudItem>
 </MudGrid>
 
 
-        @code{
-            RadzenDataGrid<Talep> gridr;
+@code{
+    RadzenDataGrid<Talep> gridr;
 
-            private bool _processing = false;
+    private bool _processing = false;
 
-            //IEnumerable<Talep> talepler { get; set; }
-            IEnumerable<IsTipleri> gecmis { get; set; }
-            IEnumerable<Amirlik> amirlikler { get; set; }
-            IList<Talep> SeciliTalep = new List<Talep>();
+    //IEnumerable<Talep> talepler { get; set; }
+    IEnumerable<IsTipleri> gecmis { get; set; }
+    IEnumerable<Amirlik> amirlikler { get; set; }
+    IList<Talep> SeciliTalep = new List<Talep>();
 
 
-            List<Talep> TalepList = new List<Talep>();
-            List<Amirlik> AmirlikList = new List<Amirlik>();
+    List<Talep> TalepList = new List<Talep>();
+    List<Amirlik> AmirlikList = new List<Amirlik>();
 
-            private string searchString = "";
-            private Talep selectedItem = null;
-            private HashSet<Talep> selectedItems = new HashSet<Talep>();
+    private string searchString = "";
+    private Talep selectedItem = null;
+    private HashSet<Talep> selectedItems = new HashSet<Talep>();
 
-            public IList<Talep> talepler { get; set; } = new List<Talep>();
-            string text = "";
+    public IList<Talep> talepler { get; set; } = new List<Talep>();
+    string text = "";
 
-            bool busy;
-            bool yapilamadi = false;
+    bool busy;
+    bool yapilamadi = false;
 
-            protected override async Task OnInitializedAsync()
-            {
-                talepler = await Task.Run(() => talepService.GetTaleps());
-                amirlikler = await Task.Run(() => amirlikService.GetAmirliks());
-                gecmis = await Task.Run(() => istipleriService.GetIsTipleris());
-                //TalepList.AddRange(talepler);
-                //AmirlikList.AddRange(amirlikler);
-                //SeciliTalep = talepler.Take(1).ToList();
+    protected override async Task OnInitializedAsync()
+    {
+        talepler = await Task.Run(() => talepService.GetDurumTalep("1"));
+        talepler = talepler.OrderByDescending(s => s.TalebinAtanmaTarihi).ToList();
+        //amirlikler = await Task.Run(() => amirlikService.GetAmirliks());
+        //gecmis = await Task.Run(() => istipleriService.GetIsTipleris());
+        //TalepList.AddRange(talepler);
+        //AmirlikList.AddRange(amirlikler);
+        //SeciliTalep = talepler.Take(1).ToList();
 
-            }
-            async Task OnBusyClick()
-            {
-                busy = true;
-                await Task.Delay(2000);
-                busy = false;
-            }
-            async Task OpenDialog(Talep talep)
-            {
-                MudBlazor.DialogOptions fullScreen = new MudBlazor.DialogOptions() { FullScreen = true, CloseButton = true };
+    }
+    async Task OnBusyClick()
+    {
+        busy = true;
+        foreach (var tlp in SeciliTalep)
+        {
+            tlp.TalepDurumu = "2";
+            tlp.TalebinYapilmaTarihi = DateTime.Now;
+            tlp.TalepKapanisAciklama = text;
+            await talepService.PostTalep(tlp);
 
-                var parameters = new DialogParameters { ["Talep"] = talep };
-
-                var result = await DialogService.Show<DetayDialog>("talep", parameters, fullScreen).Result;
-
-            }
-            async Task Yapilamadi()
-            {
-                await Task.Delay(2000);
-                yapilamadi = true;
-            }
-            async Task Gonder()
-            {
-                await Task.Delay(2000);
-                yapilamadi = false;
-            }
-            private bool FilterFunc(Talep element)
-            {
-                if (string.IsNullOrWhiteSpace(searchString))
-                    return true;
-                if (element.TalepAciklama.Contains(searchString, StringComparison.OrdinalIgnoreCase))
-                    return true;
-
-                return false;
-            }
         }
+
+        busy = false;
+    }
+    async Task OpenDialog(Talep talep)
+    {
+        MudBlazor.DialogOptions fullScreen = new MudBlazor.DialogOptions() { FullScreen = true, CloseButton = true };
+
+        var parameters = new DialogParameters { ["Talep"] = talep };
+
+        var result = await DialogService.Show<DetayDialog>("talep", parameters, fullScreen).Result;
+
+    }
+    async Task Yapilamadi()
+    {
+        await Task.Delay(2000);
+        yapilamadi = true;
+    }
+    async Task Gonder()
+    {
+        await Task.Delay(2000);
+        yapilamadi = false;
+    }
+    private bool FilterFunc(Talep element)
+    {
+        if (string.IsNullOrWhiteSpace(searchString))
+            return true;
+        if (element.TalepAciklama.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+
+        return false;
+    }
+}

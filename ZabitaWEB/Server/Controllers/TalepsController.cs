@@ -95,6 +95,8 @@ namespace ZabitaWEB.Server.Controllers
         [HttpPost]
         public async Task<IActionResult> PostTalep(Talep talep)
         {
+            var amirlik=_context.Amirliks.First(a => a.AmirlikID.ToString() == talep.AmirlikId);
+            talep.TalepAmirlik = amirlik;
             _context.Taleps.Add(talep);
             try
             {
@@ -114,7 +116,7 @@ namespace ZabitaWEB.Server.Controllers
             }
             //https://www.tutorialsteacher.com/webapi/implement-post-method-in-web-api
             //https://www.tutorialsteacher.com/webapi/consume-web-api-post-method-in-aspnet-mvc
-            return Accepted();
+            return Ok();
         }
 
         // DELETE: api/Taleps/5
