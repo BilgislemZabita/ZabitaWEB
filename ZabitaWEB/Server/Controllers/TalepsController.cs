@@ -49,7 +49,7 @@ namespace ZabitaWEB.Server.Controllers
         [HttpGet("durum/{durum}")]
         public async Task<ActionResult<List<Talep>>> GetDurumTalep(string durum)
         {
-            var talep = await _context.Taleps.Where(s => s.TalepDurumu == durum).ToListAsync();
+            var talep = await _context.Taleps.Include(s => s.TalepAmirlik).Where(s => s.TalepDurumu == durum).ToListAsync();
 
             if (talep == null)
             {

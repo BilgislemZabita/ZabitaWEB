@@ -194,16 +194,24 @@
     bool busy;
     async void LoadData()
     {
+        try
+        {
+            gecmis = await talepsService.GetDurumTalep("2");
+            atanmisisler = await talepsService.GetDurumTalep("1");
+            talepler = await talepsService.GetDurumTalep("0");
 
-        gecmis = await talepsService.GetDurumTalep("2");
-        atanmisisler = await talepsService.GetDurumTalep("1");
-        talepler = await talepsService.GetDurumTalep("0");
+            //count = talepler.Count();
 
-        //count = talepler.Count();
+            await gridc.Reload();
+            await gridr.Reload();
+            StateHasChanged();
+        }
+        catch(Exception e)
+        {
+            Console.WriteLine(e.Message);
+        }
 
-        await gridc.Reload();
-        await gridr.Reload();
-        StateHasChanged();
+
 
     }
 
@@ -238,7 +246,15 @@
         //timer.Elapsed += (s, e) => { InvokeAsync(grid.Reload); };
         //timer.Start();
         //base.OnInitialized();
-        PersonelList = await personelService.GetTalepPersonel(1, "1");
+        try
+        {
+            PersonelList = await personelService.GetTalepPersonel(1, "1");
+
+        }catch(Exception e)
+        {
+            Console.WriteLine(e.Message);
+
+        }
 
 
     }
