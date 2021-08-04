@@ -10,8 +10,8 @@ using Zabita.DataAccessLayer.Concrete.EntityFramework;
 namespace Zabita.DataAccessLayer.Migrations
 {
     [DbContext(typeof(ZabitaDatabaseContext))]
-    [Migration("20210803063957_ddd")]
-    partial class ddd
+    [Migration("20210804134950_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -593,6 +593,9 @@ namespace Zabita.DataAccessLayer.Migrations
                     b.Property<int?>("TalepIstipleriIstipiID")
                         .HasColumnType("integer");
 
+                    b.Property<string>("TalepKapanisAciklama")
+                        .HasColumnType("text");
+
                     b.Property<string>("TalepKapanisBilgisi")
                         .HasColumnType("text");
 
@@ -782,6 +785,9 @@ namespace Zabita.DataAccessLayer.Migrations
                     b.Property<int?>("YerleskeBakimOnarimOdaOdaId")
                         .HasColumnType("integer");
 
+                    b.Property<int?>("YerleskeBakimOnarimTalepTalepId")
+                        .HasColumnType("integer");
+
                     b.Property<int?>("YerleskeBakimOnarimYerleskeYerleskeId")
                         .HasColumnType("integer");
 
@@ -792,6 +798,8 @@ namespace Zabita.DataAccessLayer.Migrations
                     b.HasIndex("YerleskeBakimOnarimMudurlukMudurlukId");
 
                     b.HasIndex("YerleskeBakimOnarimOdaOdaId");
+
+                    b.HasIndex("YerleskeBakimOnarimTalepTalepId");
 
                     b.HasIndex("YerleskeBakimOnarimYerleskeYerleskeId");
 
@@ -895,6 +903,9 @@ namespace Zabita.DataAccessLayer.Migrations
                     b.Property<int>("Uzunluk")
                         .HasColumnType("integer");
 
+                    b.Property<int>("YerleskeTeknikBilgiTalepId")
+                        .HasColumnType("integer");
+
                     b.Property<int?>("YerleskeTeknikBilgilerAmirlikAmirlikID")
                         .HasColumnType("integer");
 
@@ -911,6 +922,8 @@ namespace Zabita.DataAccessLayer.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("YerleskeTeknikBilgilerId");
+
+                    b.HasIndex("YerleskeTeknikBilgiTalepId");
 
                     b.HasIndex("YerleskeTeknikBilgilerAmirlikAmirlikID");
 
@@ -1291,7 +1304,7 @@ namespace Zabita.DataAccessLayer.Migrations
                         .HasForeignKey("PersonelId");
 
                     b.HasOne("Zabita.Entities.Concrete.Amirlik", "TalepAmirlik")
-                        .WithMany()
+                        .WithMany("AmirlikTaleps")
                         .HasForeignKey("TalepAmirlikAmirlikID");
 
                     b.HasOne("Zabita.Entities.Concrete.IsTipleri", "TalepIstipleri")
@@ -1344,6 +1357,10 @@ namespace Zabita.DataAccessLayer.Migrations
                         .HasForeignKey("YerleskeBakimOnarimOdaOdaId")
                         .OnDelete(DeleteBehavior.Cascade);
 
+                    b.HasOne("Zabita.Entities.Concrete.Talep", "YerleskeBakimOnarimTalep")
+                        .WithMany("TalepYerleskeBakimOnarims")
+                        .HasForeignKey("YerleskeBakimOnarimTalepTalepId");
+
                     b.HasOne("Zabita.Entities.Concrete.Yerleske", "YerleskeBakimOnarimYerleske")
                         .WithMany("YerleskeBakimOnarim")
                         .HasForeignKey("YerleskeBakimOnarimYerleskeYerleskeId")
@@ -1354,6 +1371,8 @@ namespace Zabita.DataAccessLayer.Migrations
                     b.Navigation("YerleskeBakimOnarimMudurluk");
 
                     b.Navigation("YerleskeBakimOnarimOda");
+
+                    b.Navigation("YerleskeBakimOnarimTalep");
 
                     b.Navigation("YerleskeBakimOnarimYerleske");
                 });
@@ -1391,6 +1410,10 @@ namespace Zabita.DataAccessLayer.Migrations
 
             modelBuilder.Entity("Zabita.Entities.Concrete.YerleskeTeknikBilgiler", b =>
                 {
+                    b.HasOne("Zabita.Entities.Concrete.Talep", "YerleskeTeknikBilgiTalep")
+                        .WithMany("TalepYerleskeTeknikBilgilers")
+                        .HasForeignKey("YerleskeTeknikBilgiTalepId");
+
                     b.HasOne("Zabita.Entities.Concrete.Amirlik", "YerleskeTeknikBilgilerAmirlik")
                         .WithMany("YerleskeTeknikBilgiler")
                         .HasForeignKey("YerleskeTeknikBilgilerAmirlikAmirlikID")
@@ -1418,6 +1441,8 @@ namespace Zabita.DataAccessLayer.Migrations
                     b.Navigation("YerleskeTeknikBilgilerOda");
 
                     b.Navigation("YerleskeTeknikBilgilerYerleske");
+
+                    b.Navigation("YerleskeTeknikBilgiTalep");
                 });
 
             modelBuilder.Entity("Zabita.Entities.Concrete.Yetki", b =>
@@ -1438,6 +1463,8 @@ namespace Zabita.DataAccessLayer.Migrations
 
             modelBuilder.Entity("Zabita.Entities.Concrete.Amirlik", b =>
                 {
+                    b.Navigation("AmirlikTaleps");
+
                     b.Navigation("AmirlikYerleskecs");
 
                     b.Navigation("Demirbaslar");
@@ -1545,6 +1572,10 @@ namespace Zabita.DataAccessLayer.Migrations
                     b.Navigation("Fotolar");
 
                     b.Navigation("TalepAltSonucus");
+
+                    b.Navigation("TalepYerleskeBakimOnarims");
+
+                    b.Navigation("TalepYerleskeTeknikBilgilers");
                 });
 
             modelBuilder.Entity("Zabita.Entities.Concrete.TalepSonucu", b =>

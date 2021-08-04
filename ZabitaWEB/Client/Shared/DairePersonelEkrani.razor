@@ -6,6 +6,7 @@
 @inject ITalepsService talepService
 @inject IIsTiplerisService istipleriService
 @inject IAmirliksService amirlikService
+@inject IYerleskeBakimOnarimsService bakimonarimService
 
 
 <MudGrid>
@@ -52,7 +53,7 @@
             <MudCardActions>
                 <MudGrid>
                     <MudItem xs="12" sm="12" md="12">
-                        <MudTextField T="string" Label="İş Detayı" Variant="Variant.Outlined" Text="@text" Lines="3" />
+                        <MudTextField T="string" Label="İş Detayı" Variant="Variant.Outlined" @bind-Value="@text" Immediate="true" Lines="3" />
                     </MudItem>
                     <MudItem>
 
@@ -157,7 +158,7 @@
     public IList<Talep> talepler { get; set; } = new List<Talep>();
     string text = "";
 
-    bool busy;
+    bool busy = false;
     bool yapilamadi = false;
 
     protected override async Task OnInitializedAsync()
@@ -174,13 +175,43 @@
     async Task OnBusyClick()
     {
         busy = true;
+
         foreach (var tlp in SeciliTalep)
         {
-            tlp.TalepDurumu = "2";
-            tlp.TalebinYapilmaTarihi = DateTime.Now;
-            tlp.TalepKapanisAciklama = text;
-            await talepService.PostTalep(tlp);
 
+            Talep talep = new Talep
+            {
+                TalepId = tlp.TalepId,
+                TalebiAtayanPersonelId = tlp.TalebiAtayanPersonelId,
+                TalebiIsteyenPersonelId = tlp.TalebiIsteyenPersonelId,
+                TalebiKarsilayanPersonelId = tlp.TalebiKarsilayanPersonelId,
+                TalebinAtanmaTarihi = tlp.TalebinAtanmaTarihi,
+                TalebinKarsilanmaTarihi = DateTime.Now,
+                TalebinYapilmaTarihi = tlp.TalebinYapilmaTarihi,
+                TalepAciklama = tlp.TalepAciklama,
+                TalepAltSonucus = tlp.TalepAltSonucus,
+                TalepAmirlik = tlp.TalepAmirlik,
+                TalepBaslik = tlp.TalepBaslik,
+                TalepDurumu = "2",
+                TalepIstipleri = tlp.TalepIstipleri,
+                TalepTipi = tlp.TalepTipi,
+                TalepIstipleriID = tlp.TalepIstipleriID,
+                TalepKapanisAciklama = text,
+                TalepKapanisBilgisi = tlp.TalepKapanisBilgisi,
+                TalepKonu = tlp.TalepKonu,
+                AmirlikId = tlp.AmirlikId,
+                Fotolar = tlp.Fotolar,
+                Personel = tlp.Personel,
+                YerleskeAciklamasi = tlp.YerleskeAciklamasi
+            };
+            await talepService.PutTalep(tlp.TalepId,talep);
+            var yerleskebakimonarim = new YerleskeBakimOnarim
+            {
+              
+                BakımOnarimAciklama=text
+
+            };
+            await bakimonarimService.PostYerleskeBakimOnarim(yerleskebakimonarim);
         }
 
         busy = false;

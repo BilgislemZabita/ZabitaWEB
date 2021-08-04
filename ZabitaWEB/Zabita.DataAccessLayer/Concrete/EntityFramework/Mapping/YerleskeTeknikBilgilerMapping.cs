@@ -36,6 +36,7 @@ namespace Zabita.DataAccessLayer.Concrete.EntityFramework.Mapping
             builder
                 .HasOne(m => m.YerleskeTeknikBilgilerOda)
                 .WithMany(m => m.YerleskeTeknikBilgiler);
+           // builder.HasOne(m => m.YerleskeTeknikBilgiTalep).WithOne(s => s.TalepYerleskeTeknikBilgiler);
         }
     }
 }

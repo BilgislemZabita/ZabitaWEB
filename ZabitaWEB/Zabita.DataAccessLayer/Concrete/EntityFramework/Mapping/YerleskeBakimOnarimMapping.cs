@@ -31,6 +31,7 @@ namespace Zabita.DataAccessLayer.Concrete.EntityFramework.Mapping
             builder
                 .HasOne(m => m.YerleskeBakimOnarimOda)
                 .WithMany(m => m.YerleskeBakimOnarim);
+         //   builder.HasOne(m => m.YerleskeBakimOnarimTalep).WithOne(s => s.TalepYerleskeBakimOnarim);
         }
     }
 }

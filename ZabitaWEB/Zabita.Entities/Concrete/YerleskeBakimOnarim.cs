@@ -27,6 +27,8 @@ namespace Zabita.Entities.Concrete
         public virtual Oda YerleskeBakimOnarimOda { get; set; }
 
         public virtual ICollection<Personel> Personeller { get; set; }
+        //public virtual int YerleskeBakimOnarimTalepId { get; set; }
+        public virtual Talep YerleskeBakimOnarimTalep { get; set; }
         public virtual ICollection<Foto> Fotolar { get; set; }
 
 

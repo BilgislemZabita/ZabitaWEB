@@ -35,5 +35,7 @@ namespace Zabita.Entities.Concrete
         public virtual ICollection<Foto> Fotolar { get; set; }
         public virtual ICollection<TalepAltSonucu> TalepAltSonucus { get; set; }
         public virtual string TalepKapanisBilgisi { get; set; }
+        public virtual ICollection<YerleskeBakimOnarim> TalepYerleskeBakimOnarims { get; set; }
+        public virtual ICollection<YerleskeTeknikBilgiler> TalepYerleskeTeknikBilgilers { get; set; }
     }
 }
