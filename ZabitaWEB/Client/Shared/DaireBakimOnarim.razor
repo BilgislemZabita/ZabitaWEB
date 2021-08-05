@@ -146,9 +146,10 @@
         {
             talepAltSonucus.Add(new TalepAltSonucu()
             {
-                TalepAltSonucuAciklama = ist.IsAltTipiAciklama,
-                TalepAltSonucuTipi = ist.IsAltTipi,
-                TalepAltSonucuIlgiliTalepTipi = ist.IsAltTipiId,
+
+                TalepAltSonucuAciklama = ist.IsAltTipiAciklama !=null ? ist.IsAltTipiAciklama :"",
+                TalepAltSonucuTipi = ist.IsAltTipi != null ? ist.IsAltTipi : "",
+                TalepAltSonucuIlgiliTalepTipi = ist.IsAltTipiId !=0 ? ist.IsAltTipiId : 0,
                 TalepIsTipiAmirlik = "1",
                 TalepAltSonucuDurumu = "0",
 
@@ -158,11 +159,11 @@
             );
 
         }
-       // var talepaltsonuc=await talepaltsonucusService.PostTalepAltSonucu(talepAltSonucus.First());
+        // var talepaltsonuc=await talepaltsonucusService.PostTalepAltSonucu(talepAltSonucus.First());
 
         var talep = new Talep
         {
-        
+
             TalepBaslik = "deneme",
             TalepAciklama = isbilgileri,
             Fotolar = fotos,
