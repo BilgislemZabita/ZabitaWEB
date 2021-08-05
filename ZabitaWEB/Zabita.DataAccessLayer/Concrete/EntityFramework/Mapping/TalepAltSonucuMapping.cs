@@ -15,11 +15,14 @@ namespace Zabita.DataAccessLayer.Concrete.EntityFramework.Mapping
 
             builder.HasOne(s => s.Personel).WithMany(s => s.TalepAltSonucus);
             builder.HasOne(s => s.Amirlik).WithMany(s => s.TalepAltSonucus);
-
+            builder
+            .HasOne(p => p.Taleptalepaltsonucu)
+                .WithMany(c => c.TalepAltSonucus)
+                .OnDelete(DeleteBehavior.Cascade);
 
             //builder.HasOne(s => s.Taleptalepaltsonucu).WithMany(s=>s.TalepAltSonucus);
-          
-               
+
+
 
         }
     }
