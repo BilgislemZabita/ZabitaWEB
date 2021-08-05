@@ -95,8 +95,15 @@ namespace ZabitaWEB.Server.Controllers
         [HttpPost]
         public async Task<IActionResult> PostTalep(Talep talep)
         {
-            var amirlik=_context.Amirliks.First(a => a.AmirlikID.ToString() == talep.AmirlikId);
-            talep.TalepAmirlik = amirlik;
+            if (talep.TalepAmirlik != null)
+            {
+                var amirlik = _context.Amirliks.First(a => a.AmirlikID.ToString() == talep.AmirlikId);
+                talep.TalepAmirlik = amirlik;
+            }
+            //if (talep.TalepAltSonucus.Count != 0)
+            //{
+            //    var talepaltsonucu = _context.TalepAltSonucus.Add(talep.TalepAltSonucus.First());
+            //}
             _context.Taleps.Add(talep);
             try
             {

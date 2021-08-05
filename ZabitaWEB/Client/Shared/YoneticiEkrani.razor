@@ -34,7 +34,7 @@
             </MudCardHeader>
             <MudCardContent Style="padding:0">
                 <RadzenDataGrid @ref="gridr" Data="@talepler" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="5"
-                                AllowSorting="true" TItem="Talep" AllowVirtualization="false" ColumnWidth="270px" 
+                                AllowSorting="true" TItem="Talep" AllowVirtualization="false" ColumnWidth="11em" 
                                 SelectionMode="DataGridSelectionMode.Multiple" @bind-Value=@SeciliTalep>
                     <Columns>
                         <RadzenDataGridColumn TItem="Talep" Width="40px" Sortable="false" Filterable="false">
@@ -49,8 +49,14 @@
                             </Template>
 
                         </RadzenDataGridColumn>
-                        <RadzenDataGridColumn TItem="Talep" Property="TalepAmirlik" Title="Talep Amirliği" />
-                        <RadzenDataGridColumn TItem="Talep" Property="TalepKonu" Title="Gonderildi" />
+                                 <RadzenDataGridColumn TItem="Talep" Property="TalebinYapilmaTarihi" Title="Talep Tarihi">
+                            <Template Context="data">
+                                @String.Format("{0:d}", data.TalebinYapilmaTarihi)
+                            </Template>
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="Talep" Property="TalepAciklama" Title="Talep Konusu" />
+
+                        <RadzenDataGridColumn TItem="Talep" Property="TalepAmirlik.AmirlikIsım" Title="Talep Amirliği" />
 
                     </Columns>
 
@@ -102,7 +108,7 @@
             </MudCardHeader>
             <MudCardContent Style="padding:0">
                 <RadzenDataGrid @ref="gridc" Data="@atanmisisler" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="4"
-                                AllowSorting="true" TItem="Talep" AllowVirtualization="false" ColumnWidth="270px"
+                                AllowSorting="true" TItem="Talep" AllowVirtualization="false" ColumnWidth="11em"
                                 SelectionMode="DataGridSelectionMode.Single" @bind-Value=@SeciliTalepGecmis>
                     <Columns>
                         <RadzenDataGridColumn TItem="Talep" Width="40px" Sortable="false" Filterable="false">
@@ -117,8 +123,14 @@
                             </Template>
 
                         </RadzenDataGridColumn>
-                        <RadzenDataGridColumn TItem="Talep" Property="TalepAmirlik" Title="Talep Amirliği" />
-                        <RadzenDataGridColumn TItem="Talep" Property="TalepKonu" Title="Gonderildi" />
+                        <RadzenDataGridColumn TItem="Talep" Property="TalebinYapilmaTarihi" Title="Talep Tarihi">
+                            <Template Context="data">
+                                @String.Format("{0:d}", data.TalebinYapilmaTarihi)
+                            </Template>
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="Talep" Property="TalepAciklama" Title="Talep Konusu" />
+
+                        <RadzenDataGridColumn TItem="Talep" Property="TalepAmirlik.AmirlikIsım" Title="Talep Amirliği" />
 
                     </Columns>
 
@@ -152,8 +164,9 @@
                                 @String.Format("{0:d}", data.TalebinYapilmaTarihi)
                             </Template>
                         </RadzenDataGridColumn>
+
                         <RadzenDataGridColumn TItem="Talep" Property="TalepAciklama" Title="Talep Konusu" />
-                        <RadzenDataGridColumn TItem="Talep" Property="TalepKonu" Title="Talep Eden Personel" />
+                        <RadzenDataGridColumn TItem="Talep" Property="TalepAmirlik.AmirlikIsım" Title="Talep Amirliği" />
 
                     </Columns>
                 </RadzenDataGrid>

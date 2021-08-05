@@ -13,7 +13,7 @@ namespace ZabitaWEB.Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TalepAltSonucusController : ControllerBase, ITalepAltSonucusService
+    public class TalepAltSonucusController : ControllerBase
     {
         private readonly ZabitaDatabaseContext _context;
 

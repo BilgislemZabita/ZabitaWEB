@@ -24,8 +24,8 @@ namespace Zabita.DataAccessLayer.Concrete.EntityFramework.Mapping
             builder
                .HasMany(m => m.TalepAltSonucus)
                .WithOne(m => m.Taleptalepaltsonucu).OnDelete(DeleteBehavior.Cascade);
-            builder.HasMany(m => m.TalepYerleskeBakimOnarims).WithOne(s => s.YerleskeBakimOnarimTalep).IsRequired(false);
-            builder.HasMany(m => m.TalepYerleskeTeknikBilgilers).WithOne(s => s.YerleskeTeknikBilgiTalep).IsRequired(false);
+            builder.HasMany(m => m.TalepYerleskeBakimOnarims).WithOne(s => s.YerleskeBakimOnarimTalep);
+            builder.HasMany(m => m.TalepYerleskeTeknikBilgilers).WithOne(s => s.YerleskeTeknikBilgiTalep);
             //builder.Navigation(b => b.TalepAmirlik).UsePropertyAccessMode(PropertyAccessMode.);
         }
     }

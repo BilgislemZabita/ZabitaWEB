@@ -78,8 +78,17 @@ namespace ZabitaWEB.Server.Controllers
         [HttpPost]
         public async Task<IActionResult> PostYerleskeBakimOnarim(YerleskeBakimOnarim yerleskeBakimOnarim)
         {
-            var oda = _context.Odas.First(a => a.OdaId == yerleskeBakimOnarim.YerleskeBakimOnarimOda.OdaId);
-            yerleskeBakimOnarim.YerleskeBakimOnarimOda = oda;
+            if (yerleskeBakimOnarim.YerleskeBakimOnarimOda!= null)
+            {
+                var oda = _context.Odas.First(a => a.OdaId == yerleskeBakimOnarim.YerleskeBakimOnarimOda.OdaId);
+                yerleskeBakimOnarim.YerleskeBakimOnarimOda = oda;
+            }
+            if (yerleskeBakimOnarim.YerleskeBakimOnarimTalep != null)
+            {
+                var talep = _context.Taleps.First(a => a.TalepId == yerleskeBakimOnarim.YerleskeBakimOnarimTalep.TalepId);
+                yerleskeBakimOnarim.YerleskeBakimOnarimTalep = talep;
+            }
+           
             _context.YerleskeBakimOnarims.Add(yerleskeBakimOnarim);
             try
             {

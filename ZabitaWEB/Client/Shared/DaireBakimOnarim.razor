@@ -5,6 +5,7 @@
 @inject IAmirliksService amirliksService
 @inject IIsTiplerisService istipleriService
 @inject IIsAltTiplerisService isalttipleriService
+@inject ITalepAltSonucusService  talepaltsonucusService
 
 @inject ISnackbar Snackbar
 @inject HttpClient Http
@@ -38,7 +39,7 @@
 
             <RadzenDropDown AllowClear="true" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" TValue="int"
                             @bind-Value=@amirlikid Placeholder="İşin Yapılacağı Amirlik..." Data=@AmirlikList
-                            TextProperty="AmirlikIsım" ValueProperty="AmirlikID" Style="width:100%" />
+                            TextProperty="AmirlikIsım" ValueProperty="AmirlikID" Style="width:100%"   />
 
 
         </div>
@@ -157,24 +158,25 @@
             );
 
         }
+       // var talepaltsonuc=await talepaltsonucusService.PostTalepAltSonucu(talepAltSonucus.First());
+
         var talep = new Talep
         {
-            TalepKonu = IsTipiId,
+        
             TalepBaslik = "deneme",
             TalepAciklama = isbilgileri,
             Fotolar = fotos,
-            TalepAltSonucus = talepAltSonucus,
+            TalepAltSonucus=talepAltSonucus,
             YerleskeAciklamasi = yerleskebilgileri,
             AmirlikId = "1",
             TalebinYapilmaTarihi = DateTime.Now,
             TalepIstipleriID = IsTipiId,
             TalepDurumu = "0",
-            
+
 
         };
         busy = true;
         //await Task.Delay(2000);
-
         await talepsService.PostTalep(talep);
         //await Http.PostAsJsonAsync<Talep>("/api/Taleps", talep);
         busy = false;

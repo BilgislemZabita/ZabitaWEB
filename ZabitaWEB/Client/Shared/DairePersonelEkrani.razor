@@ -3,7 +3,7 @@
 @using Zabita.Entities.Concrete
 @inject IDialogService DialogService
 
-@inject ITalepsService talepService
+@inject ITalepsService talepsService
 @inject IIsTiplerisService istipleriService
 @inject IAmirliksService amirlikService
 @inject IYerleskeBakimOnarimsService bakimonarimService
@@ -160,10 +160,28 @@
 
     bool busy = false;
     bool yapilamadi = false;
+    async void LoadData()
+    {
+        try
+        {
+            talepler = await talepsService.GetDurumTalep("1");
 
+            //count = talepler.Count();
+
+            await gridr.Reload();
+            StateHasChanged();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+        }
+
+
+
+    }
     protected override async Task OnInitializedAsync()
     {
-        talepler = await Task.Run(() => talepService.GetDurumTalep("1"));
+        talepler = await Task.Run(() => talepsService.GetDurumTalep("1"));
         talepler = talepler.OrderByDescending(s => s.TalebinAtanmaTarihi).ToList();
         //amirlikler = await Task.Run(() => amirlikService.GetAmirliks());
         //gecmis = await Task.Run(() => istipleriService.GetIsTipleris());
@@ -204,16 +222,21 @@
                 Personel = tlp.Personel,
                 YerleskeAciklamasi = tlp.YerleskeAciklamasi
             };
-            await talepService.PutTalep(tlp.TalepId,talep);
+            await talepsService.PutTalep(tlp.TalepId, talep);
+
             var yerleskebakimonarim = new YerleskeBakimOnarim
             {
-              
-                BakımOnarimAciklama=text
+                YerleskeBakimOnarimOda = new Oda { OdaId = 1 },
+                BakımOnarimAciklama = text,
+                YerleskeBakimOnarimTalep=talep
 
             };
+
             await bakimonarimService.PostYerleskeBakimOnarim(yerleskebakimonarim);
+
         }
 
+        LoadData();
         busy = false;
     }
     async Task OpenDialog(Talep talep)

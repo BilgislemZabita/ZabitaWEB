@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Zabita.DataAccessLayer.Concrete.EntityFramework;
@@ -9,9 +10,10 @@ using Zabita.DataAccessLayer.Concrete.EntityFramework;
 namespace Zabita.DataAccessLayer.Migrations
 {
     [DbContext(typeof(ZabitaDatabaseContext))]
-    partial class ZabitaDatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20210805055211_requirefalse")]
+    partial class requirefalse
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -901,7 +903,7 @@ namespace Zabita.DataAccessLayer.Migrations
                     b.Property<int>("Uzunluk")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("YerleskeTeknikBilgiTalepTalepId")
+                    b.Property<int>("YerleskeTeknikBilgiTalepId")
                         .HasColumnType("integer");
 
                     b.Property<int?>("YerleskeTeknikBilgilerAmirlikAmirlikID")
@@ -921,7 +923,7 @@ namespace Zabita.DataAccessLayer.Migrations
 
                     b.HasKey("YerleskeTeknikBilgilerId");
 
-                    b.HasIndex("YerleskeTeknikBilgiTalepTalepId");
+                    b.HasIndex("YerleskeTeknikBilgiTalepId");
 
                     b.HasIndex("YerleskeTeknikBilgilerAmirlikAmirlikID");
 
@@ -1410,7 +1412,9 @@ namespace Zabita.DataAccessLayer.Migrations
                 {
                     b.HasOne("Zabita.Entities.Concrete.Talep", "YerleskeTeknikBilgiTalep")
                         .WithMany("TalepYerleskeTeknikBilgilers")
-                        .HasForeignKey("YerleskeTeknikBilgiTalepTalepId");
+                        .HasForeignKey("YerleskeTeknikBilgiTalepId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Zabita.Entities.Concrete.Amirlik", "YerleskeTeknikBilgilerAmirlik")
                         .WithMany("YerleskeTeknikBilgiler")

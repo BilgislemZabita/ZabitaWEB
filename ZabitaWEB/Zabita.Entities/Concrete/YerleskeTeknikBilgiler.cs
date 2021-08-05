@@ -45,7 +45,7 @@ namespace Zabita.Entities.Concrete
         public virtual Amirlik YerleskeTeknikBilgilerAmirlik { get; set; }
 
         public virtual Oda YerleskeTeknikBilgilerOda { get; set; }
-        public virtual int YerleskeTeknikBilgiTalepId { get; set; }
+       // public virtual int YerleskeTeknikBilgiTalepId { get; set; }
         public virtual Talep YerleskeTeknikBilgiTalep { get; set; }
         public virtual ICollection<Foto> Fotolar { get; set; }
     }
