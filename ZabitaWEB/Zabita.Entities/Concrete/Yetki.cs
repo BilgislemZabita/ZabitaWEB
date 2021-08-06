@@ -7,7 +7,7 @@ using Zabita.Entities.Abstract;
 
 namespace Zabita.Entities.Concrete
 {
-    public class Yetki: IEntity
+    public class Yetki:IdentityRole, IEntity
     {
         [Key]
         public virtual int YetkiId { get; set; }

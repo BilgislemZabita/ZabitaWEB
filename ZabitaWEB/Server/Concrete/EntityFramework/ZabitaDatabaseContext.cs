@@ -1,4 +1,6 @@
 ﻿using IdentityServer4.EntityFramework.Options;
+using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -7,7 +9,7 @@ using Zabita.Entities.Concrete;
 
 namespace Zabita.DataAccessLayer.Concrete.EntityFramework
 {
-    public class ZabitaDatabaseContext : DbContext
+    public class ZabitaDatabaseContext : ApiAuthorizationDbContext<Personel>
     {
         public DbSet<Amirlik> Amirliks { get; set; }
         public DbSet<Demirbas> Demirbases { get; set; }
@@ -24,7 +26,7 @@ namespace Zabita.DataAccessLayer.Concrete.EntityFramework
         public DbSet<AmirlikYerleskec> AmirlikYerleskecs { get; set; }
         public DbSet<OdaYerleskec> OdaYerleskecs { get; set; }
         public DbSet<Foto> Fotolars { get; set; }
-        public DbSet<Yetki> Yetkis { get; set; }
+        public DbSet<IdentityRole> Yetkis { get; set; }
         public DbSet<Log> Logs { get; set; }
         public DbSet<Modul> Moduls { get; set; }
         public DbSet<Takvim> Takvims { get; set; }
@@ -41,11 +43,11 @@ namespace Zabita.DataAccessLayer.Concrete.EntityFramework
         //{
         //    _options = options;
         //}
-        //public ZabitaDatabaseContext(
-        //    DbContextOptions options,
-        //    IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options, operationalStoreOptions)
-        //{
-        //}
+        public ZabitaDatabaseContext(
+            DbContextOptions options,
+            IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options, operationalStoreOptions)
+        {
+        }
         //public ZabitaDatabaseContext(DbContextOptions<ZabitaDatabaseContext> dbContextOptions) : base(dbContextOptions) { }
 
         //public ZabitaDatabaseContext():base()

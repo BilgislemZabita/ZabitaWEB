@@ -5,7 +5,7 @@ using Zabita.Entities.Abstract;
 
 namespace Zabita.Entities.Concrete
 {
-    public class Personel :  IEntity
+    public class Personel : IdentityUser,IEntity
     {
         [Key]
         public virtual int PersonelId { get; set; }

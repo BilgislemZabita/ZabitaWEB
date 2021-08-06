@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
+
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using MudBlazor.Services;
@@ -9,7 +11,6 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using Zabita.DataAccessLayer.Concrete.EntityFramework;
 using ZabitaWEB.Client.Services.Abstract;
 using ZabitaWEB.Client.Services.Concrete;
 
@@ -39,6 +40,12 @@ namespace ZabitaWEB.Client
             builder.Services.AddScoped<TooltipService>();
             builder.Services.AddScoped<ContextMenuService>();
             builder.Services.AddMudServices();
+            builder.Services.AddHttpClient("ZabitaWEB.ServerAPI",
+        client => client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress))
+    .AddHttpMessageHandler<BaseAddressAuthorizationMessageHandler>();
+            builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>()
+    .CreateClient("ZabitaWEB.ServerAPI"));
+            builder.Services.AddApiAuthorization();
 
             await builder.Build().RunAsync();
 

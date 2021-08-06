@@ -12,11 +12,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZabitaWEB.Client", "ZabitaW
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZabitaWEB.Shared", "ZabitaWEB\Shared\ZabitaWEB.Shared.csproj", "{7A2715D5-4D0B-4CED-A631-436511D61B2F}"
 	ProjectSection(ProjectDependencies) = postProject
-		{87378720-8FE2-4B39-823C-C7CFB5571101} = {87378720-8FE2-4B39-823C-C7CFB5571101}
 		{CA6A4FC0-60C3-4041-990A-DC00BAEC1923} = {CA6A4FC0-60C3-4041-990A-DC00BAEC1923}
 	EndProjectSection
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zabita.DataAccessLayer", "ZabitaWEB\Zabita.DataAccessLayer\Zabita.DataAccessLayer.csproj", "{87378720-8FE2-4B39-823C-C7CFB5571101}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zabita.Entities", "ZabitaWEB\Zabita.Entities\Zabita.Entities.csproj", "{CA6A4FC0-60C3-4041-990A-DC00BAEC1923}"
 EndProject
@@ -38,10 +35,6 @@ Global
 		{7A2715D5-4D0B-4CED-A631-436511D61B2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7A2715D5-4D0B-4CED-A631-436511D61B2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7A2715D5-4D0B-4CED-A631-436511D61B2F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{87378720-8FE2-4B39-823C-C7CFB5571101}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{87378720-8FE2-4B39-823C-C7CFB5571101}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{87378720-8FE2-4B39-823C-C7CFB5571101}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{87378720-8FE2-4B39-823C-C7CFB5571101}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CA6A4FC0-60C3-4041-990A-DC00BAEC1923}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CA6A4FC0-60C3-4041-990A-DC00BAEC1923}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CA6A4FC0-60C3-4041-990A-DC00BAEC1923}.Release|Any CPU.ActiveCfg = Release|Any CPU

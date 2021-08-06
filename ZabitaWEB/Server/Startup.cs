@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Authentication;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -9,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Linq;
 using Zabita.DataAccessLayer.Concrete.EntityFramework;
+using Zabita.Entities.Concrete;
 using ZabitaWEB.Client.Services.Abstract;
 using ZabitaWEB.Client.Services.Concrete;
 
@@ -18,12 +21,12 @@ namespace ZabitaWEB.Server
     {
         public Startup(IConfiguration configuration)
         {
-          //ZabitaDatabaseContext zabitaDatabaseContext = new ZabitaDatabaseContext();
-         // zabitaDatabaseContext.Database.EnsureDeleted();
-         //zabitaDatabaseContext.Database.EnsureCreated();
+            //ZabitaDatabaseContext zabitaDatabaseContext = new ZabitaDatabaseContext();
+            // zabitaDatabaseContext.Database.EnsureDeleted();
+            //zabitaDatabaseContext.Database.EnsureCreated();
             // zabitaDatabaseContext.Database.Migrate();
-            Configuration = configuration; 
-           
+            Configuration = configuration;
+
         }
 
         public IConfiguration Configuration { get; }
@@ -37,8 +40,14 @@ namespace ZabitaWEB.Server
             services.AddDbContext<DbContext>(options =>
             {
                 options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"));
-                
-            },ServiceLifetime.Transient);
+
+            }, ServiceLifetime.Transient);
+            services.AddDefaultIdentity<Personel>(options =>
+        options.SignIn.RequireConfirmedAccount = true)
+                .AddEntityFrameworkStores<ZabitaDatabaseContext>();
+            services.AddIdentityServer()
+                .AddApiAuthorization<Personel, ZabitaDatabaseContext>();
+            services.AddAuthentication().AddIdentityServerJwt();
             services.AddTransient<ZabitaDatabaseContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();
@@ -60,12 +69,17 @@ namespace ZabitaWEB.Server
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            app.UseRouting();
+
+            app.UseIdentityServer();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseHttpsRedirection();
             app.UseBlazorFrameworkFiles();
             app.UseStaticFiles();
 
-            app.UseRouting();
             //app.UseMvcWithDefaultRoute();
 
             app.UseEndpoints(endpoints =>
