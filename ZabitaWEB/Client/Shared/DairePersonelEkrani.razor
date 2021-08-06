@@ -224,9 +224,8 @@
             };
             await talepsService.PutTalep(tlp.TalepId, talep);
 
-            var yerleskebakimonarim = new YerleskeBakimOnarim
-            {
-                YerleskeBakimOnarimOda = new Oda { OdaId = 1 },
+            var yerleskebakimonarim = new YerleskeBakimOnarim { 
+            
                 BakımOnarimAciklama = text,
                 YerleskeBakimOnarimTalep=talep
 
