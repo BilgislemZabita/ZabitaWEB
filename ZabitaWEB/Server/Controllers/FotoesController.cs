@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Zabita.DataAccessLayer.Concrete.EntityFramework;
 using Zabita.Entities.Concrete;
+using ZabitaWEB.Server.Concrete.EntityFramework;
 
 namespace ZabitaWEB.Server.Controllers
 {

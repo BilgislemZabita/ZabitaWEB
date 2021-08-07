@@ -9,7 +9,6 @@ namespace Zabita.Entities.Concrete
 {
     public class Yetki:IdentityRole, IEntity
     {
-        [Key]
         public virtual int YetkiId { get; set; }
 
         public virtual bool Okuma { get; set; }
@@ -25,7 +24,7 @@ namespace Zabita.Entities.Concrete
         //public virtual ICollection<Modul> YetkiModuller { get; set; }
         public virtual int YetkiTipi { get; set; }
 
-        public virtual Personel Personel { get; set; }
-        public virtual Modul Modul { get; set; }
+       // public virtual Personel Personel { get; set; }
+       // public virtual Modul Modul { get; set; }
     }
 }

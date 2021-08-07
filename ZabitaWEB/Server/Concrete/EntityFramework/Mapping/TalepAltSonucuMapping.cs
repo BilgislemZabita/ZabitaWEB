@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Zabita.Entities.Concrete;
-namespace Zabita.DataAccessLayer.Concrete.EntityFramework.Mapping
+namespace ZabitaWEB.Server.Concrete.EntityFramework.Mapping
 {
     class TalepAltSonucuMapping : IEntityTypeConfiguration<TalepAltSonucu>
     {

@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Zabita.Entities.Concrete;
 
-namespace Zabita.DataAccessLayer.Concrete.EntityFramework.Mapping
+namespace ZabitaWEB.Server.Concrete.EntityFramework.Mapping
 {
     public class YerleskeTeknikBilgilerMapping : IEntityTypeConfiguration<YerleskeTeknikBilgiler>
     {

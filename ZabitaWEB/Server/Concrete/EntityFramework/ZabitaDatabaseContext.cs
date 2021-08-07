@@ -7,7 +7,7 @@ using Microsoft.Extensions.Options;
 using System.Reflection;
 using Zabita.Entities.Concrete;
 
-namespace Zabita.DataAccessLayer.Concrete.EntityFramework
+namespace ZabitaWEB.Server.Concrete.EntityFramework
 {
     public class ZabitaDatabaseContext : ApiAuthorizationDbContext<Personel>
     {
@@ -26,7 +26,7 @@ namespace Zabita.DataAccessLayer.Concrete.EntityFramework
         public DbSet<AmirlikYerleskec> AmirlikYerleskecs { get; set; }
         public DbSet<OdaYerleskec> OdaYerleskecs { get; set; }
         public DbSet<Foto> Fotolars { get; set; }
-        public DbSet<IdentityRole> Yetkis { get; set; }
+        public DbSet<Yetki> Yetkis { get; set; }
         public DbSet<Log> Logs { get; set; }
         public DbSet<Modul> Moduls { get; set; }
         public DbSet<Takvim> Takvims { get; set; }
@@ -43,6 +43,8 @@ namespace Zabita.DataAccessLayer.Concrete.EntityFramework
         //{
         //    _options = options;
         //}
+
+
         public ZabitaDatabaseContext(
             DbContextOptions options,
             IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options, operationalStoreOptions)
@@ -50,7 +52,7 @@ namespace Zabita.DataAccessLayer.Concrete.EntityFramework
         }
         //public ZabitaDatabaseContext(DbContextOptions<ZabitaDatabaseContext> dbContextOptions) : base(dbContextOptions) { }
 
-        //public ZabitaDatabaseContext():base()
+        //public ZabitaDatabaseContext() : base()
         //{
         //}
 
@@ -200,22 +202,22 @@ namespace Zabita.DataAccessLayer.Concrete.EntityFramework
 
             #region Modul
 
-            modelBuilder.Entity<Modul>()
-                        .HasMany(p => p.Personels)
-                        .WithMany(p => p.Moduls)
-                        .UsingEntity<ModulPersonelc>(
-            j => j
-                .HasOne(pt => pt.Personel)
-                .WithMany(t => t.ModulPersonelcs)
-                .HasForeignKey(pt => pt.PersonelId).OnDelete(DeleteBehavior.Cascade),
-            j => j
-                .HasOne(pt => pt.Modul)
-                .WithMany(p => p.ModulPersonelcs)
-                .HasForeignKey(pt => pt.ModulId).OnDelete(DeleteBehavior.Cascade),
-            j =>
-            {
-                j.HasKey(t => new { t.ModulId, t.PersonelId });
-            });
+            //modelBuilder.Entity<Modul>()
+            //            .HasMany(p => p.Personels)
+            //            .WithMany(p => p.Moduls)
+            //            .UsingEntity<ModulPersonelc>(
+            //j => j
+            //    .HasOne(pt => pt.Personel)
+            //    .WithMany(t => t.ModulPersonelcs)
+            //    .HasForeignKey(pt => pt.PersonelId).OnDelete(DeleteBehavior.Cascade),
+            //j => j
+            //    .HasOne(pt => pt.Modul)
+            //    .WithMany(p => p.ModulPersonelcs)
+            //    .HasForeignKey(pt => pt.ModulId).OnDelete(DeleteBehavior.Cascade),
+            //j =>
+            //{
+            //    j.HasKey(t => new { t.ModulId, t.PersonelId });
+            //});
 
             #endregion Modul
 

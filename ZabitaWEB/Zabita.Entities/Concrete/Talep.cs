@@ -25,7 +25,7 @@ namespace Zabita.Entities.Concrete
         public virtual IsTipleri TalepIstipleri { get; set; }
         public virtual string TalepIstipleriID { get; set; }
        // public int PersonelId { get; set; }
-        public virtual Personel Personel { get; set; }
+       // public virtual Personel Personel { get; set; }
         public virtual int TalebiAtayanPersonelId { get; set; }
         public virtual int TalebiIsteyenPersonelId { get; set; }
         public virtual int TalebiKarsilayanPersonelId { get; set; }

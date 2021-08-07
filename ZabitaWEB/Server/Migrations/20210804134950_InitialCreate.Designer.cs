@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using Zabita.DataAccessLayer.Concrete.EntityFramework;
+using ZabitaWEB.Server.Concrete.EntityFramework;
 
-namespace Zabita.DataAccessLayer.Migrations
+namespace ZabitaWEB.Server.Migrations
 {
     [DbContext(typeof(ZabitaDatabaseContext))]
     [Migration("20210804134950_InitialCreate")]

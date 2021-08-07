@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Zabita.DataAccessLayer.Migrations
+namespace ZabitaWEB.Server.Migrations
 {
     public partial class InitialCreate : Migration
     {

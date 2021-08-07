@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using Zabita.Entities.Concrete;
 
-namespace Zabita.DataAccessLayer.Concrete.EntityFramework.Mapping
+namespace ZabitaWEB.Server.Concrete.EntityFramework.Mapping
 {
     public class TalepMapping : IEntityTypeConfiguration<Talep>
     {
@@ -14,7 +14,7 @@ namespace Zabita.DataAccessLayer.Concrete.EntityFramework.Mapping
             builder.ToTable("Talep")
             .HasKey(x => x.TalepId);
 
-            builder.HasOne(s => s.Personel).WithMany(s => s.Taleps);
+          //  builder.HasOne(s => s.Personel).WithMany(s => s.Taleps);
             builder.HasOne(s => s.TalepAmirlik).WithMany(s => s.AmirlikTaleps);
                 
           

@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using Zabita.DataAccessLayer.Concrete.EntityFramework;
+using ZabitaWEB.Server.Concrete.EntityFramework;
 
-namespace Zabita.DataAccessLayer.Migrations
+namespace ZabitaWEB.Server.Migrations
 {
     [DbContext(typeof(ZabitaDatabaseContext))]
     partial class ZabitaDatabaseContextModelSnapshot : ModelSnapshot
@@ -18,6 +18,264 @@ namespace Zabita.DataAccessLayer.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63)
                 .HasAnnotation("ProductVersion", "5.0.8")
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.DeviceFlowCodes", b =>
+                {
+                    b.Property<string>("UserCode")
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<string>("ClientId")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Data")
+                        .IsRequired()
+                        .HasMaxLength(50000)
+                        .HasColumnType("character varying(50000)");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<string>("DeviceCode")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<DateTime?>("Expiration")
+                        .IsRequired()
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("SessionId")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<string>("SubjectId")
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.HasKey("UserCode");
+
+                    b.HasIndex("DeviceCode")
+                        .IsUnique();
+
+                    b.HasIndex("Expiration");
+
+                    b.ToTable("DeviceCodes");
+                });
+
+            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.PersistedGrant", b =>
+                {
+                    b.Property<string>("Key")
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<string>("ClientId")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<DateTime?>("ConsumedTime")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Data")
+                        .IsRequired()
+                        .HasMaxLength(50000)
+                        .HasColumnType("character varying(50000)");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<DateTime?>("Expiration")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("SessionId")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<string>("SubjectId")
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.HasKey("Key");
+
+                    b.HasIndex("Expiration");
+
+                    b.HasIndex("SubjectId", "ClientId", "Type");
+
+                    b.HasIndex("SubjectId", "SessionId", "Type");
+
+                    b.ToTable("PersistedGrants");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex");
+
+                    b.ToTable("AspNetRoles");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityRole");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("text");
+
+                    b.Property<string>("RoleId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetRoleClaims");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("text");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserClaims");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.Property<string>("LoginProvider")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
+                    b.Property<string>("ProviderKey")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserLogins");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("RoleId")
+                        .HasColumnType("text");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetUserRoles");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("LoginProvider")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("text");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("ModulPersonel", b =>
+                {
+                    b.Property<int>("ModulsModulId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("PersonelsId")
+                        .HasColumnType("text");
+
+                    b.HasKey("ModulsModulId", "PersonelsId");
+
+                    b.HasIndex("PersonelsId");
+
+                    b.ToTable("ModulPersonel");
+                });
 
             modelBuilder.Entity("Zabita.Entities.Concrete.Amirlik", b =>
                 {
@@ -82,8 +340,8 @@ namespace Zabita.DataAccessLayer.Migrations
                     b.Property<int?>("DemirbasOdaOdaId")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("DemirbasPersonelPersonelId")
-                        .HasColumnType("integer");
+                    b.Property<string>("DemirbasPersonelId")
+                        .HasColumnType("text");
 
                     b.Property<int?>("DemirbasYerleskeYerleskeId")
                         .HasColumnType("integer");
@@ -96,7 +354,7 @@ namespace Zabita.DataAccessLayer.Migrations
 
                     b.HasIndex("DemirbasOdaOdaId");
 
-                    b.HasIndex("DemirbasPersonelPersonelId");
+                    b.HasIndex("DemirbasPersonelId");
 
                     b.HasIndex("DemirbasYerleskeYerleskeId");
 
@@ -134,8 +392,8 @@ namespace Zabita.DataAccessLayer.Migrations
                     b.Property<int?>("FotoOdaOdaId")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("FotoPersonelPersonelId")
-                        .HasColumnType("integer");
+                    b.Property<string>("FotoPersonelId")
+                        .HasColumnType("text");
 
                     b.Property<int?>("FotoSarfSarfId")
                         .HasColumnType("integer");
@@ -171,7 +429,7 @@ namespace Zabita.DataAccessLayer.Migrations
 
                     b.HasIndex("FotoOdaOdaId");
 
-                    b.HasIndex("FotoPersonelPersonelId");
+                    b.HasIndex("FotoPersonelId");
 
                     b.HasIndex("FotoSarfSarfId");
 
@@ -279,21 +537,6 @@ namespace Zabita.DataAccessLayer.Migrations
                     b.ToTable("Moduls");
                 });
 
-            modelBuilder.Entity("Zabita.Entities.Concrete.ModulPersonelc", b =>
-                {
-                    b.Property<int>("ModulId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("PersonelId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("ModulId", "PersonelId");
-
-                    b.HasIndex("PersonelId");
-
-                    b.ToTable("ModulPersonelc");
-                });
-
             modelBuilder.Entity("Zabita.Entities.Concrete.Mudurluk", b =>
                 {
                     b.Property<int>("MudurlukId")
@@ -378,15 +621,44 @@ namespace Zabita.DataAccessLayer.Migrations
 
             modelBuilder.Entity("Zabita.Entities.Concrete.Personel", b =>
                 {
-                    b.Property<int>("PersonelId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("IsAtanabilir")
                         .HasColumnType("text");
 
                     b.Property<string>("KullaniciAdi")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.Property<string>("PasswordHash")
                         .HasColumnType("text");
 
                     b.Property<int?>("PersonelAmirlikAmirlikID")
@@ -416,8 +688,24 @@ namespace Zabita.DataAccessLayer.Migrations
                     b.Property<int?>("PersonelYerleskeYerleskeId")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("PersonelYetkiYetkiId")
-                        .HasColumnType("integer");
+                    b.Property<string>("PersonelYetkiId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
 
                     b.Property<int?>("YerleskeBakimOnarimId")
                         .HasColumnType("integer");
@@ -425,12 +713,19 @@ namespace Zabita.DataAccessLayer.Migrations
                     b.Property<string>("YetkiLevel")
                         .HasColumnType("text");
 
-                    b.HasKey("PersonelId");
+                    b.HasKey("Id");
+
+                    b.HasIndex("Id")
+                        .IsUnique();
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex");
 
                     b.HasIndex("PersonelAmirlikAmirlikID");
-
-                    b.HasIndex("PersonelId")
-                        .IsUnique();
 
                     b.HasIndex("PersonelMudurlukMudurlukId");
 
@@ -438,11 +733,11 @@ namespace Zabita.DataAccessLayer.Migrations
 
                     b.HasIndex("PersonelYerleskeYerleskeId");
 
-                    b.HasIndex("PersonelYetkiYetkiId");
+                    b.HasIndex("PersonelYetkiId");
 
                     b.HasIndex("YerleskeBakimOnarimId");
 
-                    b.ToTable("Personel");
+                    b.ToTable("AspNetUsers");
                 });
 
             modelBuilder.Entity("Zabita.Entities.Concrete.Sarf", b =>
@@ -464,8 +759,8 @@ namespace Zabita.DataAccessLayer.Migrations
                     b.Property<int?>("SarfOdaOdaId")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("SarfPersonelPersonelId")
-                        .HasColumnType("integer");
+                    b.Property<string>("SarfPersonelId")
+                        .HasColumnType("text");
 
                     b.Property<int?>("SarfYerleskeYerleskeId")
                         .HasColumnType("integer");
@@ -478,7 +773,7 @@ namespace Zabita.DataAccessLayer.Migrations
 
                     b.HasIndex("SarfOdaOdaId");
 
-                    b.HasIndex("SarfPersonelPersonelId");
+                    b.HasIndex("SarfPersonelId");
 
                     b.HasIndex("SarfYerleskeYerleskeId");
 
@@ -552,9 +847,6 @@ namespace Zabita.DataAccessLayer.Migrations
                     b.Property<string>("AmirlikId")
                         .HasColumnType("text");
 
-                    b.Property<int?>("PersonelId")
-                        .HasColumnType("integer");
-
                     b.Property<int>("TalebiAtayanPersonelId")
                         .HasColumnType("integer");
 
@@ -608,8 +900,6 @@ namespace Zabita.DataAccessLayer.Migrations
 
                     b.HasKey("TalepId");
 
-                    b.HasIndex("PersonelId");
-
                     b.HasIndex("TalepAmirlikAmirlikID");
 
                     b.HasIndex("TalepIstipleriIstipiID");
@@ -627,8 +917,8 @@ namespace Zabita.DataAccessLayer.Migrations
                     b.Property<int?>("AmirlikID")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("PersonelId")
-                        .HasColumnType("integer");
+                    b.Property<string>("PersonelId")
+                        .HasColumnType("text");
 
                     b.Property<string>("TalepAltSonucuAciklama")
                         .HasColumnType("text");
@@ -936,10 +1226,7 @@ namespace Zabita.DataAccessLayer.Migrations
 
             modelBuilder.Entity("Zabita.Entities.Concrete.Yetki", b =>
                 {
-                    b.Property<int>("YetkiId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityRole");
 
                     b.Property<bool>("AdminYetkisi")
                         .HasColumnType("boolean");
@@ -947,17 +1234,11 @@ namespace Zabita.DataAccessLayer.Migrations
                     b.Property<bool>("Guncelleme")
                         .HasColumnType("boolean");
 
-                    b.Property<int?>("ModulId")
-                        .HasColumnType("integer");
-
                     b.Property<bool>("ModulYoneticisiYetkisi")
                         .HasColumnType("boolean");
 
                     b.Property<bool>("Okuma")
                         .HasColumnType("boolean");
-
-                    b.Property<int?>("PersonelId")
-                        .HasColumnType("integer");
 
                     b.Property<bool>("PersonelYetkisi")
                         .HasColumnType("boolean");
@@ -968,6 +1249,9 @@ namespace Zabita.DataAccessLayer.Migrations
                     b.Property<bool>("Yazma")
                         .HasColumnType("boolean");
 
+                    b.Property<int>("YetkiId")
+                        .HasColumnType("integer");
+
                     b.Property<int>("YetkiTipi")
                         .HasColumnType("integer");
 
@@ -977,13 +1261,73 @@ namespace Zabita.DataAccessLayer.Migrations
                     b.Property<bool>("YoneticiYetkisi")
                         .HasColumnType("boolean");
 
-                    b.HasKey("YetkiId");
+                    b.HasDiscriminator().HasValue("Yetki");
+                });
 
-                    b.HasIndex("ModulId");
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
 
-                    b.HasIndex("PersonelId");
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.HasOne("Zabita.Entities.Concrete.Personel", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
 
-                    b.ToTable("Yetki");
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.HasOne("Zabita.Entities.Concrete.Personel", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Zabita.Entities.Concrete.Personel", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.HasOne("Zabita.Entities.Concrete.Personel", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ModulPersonel", b =>
+                {
+                    b.HasOne("Zabita.Entities.Concrete.Modul", null)
+                        .WithMany()
+                        .HasForeignKey("ModulsModulId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Zabita.Entities.Concrete.Personel", null)
+                        .WithMany()
+                        .HasForeignKey("PersonelsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Zabita.Entities.Concrete.Amirlik", b =>
@@ -1031,7 +1375,7 @@ namespace Zabita.DataAccessLayer.Migrations
 
                     b.HasOne("Zabita.Entities.Concrete.Personel", "DemirbasPersonel")
                         .WithMany("Demirbaslar")
-                        .HasForeignKey("DemirbasPersonelPersonelId");
+                        .HasForeignKey("DemirbasPersonelId");
 
                     b.HasOne("Zabita.Entities.Concrete.Yerleske", "DemirbasYerleske")
                         .WithMany("Demirbaslar")
@@ -1072,7 +1416,7 @@ namespace Zabita.DataAccessLayer.Migrations
 
                     b.HasOne("Zabita.Entities.Concrete.Personel", "FotoPersonel")
                         .WithMany("Fotolar")
-                        .HasForeignKey("FotoPersonelPersonelId")
+                        .HasForeignKey("FotoPersonelId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Zabita.Entities.Concrete.Sarf", "FotoSarf")
@@ -1139,25 +1483,6 @@ namespace Zabita.DataAccessLayer.Migrations
                         .HasForeignKey("TalepSonucuId");
 
                     b.Navigation("IstipiTalep");
-                });
-
-            modelBuilder.Entity("Zabita.Entities.Concrete.ModulPersonelc", b =>
-                {
-                    b.HasOne("Zabita.Entities.Concrete.Modul", "Modul")
-                        .WithMany("ModulPersonelcs")
-                        .HasForeignKey("ModulId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Zabita.Entities.Concrete.Personel", "Personel")
-                        .WithMany("ModulPersonelcs")
-                        .HasForeignKey("PersonelId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Modul");
-
-                    b.Navigation("Personel");
                 });
 
             modelBuilder.Entity("Zabita.Entities.Concrete.MudurlukYerleskec", b =>
@@ -1235,7 +1560,7 @@ namespace Zabita.DataAccessLayer.Migrations
 
                     b.HasOne("Zabita.Entities.Concrete.Yetki", "PersonelYetki")
                         .WithMany()
-                        .HasForeignKey("PersonelYetkiYetkiId");
+                        .HasForeignKey("PersonelYetkiId");
 
                     b.HasOne("Zabita.Entities.Concrete.YerleskeBakimOnarim", null)
                         .WithMany("Personeller")
@@ -1268,7 +1593,7 @@ namespace Zabita.DataAccessLayer.Migrations
 
                     b.HasOne("Zabita.Entities.Concrete.Personel", "SarfPersonel")
                         .WithMany("Sarf")
-                        .HasForeignKey("SarfPersonelPersonelId");
+                        .HasForeignKey("SarfPersonelId");
 
                     b.HasOne("Zabita.Entities.Concrete.Yerleske", "SarfYerleske")
                         .WithMany("Sarf")
@@ -1297,10 +1622,6 @@ namespace Zabita.DataAccessLayer.Migrations
 
             modelBuilder.Entity("Zabita.Entities.Concrete.Talep", b =>
                 {
-                    b.HasOne("Zabita.Entities.Concrete.Personel", "Personel")
-                        .WithMany("Taleps")
-                        .HasForeignKey("PersonelId");
-
                     b.HasOne("Zabita.Entities.Concrete.Amirlik", "TalepAmirlik")
                         .WithMany("AmirlikTaleps")
                         .HasForeignKey("TalepAmirlikAmirlikID");
@@ -1308,8 +1629,6 @@ namespace Zabita.DataAccessLayer.Migrations
                     b.HasOne("Zabita.Entities.Concrete.IsTipleri", "TalepIstipleri")
                         .WithMany()
                         .HasForeignKey("TalepIstipleriIstipiID");
-
-                    b.Navigation("Personel");
 
                     b.Navigation("TalepAmirlik");
 
@@ -1443,22 +1762,6 @@ namespace Zabita.DataAccessLayer.Migrations
                     b.Navigation("YerleskeTeknikBilgiTalep");
                 });
 
-            modelBuilder.Entity("Zabita.Entities.Concrete.Yetki", b =>
-                {
-                    b.HasOne("Zabita.Entities.Concrete.Modul", "Modul")
-                        .WithMany("YetkiModuller")
-                        .HasForeignKey("ModulId");
-
-                    b.HasOne("Zabita.Entities.Concrete.Personel", "Personel")
-                        .WithMany("Yetkis")
-                        .HasForeignKey("PersonelId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.Navigation("Modul");
-
-                    b.Navigation("Personel");
-                });
-
             modelBuilder.Entity("Zabita.Entities.Concrete.Amirlik", b =>
                 {
                     b.Navigation("AmirlikTaleps");
@@ -1487,13 +1790,6 @@ namespace Zabita.DataAccessLayer.Migrations
             modelBuilder.Entity("Zabita.Entities.Concrete.Demirbas", b =>
                 {
                     b.Navigation("Fotolar");
-                });
-
-            modelBuilder.Entity("Zabita.Entities.Concrete.Modul", b =>
-                {
-                    b.Navigation("ModulPersonelcs");
-
-                    b.Navigation("YetkiModuller");
                 });
 
             modelBuilder.Entity("Zabita.Entities.Concrete.Mudurluk", b =>
@@ -1544,15 +1840,9 @@ namespace Zabita.DataAccessLayer.Migrations
 
                     b.Navigation("Fotolar");
 
-                    b.Navigation("ModulPersonelcs");
-
                     b.Navigation("Sarf");
 
                     b.Navigation("TalepAltSonucus");
-
-                    b.Navigation("Taleps");
-
-                    b.Navigation("Yetkis");
                 });
 
             modelBuilder.Entity("Zabita.Entities.Concrete.Sarf", b =>

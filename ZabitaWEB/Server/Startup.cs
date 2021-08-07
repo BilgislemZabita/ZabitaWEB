@@ -1,5 +1,6 @@
+using IdentityServer4.EntityFramework.Options;
 using Microsoft.AspNetCore.Authentication;
-
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -9,11 +10,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using System.Linq;
-using Zabita.DataAccessLayer.Concrete.EntityFramework;
 using Zabita.Entities.Concrete;
 using ZabitaWEB.Client.Services.Abstract;
 using ZabitaWEB.Client.Services.Concrete;
+using ZabitaWEB.Server.Concrete.EntityFramework;
 
 namespace ZabitaWEB.Server
 {
@@ -21,8 +24,17 @@ namespace ZabitaWEB.Server
     {
         public Startup(IConfiguration configuration)
         {
-            //ZabitaDatabaseContext zabitaDatabaseContext = new ZabitaDatabaseContext();
-            // zabitaDatabaseContext.Database.EnsureDeleted();
+            OperationalStoreOptions storeOptions = new OperationalStoreOptions
+            {
+                //populate needed members
+            };
+            IOptions<OperationalStoreOptions> operationalStoreOptions = Options.Create(storeOptions);
+
+            DbContextOptions options = new DbContextOptionsBuilder<ZabitaDatabaseContext>()
+                             .UseNpgsql("Host=localhost;Database=demirbaspersonelsarf;Username=postgres;Password=zabita2143")
+                             .Options;
+            //ZabitaDatabaseContext zabitaDatabaseContext = new ZabitaDatabaseContext(options, operationalStoreOptions);
+            //zabitaDatabaseContext.Database.EnsureDeleted();
             //zabitaDatabaseContext.Database.EnsureCreated();
             // zabitaDatabaseContext.Database.Migrate();
             Configuration = configuration;
@@ -47,9 +59,14 @@ namespace ZabitaWEB.Server
                 .AddEntityFrameworkStores<ZabitaDatabaseContext>();
             services.AddIdentityServer()
                 .AddApiAuthorization<Personel, ZabitaDatabaseContext>();
-            services.AddAuthentication().AddIdentityServerJwt();
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddIdentityServerJwt();
             services.AddTransient<ZabitaDatabaseContext>();
             services.AddControllersWithViews();
+            
             services.AddRazorPages();
             services.AddControllers().AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 

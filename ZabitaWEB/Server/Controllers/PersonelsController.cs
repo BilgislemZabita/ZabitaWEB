@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Zabita.DataAccessLayer.Concrete.EntityFramework;
 using Zabita.Entities.Concrete;
+using ZabitaWEB.Server.Concrete.EntityFramework;
 
 namespace ZabitaWEB.Server.Controllers
 {
@@ -30,7 +30,7 @@ namespace ZabitaWEB.Server.Controllers
 
         // GET: api/Personels/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Personel>> GetPersonel(int id)
+        public async Task<ActionResult<Personel>> GetPersonel(string id)
         {
             var personel = await _context.Personels.FindAsync(id);
 
@@ -57,9 +57,9 @@ namespace ZabitaWEB.Server.Controllers
         // PUT: api/Personels/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutPersonel(int id, Personel personel)
+        public async Task<IActionResult> PutPersonel(string id, Personel personel)
         {
-            if (id != personel.PersonelId)
+            if (id != personel.Id)
             {
                 return BadRequest();
             }
@@ -93,12 +93,12 @@ namespace ZabitaWEB.Server.Controllers
             _context.Personels.Add(personel);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetPersonel", new { id = personel.PersonelId }, personel);
+            return CreatedAtAction("GetPersonel", new { id = personel.Id }, personel);
         }
 
         // DELETE: api/Personels/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeletePersonel(int id)
+        public async Task<IActionResult> DeletePersonel(string id)
         {
             var personel = await _context.Personels.FindAsync(id);
             if (personel == null)
@@ -112,9 +112,9 @@ namespace ZabitaWEB.Server.Controllers
             return NoContent();
         }
 
-        private bool PersonelExists(int id)
+        private bool PersonelExists(string id)
         {
-            return _context.Personels.Any(e => e.PersonelId == id);
+            return _context.Personels.Any(e => e.Id == id);
         }
     }
 }

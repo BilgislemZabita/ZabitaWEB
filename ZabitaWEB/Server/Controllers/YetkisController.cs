@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Zabita.DataAccessLayer.Concrete.EntityFramework;
 using Zabita.Entities.Concrete;
+using ZabitaWEB.Server.Concrete.EntityFramework;
 
 namespace ZabitaWEB.Server.Controllers
 {
@@ -24,14 +23,14 @@ namespace ZabitaWEB.Server.Controllers
 
         // GET: api/Yetkis
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<IdentityRole>>> GetYetkis()
+        public async Task<ActionResult<IEnumerable<Yetki>>> GetYetkis()
         {
             return await _context.Yetkis.ToListAsync();
         }
 
         // GET: api/Yetkis/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<IdentityRole>> GetYetki(int id)
+        public async Task<ActionResult<Yetki>> GetYetki(int id)
         {
             var yetki = await _context.Yetkis.FindAsync(id);
 
@@ -61,7 +60,7 @@ namespace ZabitaWEB.Server.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!YetkiExists(id.ToString()))
+                if (!YetkiExists(id))
                 {
                     return NotFound();
                 }
@@ -86,7 +85,7 @@ namespace ZabitaWEB.Server.Controllers
             }
             catch (DbUpdateException)
             {
-                if (YetkiExists(yetki.YetkiId.ToString()))
+                if (YetkiExists(yetki.YetkiId))
                 {
                     return Conflict();
                 }
@@ -115,9 +114,9 @@ namespace ZabitaWEB.Server.Controllers
             return NoContent();
         }
 
-        private bool YetkiExists(string id)
+        private bool YetkiExists(int id)
         {
-            return _context.Yetkis.Any(e => e.Id == id);
+            return _context.Yetkis.Any(e => e.YetkiId == id);
         }
     }
 }

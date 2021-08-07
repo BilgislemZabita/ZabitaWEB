@@ -1,16 +1,20 @@
 ﻿@page "/panel"
 @using Zabita.Entities.Concrete
 @using ZabitaWEB.Client.Services.Abstract
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @inject ITalepsService talepsService
 @inject IAmirliksService amirliksService
 @inject IIsTiplerisService istipleriService
 @inject IIsAltTiplerisService isalttipleriService
 
+@attribute [Authorize]
+
 @inject ISnackbar Snackbar
 @inject HttpClient Http
 @inject NavigationManager navigationManager
 <MudGrid Style="position:center">
-    <MudItem xl="12" md="12" sm="12" lg="12" xs="12" Style="padding:0" >
+    <MudItem xl="12" md="12" sm="12" lg="12" xs="12" Style="padding:0">
 
         <MudTabs Elevation="24" Rounded="true" Centered="true" Border="true" Position="Position.Top" Color="@Color.Info" PrevIcon="@Icons.Filled.SkipPrevious" NextIcon="@Icons.Filled.SkipNext">
             <MudTabPanel Text="Daire Büro">
@@ -30,8 +34,8 @@
     </MudItem>
 </MudGrid>
 
-       
-       
+
+
 @code {
     bool disabled = true;
     IList<IBrowserFile> files = new List<IBrowserFile>();
