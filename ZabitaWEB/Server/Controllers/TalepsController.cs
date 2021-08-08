@@ -51,6 +51,8 @@ namespace ZabitaWEB.Server.Controllers
 
         // GET: api/Taleps/durum/5
         [HttpGet("durum/{durum}")]
+        [Authorize]
+
         public async Task<ActionResult<List<Talep>>> GetDurumTalep(string durum)
         {
             var talep = await _context.Taleps.Include(s => s.TalepAmirlik).Where(s => s.TalepDurumu == durum).ToListAsync();

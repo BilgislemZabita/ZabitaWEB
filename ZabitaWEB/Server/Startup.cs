@@ -1,10 +1,12 @@
 using IdentityServer4.EntityFramework.Options;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -56,34 +58,19 @@ namespace ZabitaWEB.Server
                 options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"));
 
             }, ServiceLifetime.Transient);
-            services.AddDefaultIdentity<Personel>(options =>
-        options.SignIn.RequireConfirmedAccount = false)
-                .AddEntityFrameworkStores<ZabitaDatabaseContext>();
-            services.AddAuthentication(x =>
-            {
-                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(options =>
-            {
-                options.RequireHttpsMetadata = false;
-                options.SaveToken = true;
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-
-
-                    ValidateIssuerSigningKey = true,
-                    ValidateIssuer = false,
-                    ValidateAudience = false
-
-
-
-                };
-            }).AddIdentityServerJwt();
+            services.AddDefaultIdentity<Personel>(options =>options.SignIn.RequireConfirmedAccount = false).AddEntityFrameworkStores<ZabitaDatabaseContext>();
             services.AddIdentityServer()
-                .AddApiAuthorization<Personel, ZabitaDatabaseContext>((config) =>
-                {
-                    config.Clients[0].AccessTokenLifetime = 3600;
-                });
+            .AddApiAuthorization<Personel, ZabitaDatabaseContext>((config) =>
+            {
+                config.Clients[0].AccessTokenLifetime = 3600;
+            });
+            services.AddAuthentication().AddIdentityServerJwt();
+
+            services.AddAuthorization();
+       
+
+
+       
 
             services.AddTransient<ZabitaDatabaseContext>();
             services.AddControllersWithViews();
@@ -96,7 +83,7 @@ namespace ZabitaWEB.Server
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-           // app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
             if (env.IsDevelopment())
             {
