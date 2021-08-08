@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Zabita.Entities.Concrete;
@@ -10,6 +10,8 @@ using ZabitaWEB.Server.Concrete.EntityFramework;
 
 namespace ZabitaWEB.Server.Controllers
 {
+    [Authorize]
+
     [Route("api/[controller]")]
     [ApiController]
     public class MudurluksController : ControllerBase

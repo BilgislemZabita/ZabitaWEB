@@ -47,6 +47,8 @@ namespace ZabitaWEB.Server
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
+
             /* services.AddMvc(options => options.EnableEndpointRouting = false)
          .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);*/
             services.AddDbContext<DbContext>(options =>
@@ -55,18 +57,37 @@ namespace ZabitaWEB.Server
 
             }, ServiceLifetime.Transient);
             services.AddDefaultIdentity<Personel>(options =>
-        options.SignIn.RequireConfirmedAccount = true)
+        options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<ZabitaDatabaseContext>();
-            services.AddIdentityServer()
-                .AddApiAuthorization<Personel, ZabitaDatabaseContext>();
             services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.RequireHttpsMetadata = false;
+                options.SaveToken = true;
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+
+
+                    ValidateIssuerSigningKey = true,
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+
+
+
+                };
             }).AddIdentityServerJwt();
+            services.AddIdentityServer()
+                .AddApiAuthorization<Personel, ZabitaDatabaseContext>((config) =>
+                {
+                    config.Clients[0].AccessTokenLifetime = 3600;
+                });
+
             services.AddTransient<ZabitaDatabaseContext>();
             services.AddControllersWithViews();
-            
+
             services.AddRazorPages();
             services.AddControllers().AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
@@ -75,6 +96,8 @@ namespace ZabitaWEB.Server
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+           // app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -86,16 +109,20 @@ namespace ZabitaWEB.Server
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            app.UseRouting();
-
-            app.UseIdentityServer();
-
-            app.UseAuthentication();
-            app.UseAuthorization();
-
+    
             app.UseHttpsRedirection();
             app.UseBlazorFrameworkFiles();
             app.UseStaticFiles();
+       
+            app.UseAuthentication();
+
+            app.UseRouting();
+            app.UseIdentityServer();
+
+            app.UseAuthorization();
+
+
+
 
             //app.UseMvcWithDefaultRoute();
 

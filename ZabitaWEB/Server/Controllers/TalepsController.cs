@@ -15,9 +15,10 @@ using ZabitaWEB.Server.Concrete.EntityFramework;
 
 namespace ZabitaWEB.Server.Controllers
 {
-    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
+
     public class TalepsController : ControllerBase
     {
         private readonly ZabitaDatabaseContext _context;
@@ -47,6 +48,7 @@ namespace ZabitaWEB.Server.Controllers
 
             return talep;
         }
+
         // GET: api/Taleps/durum/5
         [HttpGet("durum/{durum}")]
         public async Task<ActionResult<List<Talep>>> GetDurumTalep(string durum)
