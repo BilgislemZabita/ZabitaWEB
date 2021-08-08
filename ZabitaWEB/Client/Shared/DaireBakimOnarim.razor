@@ -1,6 +1,9 @@
 ﻿@page "/talep/daire"
 @using Zabita.Entities.Concrete
 @using ZabitaWEB.Client.Services.Abstract
+@using System.Security.Claims
+
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor _httpContextAccessor
 @inject ITalepsService talepsService
 @inject IAmirliksService amirliksService
 @inject IIsTiplerisService istipleriService
@@ -39,7 +42,7 @@
 
             <RadzenDropDown AllowClear="true" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" TValue="int"
                             @bind-Value=@amirlikid Placeholder="İşin Yapılacağı Amirlik..." Data=@AmirlikList
-                            TextProperty="AmirlikIsım" ValueProperty="AmirlikID" Style="width:100%"   />
+                            TextProperty="AmirlikIsım" ValueProperty="AmirlikID" Style="width:100%" />
 
 
         </div>
@@ -147,9 +150,9 @@
             talepAltSonucus.Add(new TalepAltSonucu()
             {
 
-                TalepAltSonucuAciklama = ist.IsAltTipiAciklama !=null ? ist.IsAltTipiAciklama :"",
+                TalepAltSonucuAciklama = ist.IsAltTipiAciklama != null ? ist.IsAltTipiAciklama : "",
                 TalepAltSonucuTipi = ist.IsAltTipi != null ? ist.IsAltTipi : "",
-                TalepAltSonucuIlgiliTalepTipi = ist.IsAltTipiId !=0 ? ist.IsAltTipiId : 0,
+                TalepAltSonucuIlgiliTalepTipi = ist.IsAltTipiId != 0 ? ist.IsAltTipiId : 0,
                 TalepIsTipiAmirlik = "1",
                 TalepAltSonucuDurumu = "0",
 
@@ -166,16 +169,18 @@
 
             TalepBaslik = "deneme",
             TalepAciklama = isbilgileri,
-            Fotolar = fotos,
             TalepAltSonucus=talepAltSonucus,
+            Fotolar=fotos,
             YerleskeAciklamasi = yerleskebilgileri,
             AmirlikId = "1",
             TalebinYapilmaTarihi = DateTime.Now,
             TalepIstipleriID = IsTipiId,
             TalepDurumu = "0",
+            TalebiAtayanPersonelId = 1,
+            TalebiIsteyenPersonelId = 1,
+            TalebiKarsilayanPersonelId = 1
 
-
-        };
+    };
         busy = true;
         //await Task.Delay(2000);
         await talepsService.PostTalep(talep);

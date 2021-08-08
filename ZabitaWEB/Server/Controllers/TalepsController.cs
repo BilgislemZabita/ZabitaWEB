@@ -108,7 +108,21 @@ namespace ZabitaWEB.Server.Controllers
             }
             //if (talep.TalepAltSonucus.Count != 0)
             //{
-            //    var talepaltsonucu = _context.TalepAltSonucus.Add(talep.TalepAltSonucus.First());
+            //    foreach(var tlpsncs in talep.TalepAltSonucus)
+            //    {
+            //        var talepaltsonucu = _context.TalepAltSonucus.Add(tlpsncs);
+            //        await _context.SaveChangesAsync();
+
+            //    }
+            //} 
+            //if (talep.Fotolar.Count != 0)
+            //{
+            //    foreach(var foto in talep.Fotolar)
+            //    {
+            //        var talepaltsonucu = _context.Fotolars.Add(foto);
+            //        await _context.SaveChangesAsync();
+
+            //    }
             //}
             _context.Taleps.Add(talep);
             try
