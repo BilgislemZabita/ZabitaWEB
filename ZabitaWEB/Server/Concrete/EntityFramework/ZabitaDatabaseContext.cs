@@ -9,7 +9,7 @@ using Zabita.Entities.Concrete;
 
 namespace ZabitaWEB.Server.Concrete.EntityFramework
 {
-    public class ZabitaDatabaseContext : ApiAuthorizationDbContext<Personel>
+    public class ZabitaDatabaseContext : ApiAuthorizationDbContext<Personel>,IZabitaDatabaseContext
     {
         public DbSet<Amirlik> Amirliks { get; set; }
         public DbSet<Demirbas> Demirbases { get; set; }
@@ -229,4 +229,6 @@ namespace ZabitaWEB.Server.Concrete.EntityFramework
             base.OnModelCreating(modelBuilder);
         }
     }
+
+ 
 }

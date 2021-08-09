@@ -47,8 +47,11 @@ namespace ZabitaWEB.Client
     .AddHttpMessageHandler<BaseAddressAuthorizationMessageHandler>();
             builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>()
     .CreateClient("ZabitaWEB.ServerAPI"));
-            builder.Services.AddApiAuthorization();
-
+            //builder.Services.AddApiAuthorization();
+            builder.Services.AddOidcAuthentication(options =>
+            {
+                builder.Configuration.Bind("Local", options.ProviderOptions);
+            });
             await builder.Build().RunAsync();
 
         }
