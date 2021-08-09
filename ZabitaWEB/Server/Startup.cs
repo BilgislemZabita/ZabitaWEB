@@ -72,18 +72,23 @@ namespace ZabitaWEB.Server
             services.AddTransient<IZabitaDatabaseContext, ZabitaDatabaseContext>();
             var key = Encoding.ASCII.GetBytes("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ6YWJpdGFkYnNlcnZpY2V1c2VyIiwianRpIjoiM2QxYjQ3MmItNmMwNy00NTc1LWE5NGMtNGQ2NDI5ZGIwNzg1IiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoibGRhcCIsIm5iZiI6MTYyODQ5MjI5NCwiZXhwIjoxNjMxMDg0Mjk0LCJpc3MiOiJkZGQiLCJhdWQiOiJzZGZkc2ZkcyJ9.JU6gyuqCET6kV3y5WVJSQPChgXHJKVQHwp5wWw3KgTc");
             //services.AddAuthentication().AddIdentityServerJwt();
-            services.AddAuthentication(cfg =>
-            {
-                cfg.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                cfg.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-                .AddJwtBearer(o => o.TokenValidationParameters = new TokenValidationParameters
-            {
-                ValidIssuer = "https://gauservices.ibb.gov.tr/api/LDAP/ValidateUser",
-                IssuerSigningKey = new SymmetricSecurityKey(key),
-                ValidateAudience = false,
-                ValidateIssuer = false
-            });
+            services.AddAuthentication( )
+        .AddJwtBearer(options => {
+            options.Audience = "http://localhost:5000/";
+            options.Authority = "https://gauservices.ibb.gov.tr/api/LDAP/ValidateUser";
+        });
+            //services.AddAuthentication(cfg =>
+            //{
+            //    cfg.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            //    cfg.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            //})
+            //    .AddJwtBearer( o => o.TokenValidationParameters = new TokenValidationParameters
+            //{
+            //    ValidIssuer = "https://gauservices.ibb.gov.tr/api/LDAP/ValidateUser",
+            //    IssuerSigningKey = new SymmetricSecurityKey(key),
+            //    ValidateAudience = false,
+            //    ValidateIssuer = false
+            //});
     //        services.Configure<JwtBearerOptions>(
     //IdentityServerJwtConstants.IdentityServerJwtBearerScheme,
     //options =>
@@ -94,7 +99,7 @@ namespace ZabitaWEB.Server
 
 
 
-            services.AddTransient<ZabitaDatabaseContext>();
+            //services.AddTransient<ZabitaDatabaseContext>();
             services.AddControllersWithViews();
 
             services.AddRazorPages();
