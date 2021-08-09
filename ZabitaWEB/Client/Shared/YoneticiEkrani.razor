@@ -17,7 +17,7 @@
 @inject HttpClient _httpClient;
 @inject ISnackbar Snackbar
 
-<MudGrid >
+<MudGrid>
 
 
     <MudItem lg="6" md="6" xl="6" xs="12" Style="width:100%">
@@ -34,7 +34,7 @@
             </MudCardHeader>
             <MudCardContent Style="padding:0">
                 <RadzenDataGrid @ref="gridr" Data="@talepler" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="5"
-                                AllowSorting="true" TItem="Talep" AllowVirtualization="false" ColumnWidth="11em" 
+                                AllowSorting="true" TItem="Talep" AllowVirtualization="false" ColumnWidth="11em"
                                 SelectionMode="DataGridSelectionMode.Multiple" @bind-Value=@SeciliTalep>
                     <Columns>
                         <RadzenDataGridColumn TItem="Talep" Width="40px" Sortable="false" Filterable="false">
@@ -49,7 +49,7 @@
                             </Template>
 
                         </RadzenDataGridColumn>
-                                 <RadzenDataGridColumn TItem="Talep" Property="TalebinYapilmaTarihi" Title="Talep Tarihi">
+                        <RadzenDataGridColumn TItem="Talep" Property="TalebinYapilmaTarihi" Title="Talep Tarihi">
                             <Template Context="data">
                                 @String.Format("{0:d}", data.TalebinYapilmaTarihi)
                             </Template>
@@ -68,8 +68,8 @@
                         <RadzenDropDown AllowClear="true" Style="display:block;  text-align: left !important;direction:inherit;text-anchor:start;width:100% !important"
                                         FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
                                         FilterOperator="StringFilterOperator.StartsWith"
-                                        AllowFiltering="true" TValue="int" @bind-Value=@personelId
-                                        Data=@PersonelList TextProperty="PersonelIsim" ValueProperty="PersonelId" />
+                                        AllowFiltering="true" TValue="string" @bind-Value=@Id
+                                        Data=@PersonelList TextProperty="UserName" ValueProperty="Id" />
                     </MudItem>
                     <MudItem Style="margin-top:-1.2em">
 
@@ -173,7 +173,7 @@
             </MudCardContent>
             <MudCardActions>
                 <MudButton Variant="Variant.Filled" Color="Color.Secondary" EndIcon="@Icons.Custom.FileFormats.FileExcel" Link="api/Taleps/export">  Excel</MudButton>
-             
+
 
             </MudCardActions>
         </MudCard>
@@ -202,7 +202,7 @@
     int count { get; set; } = 0;
     private HashSet<Personel> SeciliPersonel { get; set; } = new HashSet<Personel>() { };
     List<Personel> PersonelList = new List<Personel>();
-    int personelId = 0;
+    string Id = "";
 
     bool busy;
     async void LoadData()
@@ -219,7 +219,7 @@
             await gridr.Reload();
             StateHasChanged();
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             Console.WriteLine(e.Message);
         }
@@ -263,7 +263,8 @@
         {
             PersonelList = await personelService.GetTalepPersonel(1, "1");
 
-        }catch(Exception e)
+        }
+        catch (Exception e)
         {
             Console.WriteLine(e.Message);
 
@@ -292,16 +293,19 @@
         //var personel = new Personel();
         //personel = SeciliPersonel.First();
 
-        if (SeciliTalep.Count != 0 & personelId !=0)
+        if (SeciliTalep.Count != 0 & Id.Length != 0)
         {
             _processing = true;
+            int x = 0;
+
+            Int32.TryParse(Id, out x);
             foreach (var i in SeciliTalep)
             {
 
                 i.TalepDurumu = "1";
                 i.TalepId = i.TalepId;
                 i.TalebinAtanmaTarihi = DateTime.Now;
-                i.TalebiKarsilayanPersonelId = personelId;
+                i.TalebiKarsilayanPersonelId = x;
                 i.TalebinAtanmaTarihi = DateTime.Now;
                 await talepsService.PutTalep(i.TalepId, i);
 
@@ -322,7 +326,7 @@
         }
         else
         {
-            await  this.Show("Tablodan İş ve Personel Seçiniz!",Severity.Warning);
+            await this.Show("Tablodan İş ve Personel Seçiniz!", Severity.Warning);
 
         }
 
@@ -350,11 +354,11 @@
         }
         else
         {
-            await this.Show("Tablodan İş Seçiniz!",Severity.Warning);
+            await this.Show("Tablodan İş Seçiniz!", Severity.Warning);
         }
 
     }
-    async Task Show(string message,Severity severity)
+    async Task Show(string message, Severity severity)
     {
         Snackbar.Configuration.VisibleStateDuration = 2000;
         Snackbar.Configuration.HideTransitionDuration = 500;
@@ -364,10 +368,9 @@
 
             config.Onclick = snackbar =>
             {
-                return  Task.CompletedTask;
+                return Task.CompletedTask;
             };
         });
     }
 
 }
-

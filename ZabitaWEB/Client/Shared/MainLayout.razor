@@ -1,4 +1,15 @@
 ﻿@inherits LayoutComponentBase
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using Microsoft.AspNetCore.Http
+@using System.Security.Claims
+@using Zabita.Entities.Concrete
+@using Microsoft.AspNetCore.Identity;
+
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+@inject NavigationManager Navigation
+@inject SignOutSessionStateManager SignOutManager
 <RadzenDialog />
 <RadzenNotification />
 <RadzenContextMenu />
@@ -15,7 +26,10 @@
 
     <div class="main">
         <div class="top-row px-4">
-            <a href="http://blazor.net" target="_blank" class="ml-md-auto">Hakkında</a>
+       
+
+            <MudIconButton Icon="@Icons.Material.Filled.Logout" @onclick="BeginSignOut">Çıkış Yap</MudIconButton>
+
         </div>
 
         <div class="content px-4">
@@ -23,3 +37,27 @@
         </div>
     </div>
 </div>
+@code{
+    private async Task BeginSignOut(MouseEventArgs args)
+    {
+        await SignOutManager.SetSignOutState();
+        Navigation.NavigateTo("authentication/logout");
+    }
+    string Message = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        //var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        //var user = authState.User;
+
+        //if (user.Identity.IsAuthenticated)
+        //{
+        //    var currentUser = await UserManager.GetUserAsync(user);
+        //    Message = ($"{user.Identity.Name} is authenticated. Email is { currentUser.Email }");
+        //}
+        //else
+        //{
+        //    Message = ("The user is NOT authenticated.");
+        //}
+    }
+}

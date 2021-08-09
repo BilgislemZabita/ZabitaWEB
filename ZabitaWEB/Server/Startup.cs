@@ -58,7 +58,7 @@ namespace ZabitaWEB.Server
                 options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"));
 
             }, ServiceLifetime.Transient);
-            services.AddDefaultIdentity<Personel>(options =>options.SignIn.RequireConfirmedAccount = false).AddEntityFrameworkStores<ZabitaDatabaseContext>();
+            services.AddDefaultIdentity<Personel>(options => options.SignIn.RequireConfirmedAccount = false).AddEntityFrameworkStores<ZabitaDatabaseContext>();
             services.AddIdentityServer()
             .AddApiAuthorization<Personel, ZabitaDatabaseContext>((config) =>
             {
@@ -67,10 +67,10 @@ namespace ZabitaWEB.Server
             services.AddAuthentication().AddIdentityServerJwt();
 
             services.AddAuthorization();
-       
 
 
-       
+
+
 
             services.AddTransient<ZabitaDatabaseContext>();
             services.AddControllersWithViews();
@@ -96,11 +96,11 @@ namespace ZabitaWEB.Server
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-    
+
             app.UseHttpsRedirection();
             app.UseBlazorFrameworkFiles();
             app.UseStaticFiles();
-       
+
             app.UseAuthentication();
 
             app.UseRouting();

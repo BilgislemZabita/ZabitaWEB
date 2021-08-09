@@ -13,6 +13,8 @@ using System.Text;
 using System.Threading.Tasks;
 using ZabitaWEB.Client.Services.Abstract;
 using ZabitaWEB.Client.Services.Concrete;
+using Zabita.Entities.Concrete;
+using Microsoft.AspNetCore.Identity;
 
 namespace ZabitaWEB.Client
 {
