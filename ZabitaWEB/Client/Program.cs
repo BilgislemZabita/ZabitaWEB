@@ -13,8 +13,6 @@ using System.Text;
 using System.Threading.Tasks;
 using ZabitaWEB.Client.Services.Abstract;
 using ZabitaWEB.Client.Services.Concrete;
-using Zabita.Entities.Concrete;
-using Microsoft.AspNetCore.Identity;
 
 namespace ZabitaWEB.Client
 {
@@ -22,7 +20,7 @@ namespace ZabitaWEB.Client
     {
         public static async Task Main(string[] args)
         {
-            
+
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("#app");
 
@@ -47,11 +45,8 @@ namespace ZabitaWEB.Client
     .AddHttpMessageHandler<BaseAddressAuthorizationMessageHandler>();
             builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>()
     .CreateClient("ZabitaWEB.ServerAPI"));
-            //builder.Services.AddApiAuthorization();
-            builder.Services.AddOidcAuthentication(options =>
-            {
-                builder.Configuration.Bind("Local", options.ProviderOptions);
-            });
+            builder.Services.AddApiAuthorization();
+
             await builder.Build().RunAsync();
 
         }
