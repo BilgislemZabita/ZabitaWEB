@@ -68,8 +68,8 @@
                         <RadzenDropDown AllowClear="true" Style="display:block;  text-align: left !important;direction:inherit;text-anchor:start;width:100% !important"
                                         FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
                                         FilterOperator="StringFilterOperator.StartsWith"
-                                        AllowFiltering="true" TValue="int" @bind-Value=@personelId
-                                        Data=@PersonelList TextProperty="PersonelIsim" ValueProperty="PersonelId" />
+                                        AllowFiltering="true" TValue="string" @bind-Value=@Id
+                                        Data=@PersonelList TextProperty="UserName" ValueProperty="Id" />
                     </MudItem>
                     <MudItem Style="margin-top:-1.2em">
 
@@ -202,7 +202,7 @@
     int count { get; set; } = 0;
     private HashSet<Personel> SeciliPersonel { get; set; } = new HashSet<Personel>() { };
     List<Personel> PersonelList = new List<Personel>();
-    int personelId = 0;
+    string Id = "";
 
     bool busy;
     async void LoadData()
@@ -292,16 +292,19 @@
         //var personel = new Personel();
         //personel = SeciliPersonel.First();
 
-        if (SeciliTalep.Count != 0 & personelId !=0)
+        if (SeciliTalep.Count != 0 & Id.Length !=0)
         {
             _processing = true;
+            int x = 0;
+
+            Int32.TryParse(Id, out x);
             foreach (var i in SeciliTalep)
             {
 
                 i.TalepDurumu = "1";
                 i.TalepId = i.TalepId;
                 i.TalebinAtanmaTarihi = DateTime.Now;
-                i.TalebiKarsilayanPersonelId = personelId;
+                i.TalebiKarsilayanPersonelId = x;
                 i.TalebinAtanmaTarihi = DateTime.Now;
                 await talepsService.PutTalep(i.TalepId, i);
 
