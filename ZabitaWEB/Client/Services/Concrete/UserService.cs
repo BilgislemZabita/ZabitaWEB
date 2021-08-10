@@ -16,6 +16,7 @@ namespace ZabitaWEB.Client.Services.Concrete
         public UserService(HttpClient httpClient)
         {
             _httpClient = httpClient;
+            //değiş
         }
         public async Task<HttpResponseMessage> GetUser()
         {
