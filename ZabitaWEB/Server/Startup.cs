@@ -19,6 +19,7 @@ using Zabita.Entities.Concrete;
 using ZabitaWEB.Client.Services.Abstract;
 using ZabitaWEB.Client.Services.Concrete;
 using ZabitaWEB.Server.Concrete.EntityFramework;
+using ZabitaWEB.Server.Extensions;
 
 namespace ZabitaWEB.Server
 {
@@ -58,7 +59,7 @@ namespace ZabitaWEB.Server
                 options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"));
 
             }, ServiceLifetime.Transient);
-            services.AddDefaultIdentity<Personel>(options => options.SignIn.RequireConfirmedAccount = false).AddEntityFrameworkStores<ZabitaDatabaseContext>();
+            services.AddDefaultIdentity<Personel>(options => options.SignIn.RequireConfirmedAccount = false).AddEntityFrameworkStores<ZabitaDatabaseContext>().AddUserManager<CustomUserManager>();
             services.AddIdentityServer()
             .AddApiAuthorization<Personel, ZabitaDatabaseContext>((config) =>
             {
