@@ -35,6 +35,7 @@ namespace ZabitaWEB.Client
             builder.Services.AddScoped<ITalepAltSonucusService, TalepAltSonucusService>();
             builder.Services.AddScoped<IYerleskeTeknikBilgilersService, YerleskeTeknikBilgilersService>();
             builder.Services.AddScoped<IYerleskeBakimOnarimsService, YerleskeBakimOnarimsService>();
+            builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<DialogService>();
             builder.Services.AddScoped<NotificationService>();
             builder.Services.AddScoped<TooltipService>();

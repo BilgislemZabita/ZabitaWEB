@@ -22,6 +22,7 @@ namespace ZabitaWEB.Server.Extensions
 
         protected override Task<PasswordVerificationResult> VerifyPasswordAsync(IUserPasswordStore<Personel> store, Personel user, string password)
         {
+
             var psvr= PasswordVerificationResult.Success;
             return Task.FromResult(psvr);
         }
