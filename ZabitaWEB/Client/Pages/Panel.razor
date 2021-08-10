@@ -3,10 +3,15 @@
 @using ZabitaWEB.Client.Services.Abstract
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using System.Net.Http.Headers;
+@using System.Text;
+@using Newtonsoft.Json
 @inject ITalepsService talepsService
 @inject IAmirliksService amirliksService
 @inject IIsTiplerisService istipleriService
 @inject IIsAltTiplerisService isalttipleriService
+@inject IUserService userService
+@inject HttpClient _httpClient
 
 @attribute [Authorize]
 
@@ -18,7 +23,6 @@
 
         <MudTabs Elevation="24" Rounded="true" Centered="true" Border="true" Position="Position.Top" Color="@Color.Info" PrevIcon="@Icons.Filled.SkipPrevious" NextIcon="@Icons.Filled.SkipNext">
             <MudTabPanel Text="Daire Büro">
-
                 <YoneticiEkrani istipleri="@Istipleris" amirlikler="@Amirlikler"> </YoneticiEkrani>
             </MudTabPanel>
             <MudTabPanel Text="Daire Personel Ekranı">
@@ -66,6 +70,7 @@
 
 
     IEnumerable<IsTipleri> Istipleris { get; set; }
+    string deneme { get; set; }
     IEnumerable<Amirlik> Amirlikler { get; set; }
     List<Talep> Talepler { get; set; } = new List<Talep>();
     IEnumerable<IsAltTipleri> IsAltTipleri;
@@ -120,6 +125,35 @@
 
     protected override async Task OnInitializedAsync()
     {
+        //        string entryToSerialize = @"{
+        //  'userName': 'oguzhan.ozturk',
+        //  'password': 'aqswde321'
+        //}";
+        //        string json=JsonConvert.SerializeObject(entryToSerialize);
+
+        //        _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ6YWJpdGFkYnNlcnZpY2V1c2VyIiwianRpIjoiMzVjOGJkMTMtNDk3Yi00ZWE2LWIwYjYtMjI4ZGRlZGM5ZDg2IiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoibGRhcCIsIm5iZiI6MTYyODU4NDM4NiwiZXhwIjoxNjMxMTc2Mzg2LCJpc3MiOiJkZGQiLCJhdWQiOiJzZGZkc2ZkcyJ9.WyK49qulJ_dJkF_ZBdkdZ2e4pBLIRE7ofclD5doCASA");
+        //        _httpClient.DefaultRequestHeaders.Add("Access-Control-Allow-Origin", "*");
+        //        _httpClient.DefaultRequestHeaders.Add("Access-Control-Allow-Methods", "HEAD, GET, POST, PUT, PATCH, DELETE");
+        //        var result=await _httpClient.PostAsync(@"https://gauservices.ibb.gov.tr/api/LDAP/ValidateUser", new StringContent(entryToSerialize, Encoding.UTF8, "application/json"));
+        //deneme = result.Content.ToString();
+        //var myData = new
+        //{
+        //    userName = "oguzhan.ozturk",
+        //    password = "aqswde321",
+        //};
+
+        //var json = JsonConvert.SerializeObject(myData);
+        //var data = new StringContent(json, Encoding.UTF8, "application/json");
+
+        //var url = "https://gauservices.ibb.gov.tr/api/LDAP/ValidateUser";
+        //using var client = new HttpClient();
+        //client.DefaultRequestHeaders.Add("User-Agent","");
+        //var response = await client.PostAsync(url, data);
+
+        //string result = response.Content.ReadAsStringAsync().Result;
+        //Console.WriteLine(result);
+        ///gh
+
         try
         {
 
